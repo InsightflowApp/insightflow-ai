@@ -22,8 +22,25 @@ from langchain_community.document_loaders import JSONLoader
 # import os
 # os.environ["OPENAI_API_KEY"] = "your_api_key"
 
+# Findings
+# findingID: str
+# questions: [{
+#     question: str
+#     theme: [{
+#     themeName: str,
+#     Quotes: [Quote]}
+# }]
+
+# Quote
+# sessionId: str
+# transcriptId: str
+# content: str
+# start: timeStamp
+
 
 app = Flask(__name__)
+
+
 def get_video_id_from_url(url):
     video_id = re.search(r'(?<=v=)[^&#]+', url)
     if video_id is None:

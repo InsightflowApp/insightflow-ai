@@ -1,5 +1,7 @@
 langchain
 langchain-openai
+chromadb
+deepgram-sdk
 flask
 openai
 openapi-schema-pydantic
