@@ -9,7 +9,7 @@ from langchain_openai import OpenAI
 from langchain.chains import RetrievalQA
 import re
 import random, time
-from youtube_transcript_api import YouTubeTranscriptApi
+# from youtube_transcript_api import YouTubeTranscriptApi
 from langchain_community.document_loaders import TextLoader
 from langchain.docstore.document import Document
 from langchain_openai import ChatOpenAI

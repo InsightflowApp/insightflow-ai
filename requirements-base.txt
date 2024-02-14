@@ -3,6 +3,7 @@ langchain-openai
 chromadb
 deepgram-sdk
 flask
+flask-restx
 openai
 openapi-schema-pydantic
 python-dateutil

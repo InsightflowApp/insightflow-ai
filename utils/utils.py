@@ -1,10 +1,9 @@
 from langchain_community.document_loaders import JSONLoader
 import json
 
-
 def save_to_json(transcript,filename):
     with open(filename, 'w') as f:
-        json.dump(transcript, f, indent=4)
+        json.dump(transcript, f, indent=2)
 
 def load_documents(filepath):
     def metadata_func(record: dict, metadata: dict) -> dict:
