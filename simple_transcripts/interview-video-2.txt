@@ -1,0 +1,264 @@
+
+Speaker 0: Okay. Then we'll get started. So the first question is, I know that you are a product designer, and I'm wondering, are you also involved in doing some research work? And, what is your process of doing research in your work?
+
+Speaker 1: Yeah. So for my work, actually, I my, like, my my main, responsibilities are designing, but I usually get the research requirements from my product manager. The research which I do, is usually involved with, products like Pando, where we it's more about the user behavior analysis, how the users interact with our website, tracking the number of clicks for different features, creating, like, parts to see, how the user flow starts, whether do users end up usually. So, yeah, my my user testing and research is involved only for that constraint. And other than that, I'm mostly a UX designer.
+
+Speaker 0: Okay. Got it. So, as you just said, so the mainly research task that you have conducted are user testing and user interview. Right? Have you also involved in some user interview tasks before?
+
+Speaker 1: So interviews, usually, I'm not involved much, but, usually, I have, like, visited some sites to see how, users are interacting with the products and how, like,
+
+Speaker 0: I
+
+Speaker 1: won't say I had, like, interviews with my exact users, but I had some interviews with business users to gain, like, a core side of, like, how they what are the requirements and yeah. All of that.
+
+Speaker 0: Okay. Cool. Got it. And for the user testing part, could you give us a little bit more details on, like, every steps? How do you usually conduct that?
+
+Do you use Zoom, or you use another software to do the use of testing?
+
+Speaker 1: So, yeah, for user, for testing, we we do use Zoom. Right now, we are kind of migrating to Microsoft Teams, but still now, we used to use Zoom. And, as I said, we usually do it also first. So my first step is to, like, find out which are the target users whom I should be in the week. So for that, as I told you earlier, we use Pando.
+
+So have you heard of Pando? Mhmm.
+
+Speaker 0: Yeah. I have it. Let me let me mark it down. The p a n d o?
+
+Speaker 1: P e n d o.
+
+Speaker 0: P e n d p e n d o.
+
+Speaker 1: P e n d o. Yeah.
+
+Speaker 0: Got it. Okay.
+
+Speaker 1: So it is just, a software for user behavior analysis. So you can, like, tap or, like, see the number of clicks of different features, what parts of the website are, like, most visited, which parts are not visited. You can also use it for user onboarding. So we kind of, like, track track the parts of the app. So we usually create, like, funnels and maps where we can see, like, okay.
+
+If my user starts at maybe products, where where what are the different locations in the website where they end up? So depending on, what is my next feature and what are the requirements of it, I'll try to find out, like, which are the users who are using that feature a lot. So I can, like, track it down using Pando, and then, after finding those users who are actually, like, using it so I can know that these are, like, good target users, then based on that, I'll contact them. I'll have, like, a track history of them, what part they use the most. And then, yeah, and then it's a regular interview process on Zoom.
+
+Yeah.
+
+Speaker 0: Oh, okay. Got it. And, yeah, Thanks. That was very helpful. And I I'm, also curious about the Zoom part.
+
+Like, if you, conduct user interview with them on Zoom, after the interview, do you need to present or, like, organize those research inside or present to the other team members, or you don't need that
+
+Speaker 1: present? Yeah. We need to do that. So as you are you are doing currently, we also record the Zoom sessions, based on the recordings, then we will, like, rewatch it, analyze it, maybe, like, we can have, like, a a card sorting session based on it to find out, like, what are the main points the user said. And based on the card sorting, we will be, like, present then presenting those notes to the, like, to the higher committees.
+
+Speaker 0: Okay. Got it. And, so I'm curious how do you usually analyze the interview data? Do you use another software where you just rewatch it and just take down some notes?
+
+Speaker 1: Yeah. So, actually, as I told you, I am not the researcher. So our researchers are mostly involved with analyzing. I think they use some software. I'm not sure about it.
+
+But whenever we are involved as UX designers, we are just taking notes and,
+
+Speaker 0: then prospect that. Yeah. Yeah. Okay. Yeah.
+
+That's true.
+
+Speaker 1: For us, it's more of, like like, having the actual insight, more than actually analyzing because we, as UX designers, don't have to, like, worry about presenting the research analysis. We are just actual concerned about the, interview results, what they want so we can redesign the feature accordingly.
+
+Speaker 0: Oh, okay. Got it. And you mentioned, you use some card sorting too for the interview Yeah. Data?
+
+Speaker 1: Like, after after that, interviews.
+
+Speaker 0: After interview. Got it. And, do you use, like, some framework from Figma to create a car sorting, or how do you
+
+Speaker 1: Yeah. So earlier, we used to use Miro. Now we are using Exam for it.
+
+Speaker 0: FigJam. Oh, okay. Okay. So you will, like, I guess, the process, is, like, you choose a a framework from FigJam, and then you put the insights, maybe some quotes from the interview, and then you, like, categorize those insights. Is that Yeah.
+
+Exactly. Okay. Yeah. Oh, okay. I got it.
+
+And, yeah. And I wonder, like, in terms of the qualitative research part, what are some task and and, activities that you found is most time consuming or tedious in your process?
+
+Speaker 1: So, like, when interviewing users? Yeah. So, again, it it can depend from task to task, like, what is most time consuming. I don't know, like, how to answer which part is most time consuming because it can, like, change from task to task. Right?
+
+Like, what do you exactly want of it?
+
+Speaker 0: For example, for a user interview part. Let's say user interview first.
+
+Speaker 1: Okay. What what about user interviews? So, like, can you give an example?
+
+Speaker 0: Yeah. Like, the whole user interview, including analyzing the data and create, like, car sorting or,
+
+Speaker 1: Oh, so basically, you want, like, which part is, like, tedious for you us or for the Yeah.
+
+Speaker 0: For you. For for you as well. Uh-oh.
+
+Speaker 1: That makes sense.
+
+Speaker 0: Yeah. Sorry that I didn't make it.
+
+Speaker 1: Oh, no problem. I think one part would be, like, hiring the users. I feel that is also kind of time consuming because finding who are your exact users can give you some good output as important because you can hire people who might not be, you know, matching your search criteria. So finding the users is really important. And after that, yeah, many users need some kind of, I don't know, like, not everyone is ready to give an interview.
+
+So you also need to find some some ways to, like, some creative ways to give them maybe some gift cards, and then they will be, like, ready for giving interviews. So those are some other difficulties. Other than that, in actually conducting the interviews, I would say, like, the again, the analysis of the interviews is time consuming. So yeah. Yeah.
+
+Those are the Got it. Because, actually, conducting interviews is something I I have to do it. So, yeah, I would say, like, the recruiting part and the analysis part can be aligned with your mind.
+
+Speaker 0: Got it. Okay. And for the, like, analyze part, could you, give us a little bit more examples of, like, I mean, which exact part that you found is time consuming? And, how do you try to solve that problem? Like, have you tried using some software to solve that problem?
+
+Speaker 1: Okay. So for user analysis Yeah. So till now, as I as I told you, like, we are not, like, very much word in analysis, but we we usually just use, like, a Miro for, arranging different notes and making sense out of it. So, yeah, we we are not currently using any particular software as far as I know. Okay.
+
+Yeah.
+
+Speaker 0: Got it. And for, like, a current process of using Miro to do those analysis, like, which part do you find is most consuming time consuming?
+
+Speaker 1: Most time consuming? I think, rehearing the entire entire video and then basically, it actually finding the exact points which which kind of are very important because there can be, like, a lot of clutter in the video, which is not important extracting the good part out of it.
+
+Speaker 0: Yeah. You can read it. Yeah. Yeah. Totally feel the same because we I mean, you actually search for myself, and I have to use that a lot.
+
+Like, sometimes the interview video, it could be, like, 40 minutes or even longer, and you just need to rewatch the whole the whole thing. Yeah. And I wondered, do you also need to tag those interview scripts, or you just rewatch it? Like, sometimes, like, do we need to tag those screens?
+
+Speaker 1: Yeah. Yeah. Yeah. We we need to, like, maybe, like, more of, like, time stamps at which, there are some important point.
+
+Speaker 0: I think
+
+Speaker 1: those time stamps is important for us.
+
+Speaker 0: Okay. Got it. Okay. Cool. And, so I guess you use Miro to do the interview, like, interview analysis.
+
+Do you also use other software or just Miro?
+
+Speaker 1: Yeah. I think our researchers use something. I might, like, ask them and tell you because I'm not sure about what they exactly use. I'm not a researcher myself.
+
+Speaker 0: Yeah. Yeah. Okay. Yeah. That's fine.
+
+Yeah. Okay. Yeah. Thank you for for that insight. And, yeah.
+
+And I wonder another part is, so after analyzing the, user interview, what kind of visualization way that do you usually use to categorize those insights? For example, you mentioned card sorting. Do is there any other visualized way that you use?
+
+Speaker 1: For arranging the information other than card sort? Yeah. Yeah. I think I think the other ways are mostly, like, quantitative for us because I, myself, I'm more involved in, like, quantitative analysis of, finding more more data than quality 1.
+
+Speaker 0: But I'm sure, like, other than card sorting, we will might be I'm I'm not actually sure about it, what they do.
+
+Speaker 1: I I I I'm mostly involved in card sorting sessions as a UX designer. I think yeah.
+
+Speaker 0: Got it. And, yeah. And I wonder do, let me see. Yeah. I'll do do do you know, like, if, like, you you asked researchers in your team, do they create those interview clips when present to you or for the managers, like, after the interview ins after the interview section, when they present interview insights, they will create those, like, edited interview clips as evidence to support 1 research insights.
+
+Does that happen to your team?
+
+Speaker 1: Yeah. Yeah. Yeah. That does happen. They have to, like, create some clips and that those are attached.
+
+So we cannot have it, like, formally presented, in front of you, like, our higher authorities if because many times the users are have some, like, like, they want to be anonymous or something. But have it usually as, like, kind of, like, not exactly formal, but informal, group view, I would say. Like, we have it in our dataset whenever we need to look back at it, but we want it presented to some third party or any, any of the auditing team in general.
+
+Speaker 0: Okay. Got it. And what kind of, like, presentation tool that your company use in your team? Is it do you guys use PPT or use other software?
+
+Speaker 1: For presentations?
+
+Speaker 0: Yeah. For presentation the research insight.
+
+Speaker 1: Presenting the research insights. I think, for we don't have we don't present it, like, in a slide format. We usually have, like, documents for it where they will have, like, mapped everything. They will post the videos inside the document, and then we can just review the document itself.
+
+Speaker 0: Oh, okay. Got it. And the document, you mean the Google Doc? Or they
+
+Speaker 1: would use a Confluence document.
+
+Speaker 0: Say what? Confluence? Confluence.
+
+Speaker 1: Yeah. Confluence document. Yeah.
+
+Speaker 0: Confluence. Okay. Got it. Okay. Okay.
+
+So they don't use Miro board to present. They use confluence to present. Yeah. Oh, okay. Oh, got it.
+
+And so how do they transfer those research insight from the Miro board to the Confluence to you?
+
+Speaker 1: I think they do it manually.
+
+Speaker 0: Oh, manually? Okay. Got it. Yeah. So yeah.
+
+So it seems like a lot of softwares are involved in this Yeah. Yeah. Okay. Got it. Okay.
+
+Understand.
+
+Speaker 1: SponsoredLinX is something like a standard thing which our company uses. So it's more of, like, the need to like, a company standard that they need to have all the documents inside Confluence. So I think they just because of that, they just have to do it. I'm not sure. Like, they use Confluence for any particular capability which it provides.
+
+It's more of, like, a formality thing for our company.
+
+Speaker 0: Okay. Got it. And you, and if you wanted to track the previous research inside, you also go to Confluence.
+
+Speaker 1: Yeah. Because Confluence will have, like, list of all of our research documents.
+
+Speaker 0: Okay. Okay. Cool. Got it. And, yeah, that that is really, really helpful.
+
+And, I have a few more questions.
+
+Speaker 1: Okay.
+
+Speaker 0: So I also curious to know in your team or company, what is the who is the decision maker of, like, deciding whether to buy a software or not? Do you have any idea of that?
+
+Speaker 1: So it's usually the I think it's the, manager of our team. So we have our design man the head design manager who also who happens to be, I think, vice president of the product team. So
+
+Speaker 0: Oh, okay.
+
+Speaker 1: They are the one. Because the product managers, designers, and engineers are not usually involved in the business decisions. Yeah. So
+
+Speaker 0: Okay. Yeah. So, yeah. So according to what you described, you your your team purchased Miro and also Confluence. Yeah.
+
+Is it any other
+
+Speaker 1: Figma as well.
+
+Speaker 0: Yeah. Figma. Right. Do you guys also use Orno?
+
+Speaker 1: Sorry?
+
+Speaker 0: Ortell. Like, it's it's a software name.
+
+Speaker 1: Oh, I'm not sure about that software.
+
+Speaker 0: Okay. Got it. Yeah. No problem. Okay.
+
+Okay. Understand. Yeah. I just yeah. That's the, I think roughly all the question that I have.
+
+So, actually, our goal is to create this user insight platform that, could help you the user, interview analysis part become more efficient. So, our, right now, our vision is that after your, after finish the interview, you you upload a video to our software, and we can, help you categorizing and arranging those insights to put them into different visualized way. Like, you mentioned car sorting. Some people, they, present with video clips. Some people present with, affinity mapping, like those sticker notes that put all those stickers to support one key insights.
+
+So Right. This is kind of our goal, and we're trying to see if this is really a pinpoint of just researchers or product designers when they do research. So Yeah. Yeah. Yeah.
+
+Speaker 1: Yeah. I can also provide maybe some contact with researchers if you want because
+
+Speaker 0: Oh, yeah. That would be very helpful. I think
+
+Speaker 1: they are more of you, like, your target users than UX designers. UX designers can give you some insight, but having researchers would be more important for you.
+
+Speaker 0: Yeah. Definitely. Yeah. If you could just send me the link links Yeah. Definitely.
+
+Names. Yeah. Thanks so much. And, yeah, by the way, I forgot to ask that, how often do you usually do research as a product designer in your team?
+
+Speaker 1: So I'm not, like, usually involved in the main research. Like, I think it's usually where I'm involved in product testing whenever my my design is actually released, and I want to hear the feedback. So based on it, I can do the redesign. So say I'm not involved in the general requirements finding meetings, but I think this usually would happen like once in 2 months or something like that. Right?
+
+Because whenever I'm releasing my design and I want to have feedback on it. Mhmm.
+
+Speaker 0: So yeah.
+
+Speaker 1: Not, like, active participating in research, but, yeah, just for feedback.
+
+Speaker 0: Okay. And for the user testing, you do it more often. Right? Yeah. Okay.
+
+So how often what is the user testing research part?
+
+Speaker 1: User testing? So we would say, like, at the launch of, whenever we complete our design cycle and then development after development cycle, we launch a feature. So I we would say, yeah, like, after 2 to 2, 3 months, every 2 to 3 months, we will have some, user testing for my my features. And for our company, it would it would keep happening, I think, every month.
+
+Speaker 0: Oh, okay. Got it. Okay. And, usually, when product designers, they do user testing, do they need to present them to the others too? Or they can just
+
+Speaker 1: So so as product designers, we don't have to present it because
+
+Speaker 0: Oh, okay.
+
+Speaker 1: It's for us. The researchers and the product managers have to present it, but we just, like, get the data and work on it.
+
+Speaker 0: Okay. Got it. Okay. Yeah. Thanks so much.
+
+Yeah. That's totally very helpful, and, that's all my quest all the questions that I have today. Thanks so much. Yeah. And, you can send me the if, you know, at the you asked for searching your team, you can just send me their names, to my email.
+
+That would be really, really helpful.
+
+Speaker 1: Yes. Sure. Thank you.
+
+Speaker 0: Thank you so much.
+
+Speaker 1: Thank you. Thank you for this.
+
+Speaker 0: Yeah. Yeah. Alright. Hi, Krishna. Alright, Krishna.
+
+Thank you. Bye bye. Bye. Have a good day. Bye.
+
+Speaker 1: You too. Thank you.
+
+Speaker 0: Hey. Hey. Yeah. Let me let me close the record.

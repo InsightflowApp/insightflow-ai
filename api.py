@@ -8,7 +8,7 @@ import json
 from ai.transcribe_video import transcribe
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app, title="InsightFlow AI API")
 
 ts = api.namespace('transcribe', description="Transcription operations")
 sa = api.namespace('single_analysis', description="Analysis of one transcript. Not functional yet.")

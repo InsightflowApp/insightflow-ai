@@ -1,0 +1,34 @@
+--- NEW INTERVIEW: Insights into UX Research and Design Workflow ---
+
+Question 0: What is the workflow for UX researchers/designers when analyzing user interviews?
+Relevant quotes from interviewee:
+ - "we usually do it also first. So my first step is to, like, find out which are the target users whom I should be in the week."
+ - "after finding those users who are actually, like, using it so I can know that these are, like, good target users, then based on that, I'll contact them."
+ - "based on the recordings, then we will, like, rewatch it, analyze it, maybe, like, we can have, like, a a card sorting session based on it to find out, like, what are the main points the user said."
+Response: The workflow involves identifying target users, contacting them for interviews, conducting these interviews (often via Zoom), recording these sessions, and then analyzing the recordings. Analysis may include rewatching the recordings and organizing insights through methods like card sorting.
+
+Question 1: What are the pain points for UX researchers/designers when analyzing user interviews?
+Relevant quotes from interviewee:
+ - "I think one part would be, like, hiring the users."
+ - "the analysis of the interviews is time consuming."
+ - "rehearing the entire entire video and then basically, it actually finding the exact points which which kind of are very important."
+Response: The main pain points include the time-consuming process of recruiting suitable participants, the overall analysis of interviews, and specifically, the need to rewatch entire recordings to extract valuable insights.
+
+Question 2: How have UX researchers/designers tried to solve their pain points when analyzing user interviews?
+Relevant quotes from interviewee:
+ - "we we do use Zoom."
+ - "we usually just use, like, a Miro for, arranging different notes and making sense out of it."
+ - "we need to, like, maybe, like, more of, like, time stamps at which, there are some important point."
+Response: To address these challenges, UX researchers/designers utilize tools like Zoom for conducting interviews, Miro for organizing notes and insights, and employ strategies such as timestamping important moments during interviews for easier reference.
+
+Question 3: What are the pain points for UX researchers when presenting user research results to other stakeholders?
+Relevant quotes from interviewee:
+ - "based on the card sorting, we will be, like, present then presenting those notes to the, like, to the higher committees."
+ - "They have to, like, create some clips and that those are attached."
+ - "we usually have, like, documents for it where they will have, like, mapped everything."
+Response: Challenges in presenting research results include the need to effectively organize and summarize findings, possibly creating and attaching video clips for evidence, and compiling insights into documents (such as Confluence) for review by higher committees or stakeholders.
+
+Question 4: What are the opinions of UX researchers/designers regarding the use of AI in user research?
+Relevant quotes from interviewee:
+ - The interviewee did not directly mention opinions on the use of AI in user research.
+Response: The interview transcript does not provide specific insights or opinions from the UX researcher/designer regarding the use of AI in user research, focusing instead on current practices and tools used in their workflow.

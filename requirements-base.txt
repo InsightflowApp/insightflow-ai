@@ -1,13 +1,14 @@
-langchain
-langchain-openai
 chromadb
 deepgram-sdk
 flask
 flask-restx
+jq
+langchain
+langchain-openai
 openai
 openapi-schema-pydantic
 python-dateutil
 python-dotenv
 regex
 requests
-youtube-transcript-api
+# youtube-transcript-api

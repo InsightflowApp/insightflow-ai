@@ -1,0 +1,28 @@
+Question 0: What is the workflow for UX researchers/designers when analyzing user interviews?
+Relevant quotes across interviews:
+ - Interview 1 (Analyzing UX Research Workflows and Challenges): "I record it on Zoom as well as kinda how we're doing today, and then I usually go through, I organize all my files by participant, by date."
+ - Interview 2 (Insights into UX Research and Design Workflow): "we usually do it also first. So my first step is to, like, find out which are the target users whom I should be in the week."
+Response: The workflow for UX researchers/designers involves several key steps: identifying and contacting target users, recording interviews (often via platforms like Zoom), organizing these recordings by participant and date, and then analyzing the content through methods like transcription, digital affinity mapping, or card sorting.
+
+Question 1: What are the pain points for UX researchers/designers when analyzing user interviews?
+Relevant quotes across interviews:
+ - Interview 1 (Analyzing UX Research Workflows and Challenges): "I would say the transcribing is the most tedious just because the software I use is very imperfect."
+ - Interview 2 (Insights into UX Research and Design Workflow): "the analysis of the interviews is time consuming."
+Response: The main pain points for UX researchers/designers include the tedious and imperfect process of transcribing interviews, the time-consuming nature of analyzing interviews, and the challenge of extracting valuable insights from lengthy recordings.
+
+Question 2: How have UX researchers/designers tried to solve their pain points when analyzing user interviews?
+Relevant quotes across interviews:
+ - Interview 1 (Analyzing UX Research Workflows and Challenges): "Right now, I'm using Microsoft to transcribe. Something. You can do it easily with Word."
+ - Interview 2 (Insights into UX Research and Design Workflow): "we we usually just use, like, a Miro for, arranging different notes and making sense out of it."
+Response: To address their pain points, UX researchers/designers have employed various strategies, including using transcription software like Microsoft Word and organizing notes and insights with digital tools like Miro. These methods help in managing the data and insights more efficiently, though they may not completely eliminate the challenges.
+
+Question 3: What are the pain points for UX researchers when presenting user research results to other stakeholders?
+Relevant quotes across interviews:
+ - Interview 1 (Analyzing UX Research Workflows and Challenges): "I generally don't show them my affinity map. I generally put it together into a report."
+ - Interview 2 (Insights into UX Research and Design Workflow): "based on the card sorting, we will be, like, present then presenting those notes to the, like, to the higher committees."
+Response: The pain points when presenting user research results include the need to condense and organize findings into a format that is accessible and understandable to stakeholders, such as reports or presentations. This often involves additional steps like creating clips from interviews or using card sorting to organize insights, which can be time-consuming and require significant manual effort.
+
+Question 4: What are the opinions of UX researchers/designers regarding the use of AI in user research?
+Relevant quotes across interviews:
+ - Interview 1 (Analyzing UX Research Workflows and Challenges): "AI does its best, but it doesn't have the human touch."
+Response: The opinion on the use of AI in user research, as expressed in the available interviews, is cautious. While there is an acknowledgment of AI's efficiency in automating tasks like transcription and highlighting potential areas of interest, there is also a preference for human analysis. This preference stems from a mistrust in AI's ability to fully capture and interpret nuanced insights, indicating a belief in the irreplaceable value of the human touch in analyzing user interviews.

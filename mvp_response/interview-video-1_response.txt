@@ -1,0 +1,36 @@
+--- NEW INTERVIEW: Analyzing UX Research Workflows and Tools ---
+
+Question 0: What is the workflow for UX researchers/designers when analyzing user interviews?
+Relevant quotes from interviewee:
+ - "I record it on Zoom as well as kinda how we're doing today, and then I usually go through, I organize all my files by participant, by date."
+ - "I have video recording, and then I also transcribe the audio file, so I have it in text format as well to easily be able to review."
+ - "And then from there, I usually add any insights that I see either by relistening to the recording or by viewing the transcription, into a digital affinity map."
+Response: The workflow for UX researchers/designers involves recording interviews, organizing files by participant and date, transcribing audio for text review, and adding insights into a digital affinity map for analysis.
+
+Question 1: What are the pain points for UX researchers/designers when analyzing user interviews?
+Relevant quotes from interviewee:
+ - "I would say the transcribing is the most tedious just because the software I use is very imperfect."
+ - "There will be a lot of mistakes. It will hear a word that's incorrect."
+ - "I will I would say probably 20 to 30% depending on how nitpicky I am that day."
+Response: The main pain points include the tediousness of transcribing due to imperfect software, the occurrence of mistakes in transcription, and the need to correct 20 to 30% of the transcription depending on the level of detail required.
+
+Question 2: How have UX researchers/designers tried to solve their pain points when analyzing user interviews?
+Relevant quotes from interviewee:
+ - "Right now, I'm using Microsoft to transcribe. Something. You can do it easily with Word."
+ - "Sometimes I will highlight them if I wanna come back to it."
+ - "I just kinda reread through it. And then the important points that I see, I copy into, like, an an affinity map."
+Response: Solutions include using transcription software like Microsoft Word, highlighting important points for later review, and copying key insights into a digital affinity map for organization and analysis.
+
+Question 3: What are the pain points for UX researchers when presenting user research results to other stakeholders?
+Relevant quotes from interviewee:
+ - "I generally don't show them my affinity map. I generally put it together into a report."
+ - "Sometimes it helps them to see, like, the variation in different responses between participants of different demographics."
+ - "If I'm trying to do something really quickly, I might use PowerPoint just because it's already set up, and I just input text."
+Response: Pain points include the need to translate raw data from affinity maps into reports, the challenge of effectively showing variation in responses across demographics, and the time pressure that sometimes necessitates the use of quicker, less detailed presentation methods like PowerPoint.
+
+Question 4: What are the opinions of UX researchers/designers regarding the use of AI in user research?
+Relevant quotes from interviewee:
+ - "AI does its best, but it doesn't have the human touch."
+ - "I don't trust the insights that it's pulling as much as I trust my own brain."
+ - "Maybe if the team grows and we can add something like that to the company repertoire, that would be nice."
+Response: While recognizing the potential efficiency of AI in user research, there's skepticism about its ability to match the nuanced understanding of a human researcher. There's a preference for manual analysis due to trust issues with AI-generated insights, though there's openness to incorporating AI tools as the team and resources grow.

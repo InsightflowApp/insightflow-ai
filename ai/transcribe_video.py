@@ -22,7 +22,7 @@ def transcribe(audio_file: str, dest_json: str | None = None) -> str:
   :returns dest_json: the file to which the transcript was written.
   """
   try:
-    # STEP 1 Create a Deepgram client using the API key
+    # STEP 1: Create a Deepgram client using the API key
     deepgram = DeepgramClient(API_KEY)
 
     with open(audio_file, "rb") as file:
@@ -32,7 +32,7 @@ def transcribe(audio_file: str, dest_json: str | None = None) -> str:
       "buffer": buffer_data,
     }
 
-    #STEP 2: Configure Deepgram options for audio analysis
+    # STEP 2: Configure Deepgram options for audio analysis
     options = PrerecordedOptions(
       model="nova-2",
       smart_format=True,
@@ -44,7 +44,7 @@ def transcribe(audio_file: str, dest_json: str | None = None) -> str:
     # STEP 3: Call the transcribe_file method with the text payload and options
     response = deepgram.listen.prerecorded.v("1").transcribe_file(payload, options)
 
-    # STEP 4: Print the response
+    # STEP 4: Write the response to the sample audio file
     if dest_json is None:
        dest_json = os.path.splitext(audio_file)[0] + '_transcript.json'
 
