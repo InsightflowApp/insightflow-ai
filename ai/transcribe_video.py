@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # transcribe-video.py
 import os
 from dotenv import load_dotenv

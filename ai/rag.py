@@ -1,3 +1,5 @@
+# WIP, not used currently
+
 from operator import itemgetter
 
 from langchain_community.vectorstores import FAISS
