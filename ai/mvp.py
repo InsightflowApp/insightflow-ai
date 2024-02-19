@@ -1,30 +1,50 @@
+#!/usr/bin/env python3
+# from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_openai import ChatOpenAI
+from langchain_community.document_loaders import TextLoader
+from langchain_core.documents import Document
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
+from langchain.prompts import PromptTemplate
+from langchain.chains.llm import LLMChain
+
+from langchain.prompts.chat import (
+  ChatPromptTemplate,
+  # SystemMessagePromptTemplate,
+  # AIMessagePromptTemplate,
+  # HumanMessagePromptTemplate
+)
+# from langchain.schema import AIMessage, HumanMessage, SystemMessage
+
+from langchain.chat_models.base import BaseChatModel
+from typing import List
+
+import json
+import os
+from dotenv import load_dotenv
+
+from ai.prompt_templates import map_template, reduce_template
+
 '''
 Minimum viable product
 
-feed all the transcripts to a conversational bot, ask the interview questions
+feeds all the transcripts to a conversational bot, asks the interview questions
 '''
-
-# finalized analysis example (JSON) - 
-
+# TODO
 # access Amazon S3 containers
 # access MongoDB
-
 # python server, automate testing + deployment (?)
 
-
+# helpful pointers when prompting:
 # name/role
-
 # system instructions
-
 # only pull from the call
-
 # don't make the user prompt
 
-# taken from video: Extract Innsights From Interview Transcripts Using LLMs
 MODEL='gpt-4-turbo-preview'
 TOKEN_MAX=128_000
 
-# when taking questions, format using f'{i}. {q[i]}\n'
+# sample list and files for demo purposes
 question_list = [
   'What is the workflow for UX researchers/designers when analyzing user interviews?',
   'What are the pain points for UX researchers/designers when analyzing user interviews?',
@@ -38,42 +58,10 @@ sample_files = [
   "simple_transcripts/interview-video-2.txt",
 ]
 
-import os
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-
-from langchain_community.document_loaders import TextLoader
-
-from langchain_openai import ChatOpenAI
-from langchain.chains import MapReduceDocumentsChain, ReduceDocumentsChain, StuffDocumentsChain
-
-from langchain.chains.summarize import load_summarize_chain
-from langchain.chains.llm import LLMChain
-
-from langchain.prompts import PromptTemplate
-
-from langchain.prompts.chat import (
-  ChatPromptTemplate,
-  SystemMessagePromptTemplate,
-  AIMessagePromptTemplate,
-  HumanMessagePromptTemplate
-)
-
-from langchain.schema import (
-  AIMessage,
-  HumanMessage,
-  SystemMessage
-)
-
-from langchain_core.output_parsers import StrOutputParser
-
-import json
-import os
-
-from langchain_core.runnables import RunnablePassthrough
-
+load_dotenv()
 
 def quick_test(llm_model: str = MODEL, country : str = "Australia"):
-
+  '''quick test to make sure model is working.'''
   prompt = ChatPromptTemplate.from_template("Hi, there! What's the capital of {country}?")
   model = ChatOpenAI(model=llm_model)
   output_parser = StrOutputParser()
@@ -85,6 +73,7 @@ def quick_test(llm_model: str = MODEL, country : str = "Australia"):
 
 
 def simple_transcript(filename : str, dest_name : str | None = None) -> bool:
+  '''create a simple transcript from an existing complex one.'''
   transcript = {}
   with open(filename, 'r') as f:
     transcript = json.loads(f.read())
@@ -97,48 +86,7 @@ def simple_transcript(filename : str, dest_name : str | None = None) -> bool:
 
   return True
 
-from langchain_core.documents import Document
-from typing import List
-from langchain.chat_models.base import BaseChatModel
-
-map_template = (
-  'Hello! You are an interview helper who answers a list of questions '
-  'and provides relevant quotes from the transcript. '
-  'In the following instructions, take anything delimited by angle brackets <like this> '
-  'to mean a field for you to fill in on your own.\n'
-  # Questions
-  'Please identify three quotes for each question, '
-  'only adding more if you think it will be useful, '
-  'as there is limited space in your response. '
-  'Respond only using the information from these instructions and the transcript.\n'
-  # 'Begin with the transcript name, and a suitable title.'
-  'Begin with a new line, then the words '
-  '"--- NEW INTERVIEW: <title summarizing interview> ---" followed by '
-  'another new line, then respond in the following format:\n\n'
-
-  'Question 1: <question 1>\n'
-  'Relevant quotes from interviewee:\n'
-  ' - "<relevant quote 1>"\n'
-  ' - "<relevant quote 2>"\n'
-  ' - "<relevant quote 3>"\n'
-  'Response: <response to question based on the chosen quotes '
-  'and any additional information from the interview you feel is '
-  'important to know>\n\n'
-
-  '...and so on. Please continue this format to answer each of the following '
-   'questions:\n'
-  '{questions}\n\n'
-
-  'The following is the interview transcript to analyze, '
-  'delimited by triple quotes ("""). Thanks for your help!\n\n'
-
-  '"""{docs}"""\n\n'
-
-  'Your answers:\n'
-)
-
-# in the future: back up with questions instead of the generic pain points
-# in the further future: back up with prompts generated by examples and 
+# in the future: back up with prompt questions generated by examples and 
                        # another chat model call
 
 def make_chain(llm : BaseChatModel, template : str, input_variables = ['docs'], partial_variables : dict[str, list[str]] = {}) -> LLMChain:
@@ -157,59 +105,26 @@ def make_chain(llm : BaseChatModel, template : str, input_variables = ['docs'], 
   return chain
 
 
-reduce_template = (
-  'Hello! You are an interview helper whose goal is to synthesize '
-  'the best answers to a list of questions based on existing answers and quotes'
-  'taken from analyzing interview transcripts separately. '
-  'That is to say, given a list of questions and a document of responses to '
-  'these questions for each interview, please answer the questions based '
-  'only on the documents\' content. In the instructions, when you see angle '
-  'brackets <like so>, take them as a field for you to fill. '
-  'Here are the questions to answer:\n'
-  '{questions}\n\n' # formatted as described, in a list
-
-  'Please answer these questions in the following format:\n'
-  'Question 1: <question 1>\n'
-  'Relevant quotes across interviews:\n'
-  ' - Interview <source index 1> (<interview title>): "<relevant quote 1>"\n'
-  ' - Interview <source index 2> (<interview title>): "<relevant quote 2>"\n'
-  ' - Interview <source index 3> (<interview title>): "<relevant quote 3>"\n'
-  'Response: <response to question based on the interviews\' responses and '
-  'your chosen quotes>\n\n'
-
-  '...and so on. Note that for the list of relevant quotes, you can pull '
-  'multiple from the same interview response (i.e. source index 1 may also '
-  ' be source index 2). '
-  'Here are the responses to interviews, each delimited by the string '
-  '"--- NEW INTERVIEW: <title> ---". You can take these as being in order for '
-  'the purpose of indexing their sources. The entire document is delimited by '
-  'triple quotes ("""). Thanks for your help!\n\n'
-
-  '"""{docs}"""\n\n'
-
-  'Your response:\n'
-)
-
 from os.path import split as split_path, splitext
 
 def mvp(question_list : list[str] = question_list, files : list[str] = sample_files):
+  response_dir = "mvp_response"
   # gather transcript
   questions : str = '\n'.join([f'{i+1}. {question_list[i]}' for i in range(len(question_list))])
-  docs : List[Document] = []
 
+  # load documents
+  docs : List[Document] = []
   for filename in files:
     loader = TextLoader(filename)
     docs += loader.load()
 
   llm = ChatOpenAI(model=MODEL, temperature=0)
-
   partial_var = {'questions': questions}
+
   # Map
   map_chain = make_chain(llm, map_template, partial_variables=partial_var)
-
   map_responses = map_chain.batch(docs)
-
-  response_dir = "mvp_response"
+  # print responses to files
   for i in range(len(files)):
     filename = splitext(split_path(files[i])[1])[0]
     output_file = f'{response_dir}/{filename}_response.txt'
@@ -218,9 +133,8 @@ def mvp(question_list : list[str] = question_list, files : list[str] = sample_fi
 
   print("Received all responses. Calling reduce.")
 
-  map_response = '\n\n'.join(map_chain.batch(docs))
-
   # Reduce
+  map_response = '\n\n'.join(map_chain.batch(docs))
   reduce_chain = make_chain(llm, reduce_template, partial_variables=partial_var)
 
   reduce_response = reduce_chain.invoke(map_response)
@@ -231,6 +145,4 @@ def mvp(question_list : list[str] = question_list, files : list[str] = sample_fi
   print("done.")
 
   return True
-  # output = map_reduce_chain.invoke({'input_documents': docs})
-
   

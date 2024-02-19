@@ -38,7 +38,7 @@ def transcribe(audio_file: str, dest_json: str | None = None) -> str:
       model="nova-2",
       smart_format=True,
       diarize=True,
-      topics=True,
+      # topics=True,
       language="en",
     )
 
