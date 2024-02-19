@@ -3,23 +3,19 @@ from flask_restx import Resource, Api, fields
 import os
 import json
 
-
-
 from ai.transcribe_video import transcribe
+from ai.mvp import mvp
 
 app = Flask(__name__)
-api = Api(app, title="InsightFlow AI API")
+api = Api(app, title="InsightFlow AI API", version="0.2.0")
 
 ts = api.namespace('transcribe', description="Transcription operations")
 sa = api.namespace('single_analysis', description="Analysis of one transcript. Not functional yet.")
 ga = api.namespace('group_analysis', description="Analysis of a group. Not functional yet.")
-sample = api.namespace('sample_list', description="Sample .mp3s and .jsons used for testing")
+sample = api.namespace('sample_list', description="Sample .mp3s, .jsons, and .txts used for testing")
 
 SAMPLE_AUDIO_DIR = 'sample_audio'
 SAMPLE_TRANSCRIPT_DIR = 'sample_transcripts'
-
-OUTPUT_TRANSCRIPTS = 'output/transcripts'
-OUTPUT_RESPONSES = 'output/responses'
 
 transcript_model = api.model('Transcript', {
   'source': fields.String,
@@ -31,7 +27,7 @@ group = []
 def transcript_info(content):
   return {
     'Content': content["results"]["channels"][0]["alternatives"][0]["transcript"],
-    'Topics': content["results"]["topics"]
+    # 'Topics': content["results"]["topics"]
   }
 
 @ts.route('/<string:filename>')
