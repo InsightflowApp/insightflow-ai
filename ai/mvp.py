@@ -8,6 +8,8 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain.prompts import PromptTemplate
 from langchain.chains.llm import LLMChain
 
+from time import time
+
 from langchain.prompts.chat import (
   ChatPromptTemplate,
   # SystemMessagePromptTemplate,
@@ -31,6 +33,7 @@ Minimum viable product
 feeds all the transcripts to a conversational bot, asks the interview questions
 '''
 # TODO
+# time processes
 # access Amazon S3 containers
 # access MongoDB
 # python server, automate testing + deployment (?)
@@ -56,6 +59,7 @@ question_list = [
 sample_files = [
   "simple_transcripts/interview-video-1.txt",
   "simple_transcripts/interview-video-2.txt",
+  "simple_transcripts/interview-video-3.txt",
 ]
 
 load_dotenv()
@@ -68,12 +72,22 @@ def quick_test(llm_model: str = MODEL, country : str = "Australia"):
 
   chain = {'country': RunnablePassthrough()} | prompt | model | output_parser
 
-  print(chain.invoke(country))
-  return chain
+  response : str = chain.invoke(country)
+  return response
+  # print(chain.invoke(country))
+  # return chain
 
 
 def simple_transcript(filename : str, dest_name : str | None = None) -> bool:
-  '''create a simple transcript from an existing complex one.'''
+  '''
+  creates a simple transcript from an existing complex one. 
+  Stores in a .txt file. 
+  Default location: "simple_transcripts/{filename}.txt"
+
+  param filename: A deepgram .json file to get the content from.
+
+  returns whether the 
+  '''
   transcript = {}
   with open(filename, 'r') as f:
     transcript = json.loads(f.read())
@@ -82,6 +96,7 @@ def simple_transcript(filename : str, dest_name : str | None = None) -> bool:
     dest_name = f'simple_transcripts/{os.path.splitext(os.path.split(filename)[1])[0]}.txt'
 
   with open(dest_name, 'w') as f:
+    print(os.path.splitext(os.path.split(filename)[1])[0], file=f)
     print(transcript['results']['channels'][0]['alternatives'][0]['paragraphs']['transcript'], file=f)
 
   return True
@@ -92,7 +107,7 @@ def simple_transcript(filename : str, dest_name : str | None = None) -> bool:
 def make_chain(llm : BaseChatModel, template : str, input_variables = ['docs'], partial_variables : dict[str, list[str]] = {}) -> LLMChain:
   prompt = PromptTemplate(
     template=template,
-    input_variables=['docs'],
+    input_variables=input_variables,
     partial_variables=partial_variables
   )
 
@@ -121,6 +136,8 @@ def mvp(question_list : list[str] = question_list, files : list[str] = sample_fi
   llm = ChatOpenAI(model=MODEL, temperature=0)
   partial_var = {'questions': questions}
 
+  print("we're mapping")
+  time_1 = time()
   # Map
   map_chain = make_chain(llm, map_template, partial_variables=partial_var)
   map_responses = map_chain.batch(docs)
@@ -131,7 +148,8 @@ def mvp(question_list : list[str] = question_list, files : list[str] = sample_fi
     with open(output_file, 'w') as out:
       print(map_responses[i], file=out)
 
-  print("Received all responses. Calling reduce.")
+  time_2 = time()
+  print(f"Received all responses. Map time: {time_2 - time_1} seconds.\nCalling reduce.")
 
   # Reduce
   map_response = '\n\n'.join(map_chain.batch(docs))
@@ -139,10 +157,13 @@ def mvp(question_list : list[str] = question_list, files : list[str] = sample_fi
 
   reduce_response = reduce_chain.invoke(map_response)
 
-  with open(f'{response_dir}/all_responses.txt', 'w') as file:
+  time_3 = time()
+
+  with open(f'{response_dir}/README.md', 'w') as file:
+    print("# All responses")
     print(reduce_response, file=file)
 
-  print("done.")
+  print(f"done.\nReduce time: {time_3 - time_2} seconds.")
 
   return True
   
