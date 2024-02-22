@@ -1,0 +1,41 @@
+--- NEW INTERVIEW: interview-video-3 ---
+
+Question 1: What is the workflow for UX researchers/designers when analyzing user interviews?
+Relevant quotes from interviewee:
+ - "So before doing the interview, we had a lot of discussion, mostly mapping out the business problem and what is the user problem as well."
+ - "And then after that, we invited a lot of our existing users from our platform at the time. And a lot of them, they are really willing to participate in the interview, and we met them in person."
+ - "And then we we will quickly discuss what we heard and are very cool, surprising, or stunning, and then we will record that very quickly on our notes. And then afterwards, we will listen to that together again."
+Response: The workflow involves initial discussions to map out business and user problems, designing the interview, inviting users for in-person interviews, and then analyzing the interviews by discussing key insights, recording them, and reviewing the recordings to jot down important points.
+
+Question 2: What are the pain points for UX researchers/designers when analyzing user interviews?
+Relevant quotes from interviewee:
+ - "I think the most time consuming is while we so we conduct the interview, and then we need to listen today again."
+ - "So we need to explain what we jot down if the other person don't understand."
+ - "And after we jot down the notes and then the PM needed to because we kind of choose junior, and then we are unable to give the summarize or title to each clutter."
+Response: The pain points include the time-consuming nature of re-listening to interviews, the need to explain notes to others who may not understand them, and the difficulty in summarizing or titling the collected data, especially for less experienced team members.
+
+Question 3: How have UX researchers/designers tried to solve their pain points when analyzing user interviews?
+Relevant quotes from interviewee:
+ - "And then we we will quickly discuss what we heard and are very cool, surprising, or stunning, and then we will record that very quickly on our notes."
+ - "And while we are listening, we will jot down the keywords or highlights on the sticky notes, and then we clutter the sticky notes together."
+ - "But I think the sticky noise is better sometimes because we can move it or cloud it easily."
+Response: To address pain points, the team discusses and records key insights immediately after interviews, uses sticky notes to jot down keywords or highlights for easier organization, and prefers physical sticky notes for their flexibility in clustering information.
+
+Question 4: What are the pain points for UX researchers when presenting user research results to other stakeholders?
+Relevant quotes from interviewee:
+ - "At the time, mostly was the PM to present. And we, I think it's also a small prison. So me as a product design intern and the UX research intern, both of us kind of presented simply and casually to the product manager."
+ - "He didn't put I I I forgot. But what he showed it to us is the very simple summarize summarize you do slide."
+Response: The main pain point in presenting research results to stakeholders is simplifying the findings into a format that is easy for stakeholders to understand, often requiring the creation of simple, summarized slides without too much detail.
+
+Question 5: What are the opinions of UX researchers/designers regarding the use of AI in user research?
+Relevant quotes from interviewee:
+ - "I used that, but I'm a worry. Oh, really? Worry. I I I maybe it's because AI just start really quick, and I haven't really trusted."
+ - "But I think it's a good start that I will still copy them and then make them into some bigger category, but I will still do all the thing again and then trying to see if there's something missing."
+ - "I think it would be super cool if they give you, let's say, for one bullet point, and I click that to see how this AI to come up with this."
+Response: The opinion on using AI in user research is cautiously optimistic but with reservations. There is concern about AI's ability to capture all necessary insights accurately, and a desire for features that allow users to understand how AI-generated summaries are derived and to verify their accuracy.
+
+Most commonly mentioned points:
+- The time-consuming nature of analyzing user interviews.
+- The use of sticky notes for organizing insights.
+- Concerns about the accuracy and trustworthiness of AI in analyzing user interviews.
+- The need for simplification when presenting findings to stakeholders.

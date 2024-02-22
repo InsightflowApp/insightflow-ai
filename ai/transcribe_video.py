@@ -11,10 +11,47 @@ from deepgram import (
 )
 
 load_dotenv()
-
 API_KEY = os.getenv("DG_API_KEY")
 
-def transcribe(audio_file: str, dest_json: str | None = None) -> str:
+# Configure Deepgram options for audio analysis
+OPTIONS = PrerecordedOptions(
+  model="nova-2",
+  smart_format=True,
+  diarize=True,
+  # topics=True,
+  language="en",
+)
+
+
+def transcribe(url: str, dest_json: str | None = None) -> str:
+  """
+  Transcribe audio from source file to destination json.
+  
+  :param url: the URL of the audio (or video) file to read.
+  :param dest_json: the file to write the transcript to.
+  :returns dest_json: the file to which the transcript was written.
+  """
+  try:
+    deepgram = DeepgramClient(API_KEY)
+    audio_url = { 'url': url }
+
+    # Call the transcribe_file method with the text payload and options
+    response = deepgram.listen.prerecorded.v("1").transcribe_url(audio_url, OPTIONS)
+
+    # Write the response to the sample audio file
+    if dest_json is None:
+       print(os.path.splitext(os.path.split(audio_url)[1])[0] + '.json')
+       dest_json = "dest.json"
+
+    with open(dest_json, 'w') as f:
+      print(response.to_json(indent=2), file=f)
+
+  except Exception as e:
+    print(f"Exception: {e}")
+  
+  return dest_json
+
+def transcribe_local(audio_file: str, dest_json: str | None = None) -> str:
   """
   Transcribe audio from source file to destination json.
   
@@ -29,26 +66,15 @@ def transcribe(audio_file: str, dest_json: str | None = None) -> str:
     with open(audio_file, "rb") as file:
       buffer_data = file.read()
 
-    payload: FileSource = {
-      "buffer": buffer_data,
-    }
+    payload: FileSource = { "buffer": buffer_data }
 
-    # STEP 2: Configure Deepgram options for audio analysis
-    options = PrerecordedOptions(
-      model="nova-2",
-      smart_format=True,
-      diarize=True,
-      # topics=True,
-      language="en",
-    )
+    # Call the transcribe_file method with the text payload and options
+    response = deepgram.listen.prerecorded.v("1").transcribe_file(payload, OPTIONS)
 
-    # STEP 3: Call the transcribe_file method with the text payload and options
-    response = deepgram.listen.prerecorded.v("1").transcribe_file(payload, options)
-
-    # STEP 4: Write the response to the sample audio file
     if dest_json is None:
-       dest_json = os.path.splitext(audio_file)[0] + '_transcript.json'
+       dest_json = os.path.splitext(os.path.split(audio_file)[1])[0] + '.json'
 
+    # write response to destination file
     with open(dest_json, 'w') as f:
       print(response.to_json(indent=2), file=f)
 
@@ -57,12 +83,11 @@ def transcribe(audio_file: str, dest_json: str | None = None) -> str:
   
   return dest_json
 
-
 def main():
   # Path to the audio file
   AUDIO_FILE = "sample_audio/internet-boring.mp3"
   TRANSCRIPT_DEST = "sample_transcripts/internet-boring.json"
-  transcribe(AUDIO_FILE, TRANSCRIPT_DEST)
+  transcribe_local(AUDIO_FILE, TRANSCRIPT_DEST)
 
 
 if __name__ == "__main__":
