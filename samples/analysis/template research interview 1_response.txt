@@ -1,0 +1,27 @@
+--- NEW INTERVIEW: template research interview 1 ---
+
+Question 1: How do our users define the term "templates"?
+Relevant quotes from interviewee:
+ - "Number 1 and number 2, tech visual and and and structure."
+ - "Well, it's to me, it's most important structure."
+ - "Structure. To me, it is structure."
+Response: Users define "templates" primarily in terms of structure, which they consider more important than the visual aspects. The term encompasses both the visual design elements like color schemes and fonts, as well as the overall layout or structure of the content.
+
+Question 2: What feedback do people provide regarding the current gamma templates?
+Relevant quotes from interviewee:
+ - "And your AI template simply cannot present in my company because it's so too too fancy, if you know what I mean."
+ - "All the same. All western style."
+ - "No. It's always, when I, sometimes it's left side, sometimes right side, sometimes it's on top, sometimes on bottom. So it's all the same."
+Response: The feedback on the current gamma templates is largely negative, with users finding them too fancy and not suitable for professional presentations in certain contexts. They are perceived as too Western in style and lacking variety in layout, which does not meet the needs of users looking for templates that accommodate more text or specific cultural aesthetics.
+
+Question 3: What are people's expectations if they can upload their own templates to gamma?
+Relevant quotes from interviewee:
+ - "If your company would be able to read this style Mhmm. And simply generate text on this template, then it would be tremendous helpful."
+ - "Just keep all the background pictures and the layouts unchanged, and you just and, well, you you you can add some AI chat window or dialogue box alongside with the the presentation."
+ - "Don't change my background, and don't let me text online. And you you can just let me upload my own templates."
+Response: Users expect that if they can upload their own templates to gamma, the platform should be able to retain the original style, backgrounds, and layouts without alteration. They want the ability to add generated text to these templates while keeping the visual elements intact. Essentially, users are looking for a feature that allows them to maintain their brand or preferred aesthetic while leveraging gamma's AI for content generation.
+
+Most commonly mentioned points from the interviewer:
+- Acknowledgment of the feedback and apologies for the issues raised.
+- Clarifications sought on specific expectations and definitions related to templates.
+- Offers of assistance and further support post-interview.

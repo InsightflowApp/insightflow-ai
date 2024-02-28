@@ -1,0 +1,30 @@
+--- NEW INTERVIEW: template research interview 5 ---
+
+Question 1: How do our users define the term "templates"?
+Relevant quotes from interviewee:
+ - "Templates is, is designed for different use cases."
+ - "Templates is a kind of branding."
+ - "Visual styling is more important because, different visuals and stylings will be used in different use cases."
+
+Response: Users define "templates" as designs tailored for various use cases, serving both functional and branding purposes. They emphasize the importance of visual styling to cater to different scenarios and to express their brand's values and identity.
+
+Question 2: What feedback do people provide regarding the current gamma templates?
+Relevant quotes from interviewee:
+ - "I tried one before. It's go to market strategy because, yeah, because at that time, my the topic of my presentation is about go to market strategy for those software companies."
+ - "I'm not actually a quite heavy user on templates because, you know, once I find out that I can upload all the words and then let the gamut, you know, and let AI to, you know, do the the first 50% of the work, and then I start to get used to that."
+ - "So it would choose, you know, a suitable templates, I guess, or suitable thing for me and then, you know, try to do all the alignments and then do do the first 50% of the work."
+
+Response: The feedback on current gamma templates is mixed. The interviewee found a specific template ("go to market strategy") useful for their presentation needs but generally prefers to use AI features to generate content based on text input, suggesting a preference for automated content creation over manual template selection.
+
+Question 3: What are people's expectations if they can upload their own templates to gamma?
+Relevant quotes from interviewee:
+ - "If there's a way to, you know, just put some custom elements on the templates would be great."
+ - "So we haven't actually designed our pen template yet because we haven't finalized, you know, internally all our logos."
+ - "I think that, yeah, I think that that that helps or that that might that that might that might be quite helpful, I think."
+
+Response: People expect the ability to customize templates by adding their own elements, such as logos, fonts, and colors, to reflect their brand identity. Although the interviewee has not yet designed their own templates due to pending decisions on branding elements, they believe that the ability to upload and customize templates would be highly beneficial.
+
+Most commonly mentioned points from the interviewer:
+- Interest in how users define and use templates.
+- Questions about feedback on current gamma templates.
+- Inquiry into expectations for uploading and customizing own templates in gamma.

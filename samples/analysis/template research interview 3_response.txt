@@ -1,0 +1,31 @@
+--- NEW INTERVIEW: template research interview 3 ---
+
+Question 1: How do our users define the term "templates"?
+Relevant quotes from interviewee:
+ - "having templates available that would follow a certain, a certain format."
+ - "the ability to take an existing PowerPoint presentation, upload that into Gamma, and then the system, using whatever magic you do, that would re reformat it or beautify the presentation."
+ - "It's a bit of both. Right? So so you've got you've got the visual content that has to to be quite varied, I would say."
+
+Response: Users define "templates" as pre-designed formats that can be selected and used for presentations. They see templates as both a visual styling tool and a structural content framework. Additionally, there's interest in the ability to upload and automatically enhance existing presentations within the platform.
+
+Question 2: What feedback do people provide regarding the current gamma templates?
+Relevant quotes from interviewee:
+ - "it does get repetitive pretty quickly if you have a presentation that's 30, 40 slides long, then you end up with, you know, a lot of slides that look exactly the same."
+ - "the styling is again very, very similar because you're using the same sort of, you know, background, slides."
+ - "it's really hard to display facts and figures in a precise, manner."
+
+Response: The feedback on current gamma templates indicates a need for more variety and customization options. Users find the existing templates repetitive, especially for longer presentations. There's also a desire for better ways to display data, such as charts and tables, with precision and clarity.
+
+Question 3: What are people's expectations if they can upload their own templates to gamma?
+Relevant quotes from interviewee:
+ - "I upload an ugly looking slide, and it becomes beautiful."
+ - "change the layout and make it you see what I mean? So, and and because it's assessed or or I guess there's tantalizing in the background the words that are there as well."
+ - "logo of the company has to be in a certain place. The colors on the slides have to be the certain the right colors."
+
+Response: Users expect that uploading their own templates to gamma would allow for significant improvements in design and layout while maintaining the original content. They also anticipate that the platform would adhere to specific branding requirements, such as logo placement and color schemes, enhancing the overall presentation quality.
+
+Most commonly mentioned points from the interviewer:
+- Interest in a feature for uploading and enhancing existing PowerPoint presentations.
+- Desire for a greater variety of templates and styles to avoid repetition in longer presentations.
+- Need for more sophisticated options for displaying data, like charts and tables.
+- Expectation for the platform to respect and incorporate specific branding guidelines when customizing templates.
