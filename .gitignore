@@ -145,6 +145,8 @@ ui-tests/.pnp.*
 # local environment
 .env
 
-# transcripts stored locally
-transcripts/*
+# transcript data storage
+transcripts_temp
 
+samples/simple
+samples/transcripts
