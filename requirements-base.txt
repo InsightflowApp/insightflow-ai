@@ -11,4 +11,5 @@ python-dateutil
 python-dotenv
 regex
 requests
+httpx
 # youtube-transcript-api

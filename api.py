@@ -1,13 +1,9 @@
 from flask import Flask, request
 from flask_restx import Resource, Api, fields
 import os
-import json
-import pickle
-import jsonify
 import threading
 from time import sleep
 
-import transcribe.transcribe_async2 as trs
 import ai.mvp as mvp
 
 app = Flask(__name__)
