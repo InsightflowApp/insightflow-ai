@@ -1,114 +1,116 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restx import Resource, Api, fields
 import os
 import json
+import pickle
+import jsonify
+import threading
+from time import sleep
 
-from ai.transcribe_video import transcribe
-from ai.mvp import mvp
+import transcribe.transcribe_async2 as trs
+import ai.mvp as mvp
 
 app = Flask(__name__)
-api = Api(app, title="InsightFlow AI API", version="0.2.0")
+api = Api(app, title="InsightFlow AI API", version="0.3.0")
 
-ts = api.namespace('transcribe', description="Transcription operations")
-sa = api.namespace('single_analysis', description="Analysis of one transcript. Not functional yet.")
-ga = api.namespace('group_analysis', description="Analysis of a group. Not functional yet.")
-sample = api.namespace('sample_list', description="Sample .mp3s, .jsons, and .txts used for testing")
+# easiest possible: analyze (questions, names_URLs)
+an = api.namespace('analyze', description="all-in-one analysis, without username stuff")
 
-SAMPLE_AUDIO_DIR = 'sample_audio'
-SAMPLE_TRANSCRIPT_DIR = 'sample_transcripts'
-
-transcript_model = api.model('Transcript', {
-  'source': fields.String,
+project_model = api.model('Project', {
+  'password': fields.String,
+  # names and urls should act like a mapping.
+  'names': fields.List(fields.String),
+  'urls': fields.List(fields.String),
+  'questions': fields.List(fields.String),
 })
 
-analysis = ""
-group = []
+# How it looks:
+# POST:
+# {
+#   "password": "Insightflow666",
+#   "names": [
+#     "template research interview 3.mp4", "template research interview 2.mp4", "template research interview 4.mp4", "template research interview 5.mp4"
+#   ],
+#   "urls": [
+#     "4e72f777-d179-452e-8629-8ef4d76f54ad", "cb9f1ff5-178f-4c46-977d-0940fc8a9b13", "9e26f983-d3fc-438f-988d-c1c2a93bf755", "44b8d19b-531a-4947-b075-05315a2ade90"
+#   ],
+#   "questions": [
+#     "How do our users define the term \"templates\"?", "What feedback do people provide regarding the current gamma templates?", "What are people's expectations if they can upload their own templates to gamma?"
+#   ]
+# }
 
-def transcript_info(content):
-  return {
-    'Content': content["results"]["channels"][0]["alternatives"][0]["transcript"],
-    # 'Topics': content["results"]["topics"]
-  }
+analyses = dict()
 
-@ts.route('/<string:filename>')
-class Transcription(Resource):
-  def get(self, filename):
-    '''retrieve an existing sample transcript'''
-    if filename not in os.listdir(path=SAMPLE_TRANSCRIPT_DIR):
-      return {"Error": "File not found. Check sample_transcripts"}
- 
-    content = {}
-    with open(f'{SAMPLE_TRANSCRIPT_DIR}/{filename}', 'r') as file:
-      content = json.load(file)
-    return transcript_info(content)
+session = api.model('Session', {
+  '*': fields.Wildcard(fields.String)
+})
+
+response = api.model('Response', {'id': fields.String})
+
+thread_event = threading.Event()
+
+def backgroundTask():
+  while thread_event.is_set():
+    print('Background task running')
+    sleep(5)
+
+@an.route('/<string:project_name>')
+class Analysis(Resource):
+  @an.expect(project_model)
+  @an.marshal_with(response, code=200, description='Analysis started')
+  def post(self, project_name):
+    data = an.payload
+
+    password = data['password']
+    if password != 'Insightflow666':
+      return {'Access Denied': 'password is incorrect'}
+
+    names = data['names']
+    urls = data['urls']
+
+    if len(names) != len(urls):
+      return {'Error': 'urls and names need to be the same length'}
+    questions = data['questions']
+
+    audio_urls = dict()
+    for i in range(len(names)):
+      extension = os.path.splitext(names[i])[1]
+      audio_urls[names[i]] = f'https://insightflow-test.s3.us-east-2.amazonaws.com/{urls[i]}{extension}'
+
+    task = threading.Thread(target=mvp.go, args=[questions, audio_urls, project_name])
+    analyses[project_name] = task
+    task.start()
+
+    return {'id': project_name}
+
+  def get(self, project_name):
+    filename = f'{project_name}/analysis/README.md'
+
+    if os.path.exists(filename):
+      with open(filename, 'r') as file:
+        response = file.read()
+      return {'response': response}, 200
+
+    return {'Not yet': 'response not ready'}
 
 
-  def post(self, filename):
-    '''create a new transcript from a sample audio file'''
-    if filename not in os.listdir(path=SAMPLE_AUDIO_DIR):
-      return {"Error": "File not found. Check sample_audio"}
-    
-    dest_pathname = f'{SAMPLE_TRANSCRIPT_DIR}/{os.path.splitext(filename)[0]}.json'
-    dest = transcribe(f'{SAMPLE_AUDIO_DIR}/{filename}', dest_pathname)
-    return {"Transcript": dest}
+class Project(object):
+
+  def __init__(self):
+    self.questions = []
+    self.transcripts = {}
+    self.analyses = {}
+  
+  def add_question(self, question : str):
+    self.questions.append(question)
+
+  def add_transcript(self, name : str, data : str):
+    self.transcripts[name] = data
+  
+  def analyze_transcripts(self):
+    ...
 
 
-@sa.route('/<string:filename>')
-@sa.response(404, 'Transcript not found')
-@sa.param('filename', 'The transcript to analyze')
-class SingleAnalysis(Resource):
-  def get(self):
-    return {'response': 'not implemented yet.'}
-
-@ga.route('/analyze')
-class GroupAnalysis(Resource):
-  '''Analyze a group of files'''
-  # post: add files to group, if they exist
-  # get: get analysis of current group
-  # delete: remove from group, "all" for all
-  pass
-
-@ga.route('/')
-class GroupList(Resource):
-  '''modify the group to analyze'''
-  # post: add files to group, if they exist
-  @ga.expect(transcript_model)
-  def post(self):
-    '''Add a transcript to the list to analyze.'''
-    tsc = api.payload
-    if tsc['source'] not in os.listdir(path=SAMPLE_TRANSCRIPT_DIR):
-      return {"Error": "File not found."}
-    for t in group:
-      if tsc['source'] == t['source']:
-        return t
-    group.append(tsc)
-    return tsc
-
-    
-  def get(self):
-    '''see the active list of transcripts to analyze'''
-    return group
-  # delete: remove from group, "all" for all
-  # def delete(self):
-  #   pass
-
-@sample.route('/audio')
-class AudioFiles(Resource):
-  def get(self):
-    """
-    Returns a list of sample audio file names.
-    """
-    filenames = os.listdir(path=SAMPLE_AUDIO_DIR)
-    return {"files": filenames}
-
-@sample.route('/transcript_jsons')
-class TranscriptJSONs(Resource):
-  def get(self):
-    """
-    Returns a list of sample transcript file names.
-    """
-    filenames = os.listdir(path=SAMPLE_TRANSCRIPT_DIR)
-    return {"files": filenames}
 
 if __name__ == '__main__':
   app.run(debug=True)

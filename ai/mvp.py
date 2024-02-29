@@ -179,11 +179,32 @@ def mvp(question_list : list[str] = question_list, files : list[str] = sample_fi
   return True
   
 
-def main():
+def go(question_list : list[str], audio_urls : dict[str, str], main_dir : str = 'samples', skip_transcribe : bool = False):
   start = time()
-  skip_transcribe = True
-  MAIN_DIR = 'samples'
 
+  if not skip_transcribe:
+    print("MAIN: transcribing urls")
+    # assuming transcription redundancy is okay, or all entries into audio_urls are new
+    trs.transcribe_urls(audio_urls, f'{main_dir}/transcripts')
+    print("MAIN: transcription done.")
+
+  print("MAIN: writing simple transcripts.")
+  simple_trs = []
+
+  for name in audio_urls.keys():
+    filename = f'{main_dir}/transcripts/{name}.json'
+    simple = simple_transcript(filename, f'{main_dir}/simple')
+    simple_trs.append(simple)
+
+
+  print(f'MAIN: calling mvp(\n\t{question_list},\n\t{simple_trs},\n\t{main_dir}/analysis)')
+  mvp(question_list, simple_trs, f'{main_dir}/analysis')
+  end = time()
+  print(f'MAIN: done! Total time: {end - start} seconds')
+
+  return f'{main_dir}/analysis/README.md'
+
+def main():
   question_list = [
     'How do our users define the term "templates"?',
     'What feedback do people provide regarding the current gamma templates?',
@@ -192,39 +213,22 @@ def main():
 
   # format audio urls
   audio_urls = {
-    "template research interview 3":
+    "template research interview 3.mp4":
     '4e72f777-d179-452e-8629-8ef4d76f54ad',
-    "template research interview 2":
+    "template research interview 2.mp4":
     'cb9f1ff5-178f-4c46-977d-0940fc8a9b13',
-    "template research interview 4":
+    "template research interview 4.mp4":
     '9e26f983-d3fc-438f-988d-c1c2a93bf755',
-    "template research interview 5":
+    "template research interview 5.mp4":
     '44b8d19b-531a-4947-b075-05315a2ade90',
-    "template research interview 1":
+    "template research interview 1.mp4":
     'ecdefe35-563b-4b48-8f80-f891b8303a0d',
   }
   for key in audio_urls.keys():
-    audio_urls[key] = f'https://insightflow-test.s3.us-east-2.amazonaws.com/{audio_urls[key]}.mp4'
+    extension = os.path.splitext(key)[1]
+    audio_urls[key] = f'https://insightflow-test.s3.us-east-2.amazonaws.com/{audio_urls[key]}{extension}'
 
-  if not skip_transcribe:
-    print("MAIN: transcribing urls")
-    # assuming transcription redundancy is okay, or all entries into audio_urls are new
-    trs.transcribe_urls(audio_urls, f'{MAIN_DIR}/transcripts')
-    print("MAIN: transcription done.")
-
-  print("MAIN: writing simple transcripts.")
-  simple_trs = []
-
-  for name in audio_urls.keys():
-    filename = f'{MAIN_DIR}/transcripts/{name}.json'
-    simple = simple_transcript(filename, f'{MAIN_DIR}/simple')
-    simple_trs.append(simple)
-
-
-  print(f'MAIN: calling mvp(\n\t{question_list},\n\t{simple_trs},\n\t{MAIN_DIR}/analysis)')
-  mvp(question_list, simple_trs, f'{MAIN_DIR}/analysis')
-  end = time()
-  print(f'MAIN: done! Total time: {end - start} seconds')
+  go(question_list, audio_urls)
 
 if __name__ == '__main__':
   main()

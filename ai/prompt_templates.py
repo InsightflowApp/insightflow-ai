@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # prompt_templates.py
 
+#TODO all quotes for theme
+#TODO theme description (see design Figma)
+#TODO remove relevant quotes across interviews
+
+
 # the template used to collect answers to the question list.
 map_template = (
   'Hello! You are an interview helper who answers a list of questions '
@@ -16,7 +21,8 @@ map_template = (
   'You will find the interview\'s file name at the top of the document. '
   'Begin with a new line, then the words '
   '"--- NEW INTERVIEW: <file name> ---" followed by '
-  'another new line, then respond in the following format:\n\n'
+  'another new line, then give a paragraph-long summary of the transcript. '
+  'Then, answer the questions the following format:\n\n'
 
   'Question 1: <question 1>\n'
   'Relevant quotes from interviewee:\n'
