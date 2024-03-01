@@ -1,8 +1,8 @@
 from flask import Flask, request
 from flask_restx import Resource, Api, fields
 import os
-import threading
-from time import sleep
+# import threading
+# from time import sleep
 
 import ai.mvp as mvp
 
@@ -20,35 +20,24 @@ project_model = api.model('Project', {
   'questions': fields.List(fields.String),
 })
 
-# How it looks:
-# POST:
-# {
-#   "password": "Insightflow666",
-#   "names": [
-#     "template research interview 3.mp4", "template research interview 2.mp4", "template research interview 4.mp4", "template research interview 5.mp4"
-#   ],
-#   "urls": [
-#     "4e72f777-d179-452e-8629-8ef4d76f54ad", "cb9f1ff5-178f-4c46-977d-0940fc8a9b13", "9e26f983-d3fc-438f-988d-c1c2a93bf755", "44b8d19b-531a-4947-b075-05315a2ade90"
-#   ],
-#   "questions": [
-#     "How do our users define the term \"templates\"?", "What feedback do people provide regarding the current gamma templates?", "What are people's expectations if they can upload their own templates to gamma?"
-#   ]
-# }
-
 analyses = dict()
 
 session = api.model('Session', {
   '*': fields.Wildcard(fields.String)
 })
-
 response = api.model('Response', {'id': fields.String})
 
-thread_event = threading.Event()
+# thread_event = threading.Event()
 
-def backgroundTask():
-  while thread_event.is_set():
-    print('Background task running')
-    sleep(5)
+# def backgroundTask():
+#   while thread_event.is_set():
+#     print('Background task running')
+#     sleep(5)
+
+analyses = dict()
+
+def analyze(questions: list[str], audio_urls: dict[str,str], project_name: str):
+  analyses[project_name] = mvp.go(questions, audio_urls, f'demo/{project_name}')
 
 @an.route('/<string:project_name>')
 class Analysis(Resource):
@@ -73,14 +62,17 @@ class Analysis(Resource):
       extension = os.path.splitext(names[i])[1]
       audio_urls[names[i]] = f'https://insightflow-test.s3.us-east-2.amazonaws.com/{urls[i]}{extension}'
 
-    task = threading.Thread(target=mvp.go, args=[questions, audio_urls, project_name])
-    analyses[project_name] = task
-    task.start()
+    # task = threading.Thread(target=mvp.go, args=[questions, audio_urls, project_name])
+    # analyses[project_name] = task
+    # task.start()
+
+    # start task. It's not in the background but shouldn't take longer than 5 mins
+    analyze(questions, audio_urls, project_name)
 
     return {'id': project_name}
 
   def get(self, project_name):
-    filename = f'{project_name}/analysis/README.md'
+    filename = f'demo/{project_name}/analysis/README.md'
 
     if os.path.exists(filename):
       with open(filename, 'r') as file:
@@ -105,7 +97,6 @@ class Project(object):
   
   def analyze_transcripts(self):
     ...
-
 
 
 if __name__ == '__main__':
