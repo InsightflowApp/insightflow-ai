@@ -37,7 +37,7 @@ response = api.model('Response', {'id': fields.String})
 analyses = dict()
 
 def analyze(questions: list[str], audio_urls: dict[str,str], project_name: str):
-  analyses[project_name] = mvp.go(questions, audio_urls, f'demo/{project_name}')
+  analyses[project_name] = mvp.go(questions, audio_urls, f'./demo/{project_name}')
 
 @an.route('/<string:project_name>')
 class Analysis(Resource):
@@ -72,7 +72,7 @@ class Analysis(Resource):
     return {'id': project_name}
 
   def get(self, project_name):
-    filename = f'demo/{project_name}/analysis/README.md'
+    filename = f'./demo/{project_name}/analysis/README.md'
 
     if os.path.exists(filename):
       return send_file(filename, download_name=f'{project_name}_results.md')
