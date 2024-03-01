@@ -141,6 +141,7 @@ ui-tests/.pnp.*
 
 # Virtual environment
 .venv
+pa
 
 # local environment
 .env

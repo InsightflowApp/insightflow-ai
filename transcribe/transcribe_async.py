@@ -81,12 +81,19 @@ async def _transcribe_urls(audio_urls : dict[str, str], target_dir : str = 'tran
   start = datetime.now()
   print(f"Beginning transcription at {start}")
 
-  async with asyncio.TaskGroup() as tg:
-    for name, audio_url in audio_urls.items():
-      t = tg.create_task(
-        _transcribe_url(audio_url)
-      )
-      tasks.append((name, t))
+  for name, audio_url in audio_urls.items():
+    t = asyncio.create_task(_transcribe_url(audio_url))
+    tasks.append((name, t))
+
+  # async with asyncio.TaskGroup() as tg:
+  #   for name, audio_url in audio_urls.items():
+  #     t = tg.create_task(
+  #       _transcribe_url(audio_url)
+  #     )
+  #     tasks.append((name, t))
+    
+  for (_, task) in tasks:
+    await task
 
   end = datetime.now()
 
@@ -98,6 +105,7 @@ async def _transcribe_urls(audio_urls : dict[str, str], target_dir : str = 'tran
     
     with open(f'{target_dir}/{name}.json', 'w') as file:
       print(data.to_json(indent=2), file=file)
+
 
 def transcribe_urls(audio_urls : dict[str, str], target_dir : str = 'transcripts'):
   asyncio.run(_transcribe_urls(audio_urls, target_dir))

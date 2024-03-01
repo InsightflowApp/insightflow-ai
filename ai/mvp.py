@@ -30,9 +30,9 @@ from dotenv import load_dotenv
 
 from ai.prompt_templates import map_template, reduce_template
 
-import asyncio
+# import asyncio
 
-import transcribe.transcribe_async2 as trs
+import transcribe.transcribe_async as trs
 
 '''
 Minimum viable product
