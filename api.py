@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_file
 from flask_restx import Resource, Api, fields
 import os
 # import threading
@@ -75,9 +75,7 @@ class Analysis(Resource):
     filename = f'demo/{project_name}/analysis/README.md'
 
     if os.path.exists(filename):
-      with open(filename, 'r') as file:
-        response = file.read()
-      return {'response': response}, 200
+      return send_file(filename, download_name=f'{project_name}_results.md')
 
     return {'Not yet': 'response not ready'}
 
