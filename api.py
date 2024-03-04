@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, send_from_directory
 from flask_restx import Resource, Api, fields
 import os
 # import threading
@@ -37,7 +37,12 @@ response = api.model('Response', {'id': fields.String})
 analyses = dict()
 
 def analyze(questions: list[str], audio_urls: dict[str,str], project_name: str):
-  analyses[project_name] = mvp.go(questions, audio_urls, f'./demo/{project_name}')
+  if os.getenv('CLOUD') == '0':
+    filename = f'./demo/{project_name}'
+  else:
+    filename = f'/home/insightflow/insightflow-ai/demo/{project_name}'
+
+  analyses[project_name] = mvp.go(questions, audio_urls, filename)
 
 @an.route('/<string:project_name>')
 class Analysis(Resource):
@@ -70,9 +75,16 @@ class Analysis(Resource):
     analyze(questions, audio_urls, project_name)
 
     return {'id': project_name}
+    # return send_file(filename, download_name=f'{project_name}_results.md')
 
   def get(self, project_name):
-    filename = f'./demo/{project_name}/analysis/README.md'
+    if os.getenv('CLOUD') == '0':
+      filename = f'./demo/{project_name}/analysis/README.md'
+    else:
+      filename = f'/home/insightflow/insightflow-ai/demo/{project_name}/analysis/README.md'
+
+    # if project_name not in analyses:
+    #   return {'could not find': "either the server restarted or the analysis doesn't exist"}
 
     if os.path.exists(filename):
       return send_file(filename, download_name=f'{project_name}_results.md')
