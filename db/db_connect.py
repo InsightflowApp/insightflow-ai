@@ -64,7 +64,7 @@ def del_all(collection, db=DB):
 
 
 def update_doc(collection, filters, update_dict, db=DB):
-  return client[db][collection].update_one(filters, {'$set': update_dict})
+  return client[db][collection].update_one(filters, {'$set': update_dict}, upsert=True)
 
 
 def fetch_all(collection, db=DB):
