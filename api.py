@@ -5,7 +5,7 @@ import os
 # from time import sleep
 
 import ai.mvp as mvp
-import userdata.user_projects as up
+import db.user_projects as up
 
 app = Flask(__name__)
 api = Api(app, title="InsightFlow AI API", version="0.3.0")
