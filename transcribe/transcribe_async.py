@@ -5,6 +5,11 @@ from dotenv import load_dotenv
 import asyncio
 import httpx
 from datetime import datetime
+from pathlib import Path
+
+from os import PathLike
+
+import json
 
 from deepgram import (
     DeepgramClient,
@@ -48,7 +53,7 @@ async def _transcribe_url(url: str) -> PrerecordedResponse:
   return data
 
 
-async def _transcribe_local(audio_file: str) -> PrerecordedResponse:
+async def _transcribe_local(audio_file: PathLike) -> PrerecordedResponse:
   """
   Transcribe audio from source file.
   
@@ -73,10 +78,12 @@ async def _transcribe_local(audio_file: str) -> PrerecordedResponse:
   return data
 
 
-async def _transcribe_urls(audio_urls : dict[str, str], target_dir : str = 'transcripts'):
-  if not os.path.isdir(target_dir):
-    os.makedirs(target_dir)
-
+async def _transcribe_urls(
+    audio_urls : dict[str, str], 
+    result_dict : dict, 
+    result_lock : asyncio.Lock
+    ):
+  
   tasks : list[asyncio.TaskGroup] = []
   start = datetime.now()
   print(f"Beginning transcription at {start}")
@@ -98,17 +105,34 @@ async def _transcribe_urls(audio_urls : dict[str, str], target_dir : str = 'tran
   end = datetime.now()
 
   print(f"end time: {end}\ntotal transcribe time: {end - start}")
-  print(f"writing files into {target_dir}")
+  print(f"writing files into result dict")
 
   for (name, task) in tasks:
-    data = task.result()
-    
-    with open(f'{target_dir}/{name}.json', 'w') as file:
-      print(data.to_json(indent=2), file=file)
+    result = task.result()
+    if result is not None:
+      result_dict[name] = result.to_dict()
+    else:
+      result_dict[name] = dict()
 
 
-def transcribe_urls(audio_urls : dict[str, str], target_dir : str = 'transcripts'):
-  asyncio.run(_transcribe_urls(audio_urls, target_dir))
+def write_transcripts(target_dir, file_contents):
+  if not os.path.isdir(target_dir):
+    os.makedirs(target_dir)
+  
+  for name, data in file_contents:
+    filepath = Path(target_dir) / f"{name}"
+    with open(filepath, 'w') as file:
+      file.write(json.dumps(data, indent=2))
+
+def transcribe_urls(audio_urls : dict[str, str], target_dir : PathLike | None = None):
+  results = dict()
+  lock = asyncio.Lock()
+  asyncio.run(_transcribe_urls(audio_urls, results, lock))
+
+  if target_dir is not None:
+    write_transcripts(target_dir, results)
+
+  return results
 
 
 async def main():
