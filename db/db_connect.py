@@ -31,7 +31,7 @@ def insert_one(collection, doc, db=DB):
   """
   try:
     result = client[db][collection].insert_one(doc)
-    return result.inserted_id  # Return the ID of the inserted document
+    return str(result.inserted_id)  # Return the ID of the inserted document
   except pm.PyMongoError as e:
     pm.logging.error(f"Error inserting doc into {db}.{collection}: {e}")
     return None
