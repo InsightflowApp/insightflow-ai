@@ -105,10 +105,12 @@ async def _transcribe_urls(
   end = datetime.now()
 
   print(f"end time: {end}\ntotal transcribe time: {end - start}")
-  print(f"writing files into result dict")
+  # TODO delete
+  print(f"writing transcripts into result dict")
 
   for (name, task) in tasks:
     result = task.result()
+    print(result)
     if result is not None:
       result_dict[name] = result.to_dict()
     else:

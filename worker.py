@@ -45,21 +45,26 @@ def main():
 
 
 def analyze_transcripts(question_list: list[str], transcripts: dict):
+  print("made it to analyze_transcripts")
+  print(f"{transcripts=}")
+
   transcripts_simple = list()
 
   # add transcripts to DB
   for name, content in transcripts.items():
-    paragraphs = (
+    alternatives = (
       content['results']['channels'][0]
-      ['alternatives'][0]['paragraphs']
+      ['alternatives'][0]
     )
 
-    if paragraphs is not None:
+    if "paragraphs" in alternatives and 'transcript' in alternatives['paragraphs']:
     # get simple version of transcripts
       transcripts_simple.append(
         f"{name}\n\n"
-        f"{paragraphs['transcript']}"
+        f"{alternatives['paragraphs']['transcript']}"
       )
+
+  print(f"{transcripts_simple=}")
 
   result = mvp.map_reduce(
     question_list,
@@ -133,7 +138,7 @@ def callback(ch : BlockingChannel, method, properties, body : bytes):
       "projectId": project_id,
       "code": 0, # 0 for fail, 1 for success
     })
-    print(e, file=stderr)
+    print(f"Error: {e}", file=stderr)
 
     # send confirmation message to confirm.analyzing
   ch.basic_publish(
