@@ -35,9 +35,16 @@ def get_project_by_id(id : str):
 
   return project
 
-def update_project_status(id : str, status : int):
+def update_project_status(id : str, status_num : int, findings_id: str | None = None):
   dbc.connect_db()
-  dbc.update_doc(projectDB, {'_id': id}, {"projectStatus": status})
+  status = {"projectStatus": status_num}
+  if findings_id is not None:
+    status["findingsId"] = findings_id
+
+  dbc.update_doc(
+    projectDB, 
+    {'_id': ObjectId(id)}, 
+    status)
 
 
 def get_user_project(username : str, project_index : int):
