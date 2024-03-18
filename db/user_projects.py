@@ -68,7 +68,7 @@ def get_user_project(username : str, project_index : int):
 
   return project
 
-def insert_findings(p_id, findings : dict):
+def insert_findings(findings : dict):
   dbc.connect_db()
   return dbc.insert_one(findingDB, findings)
 
