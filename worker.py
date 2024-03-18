@@ -134,6 +134,8 @@ def callback(ch : BlockingChannel, method, properties, body : bytes):
     })
 
   except Exception as e:
+    up.update_project_status(project_id, -1)
+    
     message = json.dumps({
       "projectId": project_id,
       "code": 0, # 0 for fail, 1 for success
