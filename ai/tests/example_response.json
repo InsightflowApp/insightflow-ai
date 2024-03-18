@@ -1,0 +1,308 @@
+{
+  "questions": [
+    {
+      "question": "What factors initially motivated individuals to pursue studies in Computer Science?",
+      "themes": [
+        {
+          "theme": "Interest in Technology and Computers",
+          "quotes": [
+            {
+              "quote": "I originally was business, and I decided I wanna do more with computers.",
+              "speaker": "P09.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "I wanted a job eventually where I could work in front of a computer...",
+              "speaker": "P10.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "I felt, you know, an interest in that when I worked with my laptop, my technology.",
+              "speaker": "P11.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 4,
+          "total": 4
+        },
+        {
+          "theme": "Desire for a Dynamic Job",
+          "quotes": [
+            {
+              "quote": "I wanted a job eventually where I could work in front of a computer, but I could also get up with stuff, like hook up new servers and stuff like that.",
+              "speaker": "P10.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "I really enjoyed doing projects. I really enjoyed doing, like, some programming.",
+              "speaker": "P11.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 2,
+          "total": 4
+        },
+        {
+          "theme": "Pragmatic Choices",
+          "quotes": [
+            {
+              "quote": "Honestly, I applied computer science originally, and software engineering had spots open still.",
+              "speaker": "P08.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 1,
+          "total": 4
+        }
+      ],
+      "analysis": "The primary motivation for individuals to pursue studies in fields related to Computer Science was a strong interest in technology and computers, with all participants mentioning this as a key factor. Additionally, there was a desire for dynamic roles that go beyond just computer work, including hands-on IT tasks and programming. Pragmatic choices, such as program availability, also influenced decisions for some."
+    },
+    {
+      "question": "What specific concepts related to usability and accessibility were taught during coursework?",
+      "themes": [
+        {
+          "theme": "Human-Centered Design and Usability",
+          "quotes": [
+            {
+              "quote": "The whole point was to focus on usability aspects and different heuristics, that make using, the user experience overall better.",
+              "speaker": "P09.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "The human centered design that, while there were other projects and other classes, of course, they didn't focus much on usability.",
+              "speaker": "P08.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 4,
+          "total": 4
+        },
+        {
+          "theme": "Designing for Accessibility",
+          "quotes": [
+            {
+              "quote": "We learned, the contrast in colors on a page. That's an important factor because, people who have, visual impairments or color blindness might not be able to distinguish between certain, colors as easily as, other patterns and stuff.",
+              "speaker": "P10.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "Designing things that are more easy to understand and things that, like, you automatically look at and you know what they're for and how to use them.",
+              "speaker": "P11.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 3,
+          "total": 4
+        },
+        {
+          "theme": "Practical Application of Usability and Accessibility Concepts",
+          "quotes": [
+            {
+              "quote": "Making systems efficient, making them easy for people to use.",
+              "speaker": "P10.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "Developing new apps. We did we did do some of that too. There was an app programming for, for Ben and Jerry's.",
+              "speaker": "P11.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 2,
+          "total": 4
+        }
+      ],
+      "analysis": "Coursework for participants prominently featured human-centered design and usability, with a strong emphasis on improving the user experience through various usability aspects and heuristics. Additionally, designing for accessibility was a significant focus, teaching students about considerations for visual impairments and creating intuitive designs. Practical application of these concepts was also highlighted, with projects requiring the development of user-friendly and accessible software."
+    },
+    {
+      "question": "What are the motivations for implementing usability and accessibility into their development projects?",
+      "themes": [
+        {
+          "theme": "Consideration of User Needs and Equality",
+          "quotes": [
+            {
+              "quote": "So that you gotta think about who you're designing the, piece of software for.",
+              "speaker": "P09.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "I would define usability as, I would define it as equality. So everyone should be on equal playing field when they are presented with a form to fill out for a website to view.",
+              "speaker": "P10.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 4,
+          "total": 4
+        },
+        {
+          "theme": "Planning and Forethought in Design",
+          "quotes": [
+            {
+              "quote": "In the process, it needs to be thought of in advance. It needs to be planned for...",
+              "speaker": "P08.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "iPhone has customizable settings, and often, professors do, you know, kind of drill into our heads to consider what people need.",
+              "speaker": "P11.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 2,
+          "total": 4
+        },
+        {
+          "theme": "Personal Experiences Influencing Design Choices",
+          "quotes": [
+            {
+              "quote": "So, obviously, I am deaf. That's obvious. And so I often need some different accessibility, and so it was easy enough to to think about low vision as well.",
+              "speaker": "P11.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 1,
+          "total": 4
+        }
+      ],
+      "analysis": "The motivations for implementing usability and accessibility into development projects are deeply rooted in the consideration of user needs and the pursuit of equality, ensuring that all users, regardless of their abilities, have equal access and ease of use. Planning and forethought in the design process are crucial for adequately addressing these considerations. Additionally, personal experiences with disabilities have influenced some participants' design choices, underscoring the importance of personal relevance in motivating the integration of usability and accessibility features."
+    },
+    {
+      "question": "What experiences have participants had in terms of interacting with people with disabilities?",
+      "themes": [
+        {
+          "theme": "Academic and Project-Based Interactions",
+          "quotes": [
+            {
+              "quote": "I would talk to the translator, and he would sign it over to, the classmate.",
+              "speaker": "P09.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "There I think we were we were required to test it through that kind of panel, the access.",
+              "speaker": "P08.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 4,
+          "total": 4
+        },
+        {
+          "theme": "Daily Interactions at Educational Institutions",
+          "quotes": [
+            {
+              "quote": "Being at RIT, there's a lot of hard of hearing students because of NTID. On the daily, we interact with, hard of hearing, and that's perfectly fine.",
+              "speaker": "P10.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "So, really, anyone who would like to order ice cream, focused on the RIT students because we are focused on, and we also made sure to include folks with disabilities as well.",
+              "speaker": "P11.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 2,
+          "total": 4
+        },
+        {
+          "theme": "Personal Relationships",
+          "quotes": [
+            {
+              "quote": "One of my friends is, a bit hard of hearing.",
+              "speaker": "P10.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 1,
+          "total": 4
+        }
+      ],
+      "analysis": "Participants' experiences with individuals with disabilities have primarily occurred within academic and project-based settings, offering direct feedback and engagement opportunities. Daily interactions with individuals with disabilities at educational institutions, particularly at RIT, have further enriched their perspectives on accessibility. Additionally, personal relationships with individuals with disabilities have contributed to a deeper understanding and consideration of accessibility needs, highlighting the importance of personal connections in shaping attitudes towards accessibility."
+    },
+    {
+      "question": "How do interactions with individuals with disabilities affect decisions to integrate usability and accessibility features into future software development projects?",
+      "themes": [
+        {
+          "theme": "Increased Awareness and Consideration",
+          "quotes": [
+            {
+              "quote": "I think that really opened my eyes to it.",
+              "speaker": "P09.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "And so, yeah, he his his thoughts definitely added a different perspective to our application.",
+              "speaker": "P08.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 4,
+          "total": 4
+        },
+        {
+          "theme": "Direct Influence on Design Decisions",
+          "quotes": [
+            {
+              "quote": "The auto captioning issue, like, the problems that I face with, auto captioning in YouTube videos and stuff being a lot of times wrong.",
+              "speaker": "P10.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "We were brainstorming different ideas that we could bring to, you know, make sure that if you were low vision or or blind, that we would use colors, you know, that were were visible.",
+              "speaker": "P11.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 3,
+          "total": 4
+        },
+        {
+          "theme": "Educational Influence",
+          "quotes": [
+            {
+              "quote": "Honestly, probably that class. Probably, probably starting 44. I I honestly didn't even think about that.",
+              "speaker": "P09.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            },
+            {
+              "quote": "Yeah. We didn't none of our team members had that sort of disability, and so we weren't really thinking of it in terms of fonts, in terms of, like, enlarged fonts or handicap accessible properties.",
+              "speaker": "P08.avi",
+              "timestamp": "",
+              "transcript_id": ""
+            }
+          ],
+          "count": 2,
+          "total": 4
+        }
+      ],
+      "analysis": "Interactions with individuals with disabilities have profoundly affected participants' decisions to integrate usability and accessibility features into their software development projects. These interactions have increased awareness and consideration, directly influenced design decisions, and highlighted the importance of educational experiences in shaping approaches to software development. Feedback from individuals with disabilities and academic requirements have provided valuable perspectives, leading to more inclusive and accessible software designs."
+    }
+  ],
+  "markdownContent": "## Question 1: What factors initially motivated individuals to pursue studies in Computer Science?\n### Themes:\n - Theme 1: Interest in Technology and Computers (4/4)\n   - P09.avi: \"I originally was business, and I decided I wanna do more with computers.\"\n   - P10.avi: \"I wanted a job eventually where I could work in front of a computer...\"\n   - P11.avi: \"I felt, you know, an interest in that when I worked with my laptop, my technology.\"\n * This theme reflects a common initial motivation rooted in a general interest in technology and the desire to work with computers.\n - Theme 2: Desire for a Dynamic Job (2/4)\n   - P10.avi: \"I wanted a job eventually where I could work in front of a computer, but I could also get up with stuff, like hook up new servers and stuff like that.\"\n   - P11.avi: \"I really enjoyed doing projects. I really enjoyed doing, like, some programming.\"\n * Participants expressed a desire not just for computer work but for dynamic roles that include a variety of tasks, including physical IT work and programming.\n - Theme 3: Pragmatic Choices (1/4)\n   - P08.avi: \"Honestly, I applied computer science originally, and software engineering had spots open still.\"\n * At least one participant's motivation was influenced by the availability of spots in the program, indicating that practical considerations also played a role in their decision-making process.\n\n**Response:** The primary motivation for individuals to pursue studies in fields related to Computer Science was a strong interest in technology and computers, with all participants mentioning this as a key factor. Additionally, there was a desire for dynamic roles that go beyond just computer work, including hands-on IT tasks and programming. Pragmatic choices, such as program availability, also influenced decisions for some.\n\n---\n\n## Question 2: What specific concepts related to usability and accessibility were taught during coursework?\n### Themes:\n - Theme 1: Human-Centered Design and Usability (4/4)\n   - P09.avi: \"The whole point was to focus on usability aspects and different heuristics, that make using, the user experience overall better.\"\n   - P08.avi: \"The human centered design that, while there were other projects and other classes, of course, they didn't focus much on usability.\"\n * Courses emphasized human-centered design principles, focusing on improving the user experience through usability aspects and heuristics.\n - Theme 2: Designing for Accessibility (3/4)\n   - P10.avi: \"We learned, the contrast in colors on a page. That's an important factor because, people who have, visual impairments or color blindness might not be able to distinguish between certain, colors as easily as, other patterns and stuff.\"\n   - P11.avi: \"Designing things that are more easy to understand and things that, like, you automatically look at and you know what they're for and how to use them.\"\n * Participants learned about designing for accessibility, including considerations for visual impairments and creating intuitive designs.\n - Theme 3: Practical Application of Usability and Accessibility Concepts (2/4)\n   - P10.avi: \"Making systems efficient, making them easy for people to use.\"\n   - P11.avi: \"Developing new apps. We did we did do some of that too. There was an app programming for, for Ben and Jerry's.\"\n * Some coursework involved practical applications of usability and accessibility concepts, including projects that required developing user-friendly and accessible software.\n\n**Response:** Coursework for participants prominently featured human-centered design and usability, with a strong emphasis on improving the user experience through various usability aspects and heuristics. Additionally, designing for accessibility was a significant focus, teaching students about considerations for visual impairments and creating intuitive designs. Practical application of these concepts was also highlighted, with projects requiring the development of user-friendly and accessible software.\n\n---\n\n## Question 3: What are the motivations for implementing usability and accessibility into their development projects?\n### Themes:\n - Theme 1: Consideration of User Needs and Equality (4/4)\n   - P09.avi: \"So that you gotta think about who you're designing the, piece of software for.\"\n   - P10.avi: \"I would define usability as, I would define it as equality. So everyone should be on equal playing field when they are presented with a form to fill out for a website to view.\"\n * The primary motivation for implementing usability and accessibility is the consideration of user needs, aiming for equality in access and use for all users.\n - Theme 2: Planning and Forethought in Design (2/4)\n   - P08.avi: \"In the process, it needs to be thought of in advance. It needs to be planned for...\"\n   - P11.avi: \"iPhone has customizable settings, and often, professors do, you know, kind of drill into our heads to consider what people need.\"\n * Participants emphasized the importance of planning and forethought in the design process to ensure usability and accessibility are adequately addressed.\n - Theme 3: Personal Experiences Influencing Design Choices (1/4)\n   - P11.avi: \"So, obviously, I am deaf. That's obvious. And so I often need some different accessibility, and so it was easy enough to to think about low vision as well.\"\n * Personal experiences with disabilities have directly influenced some participants' motivations for integrating usability and accessibility features, highlighting the impact of personal relevance on design choices.\n\n**Response:** The motivations for implementing usability and accessibility into development projects are deeply rooted in the consideration of user needs and the pursuit of equality, ensuring that all users, regardless of their abilities, have equal access and ease of use. Planning and forethought in the design process are crucial for adequately addressing these considerations. Additionally, personal experiences with disabilities have influenced some participants' design choices, underscoring the importance of personal relevance in motivating the integration of usability and accessibility features.\n\n---\n\n## Question 4: What experiences have participants had in terms of interacting with people with disabilities?\n### Themes:\n - Theme 1: Academic and Project-Based Interactions (4/4)\n   - P09.avi: \"I would talk to the translator, and he would sign it over to, the classmate.\"\n   - P08.avi: \"There I think we were we were required to test it through that kind of panel, the access.\"\n * Participants have had interactions with individuals with disabilities in academic settings and through project-based requirements, providing opportunities for direct feedback and engagement.\n - Theme 2: Daily Interactions at Educational Institutions (2/4)\n   - P10.avi: \"Being at RIT, there's a lot of hard of hearing students because of NTID. On the daily, we interact with, hard of hearing, and that's perfectly fine.\"\n   - P11.avi: \"So, really, anyone who would like to order ice cream, focused on the RIT students because we are focused on, and we also made sure to include folks with disabilities as well.\"\n * Daily interactions with individuals with disabilities at educational institutions like RIT have enriched participants' perspectives on accessibility, emphasizing its importance in software development and the broader IT field.\n - Theme 3: Personal Relationships (1/4)\n   - P10.avi: \"One of my friends is, a bit hard of hearing.\"\n * Personal relationships with individuals with disabilities have also contributed to participants' understanding and consideration of accessibility needs.\n\n**Response:** Participants' experiences with individuals with disabilities have primarily occurred within academic and project-based settings, offering direct feedback and engagement opportunities. Daily interactions at educational institutions, particularly at RIT, have further enriched their perspectives on accessibility. Additionally, personal relationships with individuals with disabilities have contributed to a deeper understanding and consideration of accessibility needs, highlighting the importance of personal connections in shaping attitudes towards accessibility.\n\n---\n\n## Question 5: How do interactions with individuals with disabilities affect decisions to integrate usability and accessibility features into future software development projects?\n### Themes:\n - Theme 1: Increased Awareness and Consideration (4/4)\n   - P09.avi: \"I think that really opened my eyes to it.\"\n   - P08.avi: \"And so, yeah, he his his thoughts definitely added a different perspective to our application.\"\n * Interactions with individuals with disabilities have significantly increased participants' awareness and consideration of usability and accessibility features, influencing their approach to software development.\n - Theme 2: Direct Influence on Design Decisions (3/4)\n   - P10.avi: \"The auto captioning issue, like, the problems that I face with, auto captioning in YouTube videos and stuff being a lot of times wrong.\"\n   - P11.avi: \"We were brainstorming different ideas that we could bring to, you know, make sure that if you were low vision or or blind, that we would use colors, you know, that were were visible.\"\n * Direct feedback and personal experiences with accessibility issues have influenced specific design decisions, such as improving auto-captioning and considering color visibility for visual impairments.\n - Theme 3: Educational Influence (2/4)\n   - P09.avi: \"Honestly, probably that class. Probably, probably starting 44. I I honestly didn't even think about that.\"\n   - P08.avi: \"Yeah. We didn't none of our team members had that sort of disability, and so we weren't really thinking of it in terms of fonts, in terms of, like, enlarged fonts or handicap accessible properties.\"\n * Educational settings and project requirements have played a crucial role in shaping participants' decisions to integrate usability and accessibility features, highlighting the impact of academic experiences on practical application.\n\n**Response:** Interactions with individuals with disabilities have profoundly affected participants' decisions to integrate usability and accessibility features into their software development projects. These interactions have increased awareness and consideration, directly influenced design decisions, and highlighted the importance of educational experiences in shaping approaches to software development. Feedback from individuals with disabilities and academic requirements have provided valuable perspectives, leading to more inclusive and accessible software designs.\n\n---\n\n## Key Takeaways:\n- There is a strong interest in technology and computers among individuals pursuing studies related to Computer Science, with motivations ranging from personal interests to pragmatic choices.\n- Coursework focusing on human-centered design and usability plays a crucial role in educating students about the importance of accessibility and usability in software development.\n- Personal experiences with disabilities, either directly or through interactions with others, significantly influence the integration of usability and accessibility features in software projects.\n- Educational settings and project-based interactions with individuals with disabilities provide valuable insights and perspectives, emphasizing the need for inclusive design.\n- Companies should prioritize accessibility and usability in their software development processes, considering the diverse needs of all users to ensure equality and inclusivity.\n"
+}
