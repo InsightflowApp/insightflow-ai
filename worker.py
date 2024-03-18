@@ -123,10 +123,10 @@ def callback(ch : BlockingChannel, method, properties, body : bytes):
     # store findings in Findings collection
     # TODO more db stuff
     findings = construct_findings(project_id, result)
-    up.insert_findings(project_id, findings)
-
+    findingsId = up.insert_findings(project_id, findings)
+  
     # update projectStatus to 2
-    up.update_project_status(project_id, 2)
+    up.update_project_status(project_id, 2, findingsId)
 
     message = json.dumps({
       "projectId": project_id,
