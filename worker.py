@@ -11,8 +11,12 @@ from transcribe import transcribe_async as trs
 from pika.adapters.blocking_connection import BlockingChannel
 
 from ai import mvp
+from ai.json_response import md_to_json
+
 from db import user_projects as up
 from db import db_connect as dbc
+
+from bson.objectid import ObjectId
 
 """
 Receive logs from InsightFlow queue and process them
@@ -123,7 +127,7 @@ def callback(ch : BlockingChannel, method, properties, body : bytes):
     # store findings in Findings collection
     # TODO more db stuff
     findings = construct_findings(project_id, result)
-    findingsId = up.insert_findings(project_id, findings)
+    findingsId = up.insert_findings(findings)
   
     # update projectStatus to 2
     up.update_project_status(project_id, 2, findingsId)
@@ -135,7 +139,7 @@ def callback(ch : BlockingChannel, method, properties, body : bytes):
 
   except Exception as e:
     up.update_project_status(project_id, -1)
-    
+
     message = json.dumps({
       "projectId": project_id,
       "code": 0, # 0 for fail, 1 for success
@@ -195,10 +199,9 @@ def construct_findings(id, markdown_content : str) -> dict:
   # "markdownContent": "findings markdown string"
   # }
 
-  response = dict()
+  response = md_to_json(markdown_content)
 
-  response["findingId"] = id
-  response["markdownContent"] = markdown_content
+  response["projectId"] = id
 
   return response
 
