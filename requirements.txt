@@ -1,6 +1,7 @@
 asyncio
 # chromadb
 deepgram-sdk
+deepgram-captions
 # flask
 # flask-restx
 jq
