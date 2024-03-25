@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import traceback
 
 from transcribe import transcribe_async as trs
 
@@ -111,7 +112,7 @@ def callback(ch : BlockingChannel, method, properties, body : bytes):
       "code": 1, # 0 for fail, 1 for success
     })
 
-  except Exception as e:
+  except:
     # except: set project status to -1, send code 0
     up.update_project_status(project_id, -1)
 
@@ -119,7 +120,8 @@ def callback(ch : BlockingChannel, method, properties, body : bytes):
       "projectId": project_id,
       "code": 0, # 0 for fail, 1 for success
     })
-    print(f"Error: {e.with_traceback()}", file=stderr)
+
+    traceback.print_exc(file=stderr)
   # end else
 
   try:
