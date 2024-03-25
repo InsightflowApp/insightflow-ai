@@ -26,17 +26,75 @@ API_KEY = os.getenv("DG_API_KEY")
 # Configure Deepgram options for audio analysis
 OPTIONS = PrerecordedOptions(
   model="nova-2",
-  smart_format=True,
+  # smart_format=True,
   diarize=True,
+  utterances=True,
   # topics=True,
   language="en",
 )
 
 
+def transcribe_urls(
+    audio_urls : dict[str, str], 
+    target_dir : PathLike | None = None
+  ):
+  results = dict()
+  asyncio.run(_transcribe_urls(audio_urls, results))
+
+  if target_dir is not None:
+    write_transcripts(target_dir, results)
+
+  return results
+
+from deepgram_captions import DeepgramConverter, webvtt
+
+async def _transcribe_urls(
+    audio_urls : dict[str, str], 
+    result_dict : dict, 
+  ):
+  """
+  transcribe given URLs and place resulting dict response into 
+  result_dict[audio_url_key]
+  """
+  
+  tasks : list[asyncio.TaskGroup] = []
+  start = datetime.now()
+  print(f"Beginning transcription at {start}")
+
+  for name, audio_url in audio_urls.items():
+    t = asyncio.create_task(_transcribe_url(audio_url))
+    tasks.append((name, t))
+
+  # async with asyncio.TaskGroup() as tg:
+  #   for name, audio_url in audio_urls.items():
+  #     t = tg.create_task(
+  #       _transcribe_url(audio_url)
+  #     )
+  #     tasks.append((name, t))
+    
+  for (_, task) in tasks:
+    await task
+
+  end = datetime.now()
+
+  print(f"end time: {end}\ntotal transcribe time: {end - start}")
+  # TODO delete
+  print(f"writing transcripts into result dict")
+
+  for (name, task) in tasks:
+    result = task.result()
+    # print(result)
+    if result is not None:
+      result_dict[name] = result.to_dict()
+      transcription = DeepgramConverter(result)
+      result_dict[name]["captions"] = webvtt(transcription)
+    else:
+      result_dict[name] = {"captions": ""}
+
+
 async def _transcribe_url(url: str) -> PrerecordedResponse:
   """
-  Given the deepgram client, transcribe audio from source file into a 
-  persistent dict.
+  Given a URL, transcribe audio from source file into a persistent dict.
   
   :param url: the URL of the audio (or video) file to read.
   :returns response: the transcript contents.
@@ -50,6 +108,7 @@ async def _transcribe_url(url: str) -> PrerecordedResponse:
     await client.listen.asyncprerecorded.v("1")
     .transcribe_url({'url': url}, OPTIONS, timeout=timeout)
   )
+
   return data
 
 
@@ -78,45 +137,6 @@ async def _transcribe_local(audio_file: PathLike) -> PrerecordedResponse:
   return data
 
 
-async def _transcribe_urls(
-    audio_urls : dict[str, str], 
-    result_dict : dict, 
-    result_lock : asyncio.Lock
-    ):
-  
-  tasks : list[asyncio.TaskGroup] = []
-  start = datetime.now()
-  print(f"Beginning transcription at {start}")
-
-  for name, audio_url in audio_urls.items():
-    t = asyncio.create_task(_transcribe_url(audio_url))
-    tasks.append((name, t))
-
-  # async with asyncio.TaskGroup() as tg:
-  #   for name, audio_url in audio_urls.items():
-  #     t = tg.create_task(
-  #       _transcribe_url(audio_url)
-  #     )
-  #     tasks.append((name, t))
-    
-  for (_, task) in tasks:
-    await task
-
-  end = datetime.now()
-
-  print(f"end time: {end}\ntotal transcribe time: {end - start}")
-  # TODO delete
-  print(f"writing transcripts into result dict")
-
-  for (name, task) in tasks:
-    result = task.result()
-    print(result)
-    if result is not None:
-      result_dict[name] = result.to_dict()
-    else:
-      result_dict[name] = dict()
-
-
 def write_transcripts(target_dir, file_contents):
   if not os.path.isdir(target_dir):
     os.makedirs(target_dir)
@@ -126,44 +146,4 @@ def write_transcripts(target_dir, file_contents):
     with open(filepath, 'w') as file:
       file.write(json.dumps(data, indent=2))
 
-def transcribe_urls(audio_urls : dict[str, str], target_dir : PathLike | None = None):
-  results = dict()
-  lock = asyncio.Lock()
-  asyncio.run(_transcribe_urls(audio_urls, results, lock))
-
-  if target_dir is not None:
-    write_transcripts(target_dir, results)
-
-  return results
-
-
-async def main():
-  dir_name = 'transcripts_temp/template_interviews'
-
-  # audio_urls = {
-  #   'spacewalk 1': "https://dpgr.am/spacewalk.wav",
-  #   'spacewalk 2': "https://dpgr.am/spacewalk.wav",
-  #   'spacewalk 3': "https://dpgr.am/spacewalk.wav",
-  #   'spacewalk 4': "https://dpgr.am/spacewalk.wav",
-  #   'spacewalk 5': "https://dpgr.am/spacewalk.wav",
-  # }
-  audio_urls = {
-    "template research interview 3":
-    '4e72f777-d179-452e-8629-8ef4d76f54ad',
-    "template research interview 2":
-    'cb9f1ff5-178f-4c46-977d-0940fc8a9b13',
-    "template research interview 4":
-    '9e26f983-d3fc-438f-988d-c1c2a93bf755',
-    "template research interview 5":
-    '44b8d19b-531a-4947-b075-05315a2ade90',
-    "template research interview 1":
-    'ecdefe35-563b-4b48-8f80-f891b8303a0d',
-  }
-  for key in audio_urls.keys():
-    audio_urls[key] = f'https://insightflow-test.s3.us-east-2.amazonaws.com/{audio_urls[key]}.mp4'
-
-  asyncio.run(_transcribe_urls(audio_urls, dir_name))
-
-if __name__ == "__main__":
-  main()
 
