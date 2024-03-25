@@ -28,7 +28,7 @@ def md_to_json(text) -> dict:
 
 class Quote(BaseModel):
   quote: str = Field(description="A quote used as a response to the question")
-  speaker: str = Field(description="The speaker of the quote")
+  speaker: str = Field(description="The speaker of the quote. Assume it's the interviewee")
   timestamp: str = Field(description="The starting point of the quote")
   transcript_id: str = Field(description="The name of the quote's transcript")
 
