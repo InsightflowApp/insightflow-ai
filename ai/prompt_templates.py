@@ -100,6 +100,7 @@ reduce_template = (
   '...and so on. Please include quotes from every interview '
   'with a response, even if the quotes are repetitive. Try to include at least 3 '
   'unique themes per question, and please answer every question. '
+  'Theme titles should be 20 words or less. '
   'The same quote can be used to support multiple themes. '
   'After providing these answers, give insights into the pain points '
   'you think your company should address, and why, as a bulleted list '
