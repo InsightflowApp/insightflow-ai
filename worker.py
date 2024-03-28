@@ -21,7 +21,9 @@ from db import db_connect as dbc
 from bson.objectid import ObjectId
 
 """
-Receive logs from InsightFlow queue and process them
+Receive logs from InsightFlow queue and process them.
+
+This is the main file.
 """
 
 def main():

@@ -117,7 +117,6 @@ class Analysis(Resource):
     return {'Not yet': 'response not ready'}
 
 
-
 @ans.route('/<string:project_name>')
 class AnalysisSpecific(Resource):
   @ans.expect(project_model)
@@ -164,23 +163,6 @@ class AnalysisSpecific(Resource):
       )
 
     return {'Not yet': 'response not ready'}
-
-
-class Project(object):
-
-  def __init__(self):
-    self.questions = []
-    self.transcripts = {}
-    self.analyses = {}
-  
-  def add_question(self, question : str):
-    self.questions.append(question)
-
-  def add_transcript(self, name : str, data : str):
-    self.transcripts[name] = data
-  
-  def analyze_transcripts(self):
-    ...
 
 
 if __name__ == '__main__':
