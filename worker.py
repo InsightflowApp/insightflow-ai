@@ -4,7 +4,6 @@ import sys
 import pika
 import json
 import os
-from pathlib import Path
 from dotenv import load_dotenv
 import traceback
 
@@ -86,7 +85,7 @@ def callback(ch : BlockingChannel, method, properties, body : bytes):
     transcripts = transcribe_project(sessions)
 
     simple_transcripts = list()
-    # 
+    # store transcripts in DB
     for url_str, name in sessions.items():
       transcripts[name]["video_id"] = url_str
       transcripts[name]["title"] = name
@@ -102,7 +101,6 @@ def callback(ch : BlockingChannel, method, properties, body : bytes):
 
 
     # store findings in Findings collection
-    # TODO more db stuff
     findings = construct_findings(project_id, result)
     findingsId = up.insert_findings(findings)
   
@@ -187,32 +185,6 @@ def transcribe_project(sessions: dict) -> dict:
 
 
 def construct_findings(id, markdown_content : str) -> dict:
-  # {
-  # "Id": "auto generated id",
-  # "questions": [
-  #       {
-  #         "questionTitle": "string",
-  #         "questionAnalysis": "string",
-  #         "topics": [
-  #           {
-  #             "quote": [
-  #               {
-  #                 "quoteParticipant": "string",
-  #                 "quoteTimeStamp": "string",
-  #                 "quoteText": "string",
-  #                 "sessionID": "string"
-  #               }
-  #             ],
-  #             "topicName": "string",
-  #             "numOfAgreedParticipants": 0,
-  #             "totalParticipants": 0
-  #           }
-  #         ]
-  #       }
-  #     ],
-  # "markdownContent": "findings markdown string"
-  # }
-
   response = md_to_json(markdown_content)
 
   response["projectId"] = id

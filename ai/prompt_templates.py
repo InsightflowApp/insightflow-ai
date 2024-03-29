@@ -2,9 +2,9 @@
 # prompt_templates.py
 
 #TODO all quotes for theme
-#TODO theme description (see design Figma)
 
 # the template used to collect answers to the question list.
+# inputs: questions, docs
 map_template = (
   'Hello! You are an interview helper who answers a list of questions '
   'and provides relevant quotes from the transcript. '
@@ -51,40 +51,41 @@ map_template = (
 ) # map_template
 
 # the template to take the best of map_template's responses and generalize
+# inputs: question, docs
 reduce_template = (
   'Hello! You are an interview helper whose goal is to synthesize '
-  'the best answers to a list of questions by combining interviewee '
+  'the best answer to a question by combining interviewee '
   'sentiments gotten from analyzing interview transcripts. You are to '
   'order the responses by the most common themes shared among interviews. '
-  'That is to say, given a list of questions and a document of responses to '
-  'these questions for each interview, please interpret the responses and '
-  'list the most common findings (themes) for EACH QUESTION with supporting quotes. '
+  'That is to say, given a questions and documents of responses to '
+  'this question (and others) for each interview, please interpret the responses and '
+  'list the most common findings (themes) for YOUR question with supporting quotes. '
   'Note that each document contains a list of its interviewee\'s most frequent '
-  'points, which you may find helpful when constructing your answers. ' 
-  'Answer EVERY QUESTION based only on the documents\' content. In the '
+  'points, which you may find helpful when constructing your answer. ' 
+  'Answer YOUR QUESTION based only on the documents\' content. In the '
   'instructions, when you see angle brackets <like so>, take them as a '
   'field for you to fill. '
-  'Here are the questions to answer:\n'
-  '{questions}\n\n' # formatted as described, in a list
+  'Here is the question to answer:\n'
+  '{question}\n\n' # one of the questions
 
   # return the count on how many people answer these questions
   'Please respond to these questions with multiple answers, called themes, '
   'in the following format:\n'
-  '## Question 1: <question>\n'
-  'Relevant quotes across interviews:\n'
-  ' - <interview title A>:\n' 
-  '   <bulleted list of at least 3 relevant quotes and timestamps>'
-  ' - <title B>:\n'
-  '   <bulleted list of at least 3 relevant quotes and timestamps>"\n'
-  ' - <...same thing for ALL interviews>\n'
+  '## Question <i>: <question>\n'
+  # 'Relevant quotes across interviews:\n'
+  # ' - <interview title A>:\n' 
+  # '   <bulleted list of at least 3 relevant quotes and timestamps>'
+  # ' - <title B>:\n'
+  # '   <bulleted list of at least 3 relevant quotes and timestamps>"\n'
+  # ' - <...same thing for ALL interviews>\n'
   '### Themes:\n'
   ' - Theme 1: <title reflecting most common response to the question> '
   '(<number of interviews with responses matching this theme>/<total interviews>)\n'
-  '   - <title A> (<timestamp start>): <one quote from interview A>\n'
-  '   - <title B> (<timestamp start>): <one quote from interview B>\n'
+  '   - <title A> (<timestamp start>): <consecutive quote or conversation from interview A>\n'
+  '   - <title B> (<timestamp start>): <consecutive quote from interview B>\n'
   '   - <...same thing for ALL INTERVIEWS WITH RESPONSES MATCHING THIS THEME>\n'
-  ' * <describe this theme in 1 sentence. '
-  'Example: Users reflect that the most time-consuming aspect of _X_ is _Y_.>\n'
+  ' * <describe this theme in 1 sentence, e.g. '
+  '"Users reflect that the most time-consuming aspect of _X_ is _Y_.">\n'
   ' - Theme 2: <title reflecting second most common response> (<n/total>)\n'
   '   - <title C> (<timestamp start>): <one quote from interview C>\n'
   '   - <...same thing for ALL interview responses matching this theme>\n'
@@ -97,14 +98,14 @@ reduce_template = (
   '**Response:** <summary response to question based on all '
   'interviewees\' responses and your chosen quotes>\n\n'
 
-  '...and so on. Please include quotes from every interview '
+  'Please include quotes from every interview '
   'with a response, even if the quotes are repetitive. Try to include at least 3 '
-  'unique themes per question, and please answer every question. '
-  'Theme titles should be 20 words or less. '
-  'The same quote can be used to support multiple themes. '
-  'After providing these answers, give insights into the pain points '
-  'you think your company should address, and why, as a bulleted list '
-  'in a section named "Key Takeaways."\n'
+  'unique themes. '
+  'Theme titles should be 15 words or less. '
+  'The same quote can be used to support multiple themes. \n'
+  # 'After providing these answers, give insights into the pain points '
+  # 'you think your company should address, and why, as a bulleted list '
+  # 'in a section named "Key Takeaways."\n'
   'Here are the responses to interviews, each delimited by the string '
   '"--- NEW INTERVIEW: <title> ---". The entire document is delimited by '
   'triple quotes ("""). Thanks for your help!\n\n'

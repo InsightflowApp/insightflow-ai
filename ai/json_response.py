@@ -48,10 +48,11 @@ class Question(BaseModel):
 
 class Finding(BaseModel):
   questions: List[Question] = Field(description="All of the questions asked")
+  keyTakeaways: List[str] = Field(description="A list of insights into the pain points you think the company should address, and why")
 
 
 reformat_template = (
-  "Hi! Please reformat this response:\n\n"
+  "Hi! Please reformat this response, and add key takeaways:\n\n"
   "{text}\n\n"
   "{format_instructions}\n"
 )
