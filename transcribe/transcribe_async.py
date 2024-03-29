@@ -25,19 +25,20 @@ API_KEY = os.getenv("DG_API_KEY")
 
 # Configure Deepgram options for audio analysis
 OPTIONS = PrerecordedOptions(
-  model="nova-2",
-  # smart_format=True,
   diarize=True,
-  utterances=True,
-  # topics=True,
+  filler_words=False,
   language="en",
+  model="nova-2",
+  smart_format=True,
+  # topics=True,
+  utterances=True,
 )
 
 
 def transcribe_urls(
     audio_urls : dict[str, str], 
     target_dir : PathLike | None = None
-  ):
+  ) -> dict:
   results = dict()
   asyncio.run(_transcribe_urls(audio_urls, results))
 
