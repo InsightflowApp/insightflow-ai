@@ -4,6 +4,8 @@ deepgram-sdk
 deepgram-captions
 # flask
 # flask-restx
+flake8
+flake8-bugbear
 jq
 langchain
 langchain-openai

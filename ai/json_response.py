@@ -6,69 +6,82 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
-import re
 import time
 
 
 def md_to_json(text) -> dict:
-  model = ChatOpenAI(temperature=0)
+    model = ChatOpenAI(temperature=0)
 
-  parser = JsonOutputParser(pydantic_object=Finding)
+    parser = JsonOutputParser(pydantic_object=Finding)
 
-  prompt = PromptTemplate(
-    template=reformat_template,
-    input_variables=["text"],
-    partial_variables={"format_instructions": parser.get_format_instructions()},
-  )
+    prompt = PromptTemplate(
+        template=reformat_template,
+        input_variables=["text"],
+        partial_variables={"format_instructions": parser.get_format_instructions()},
+    )
 
-  chain = prompt | model | parser
+    chain = prompt | model | parser
 
-  print("md_to_json: starting")
-  time_1 = time.time()
+    print("md_to_json: starting")
+    time_1 = time.time()
 
-  response = chain.invoke({"text": text})
+    response = chain.invoke({"text": text})
 
-  time_2 = time.time()
-  print(f"md_to_json: done. Time: {time_2 - time_1} seconds")
+    time_2 = time.time()
+    print(f"md_to_json: done. Time: {time_2 - time_1} seconds")
 
-  # add key takeaways to markdown response
-  key_takeaways = "\n\n## Key Takeaways"
-  for point in response['keyTakeaways']:
-    key_takeaways += f"\n- {point}"
+    # add key takeaways to markdown response
+    key_takeaways = "\n\n## Key Takeaways"
+    for point in response["keyTakeaways"]:
+        key_takeaways += f"\n- {point}"
 
-  response['markdownContent'] = text + key_takeaways
+    response["markdownContent"] = text + key_takeaways
 
-  return response
+    return response
 
 
 class Quote(BaseModel):
-  quote: str = Field(description="A quote used as a response to the question")
-  speaker: str = Field(description="The speaker of the quote. Assume it's the interviewee")
-  timestamp: str = Field(description="The starting point of the quote", regex=r'\d+:\d+:\d+.\d+')
-  transcript_id: str = Field(description="The name of the quote's transcript")
+    quote: str = Field(description="A quote used as a response to the question")
+    speaker: str = Field(
+        description="The speaker of the quote. Assume it's the interviewee"
+    )
+    timestamp: str = Field(
+        description="The starting point of the quote", regex=r"\d+:\d+:\d+.\d+"
+    )
+    transcript_id: str = Field(description="The name of the quote's transcript")
 
 
 class Theme(BaseModel):
-  theme: str = Field(description="The response to the question")
-  quotes: List[Quote] = Field(description="Quotes supporting the theme as a response to the question")
-  count: int = Field(description="Number of participants who shared this theme.")
-  total: int = Field(description="Total number of participants")
+    theme: str = Field(description="The response to the question")
+    quotes: List[Quote] = Field(
+        description="Quotes supporting the theme as a response to the question"
+    )
+    count: int = Field(description="Number of participants who shared this theme.")
+    total: int = Field(description="Total number of participants")
 
 
 class Question(BaseModel):
-  question: str = Field(description="The question that was asked")
-  themes: List[Theme] = Field(description="All of the themes written in response to this question")
-  analysis: str = Field(description="The answer(s) to this question, looking at all of the themes")
+    question: str = Field(description="The question that was asked")
+    themes: List[Theme] = Field(
+        description="All of the themes written in response to this question"
+    )
+    analysis: str = Field(
+        description="The answer(s) to this question, looking at all of the themes"
+    )
 
 
 class Finding(BaseModel):
-  questions: List[Question] = Field(description="All of the questions asked")
-  keyTakeaways: List[str] = Field(description="A list of insights into the pain points you think the company should address, and why")
+    questions: List[Question] = Field(description="All of the questions asked")
+    keyTakeaways: List[str] = Field(
+        description=(
+            "A list of insights into the pain points you think the company "
+            + "should address, and why"
+        )
+    )
 
 
 reformat_template = (
-  "Hi! Please reformat this response, and add key takeaways:\n\n"
-  "{text}\n\n"
-  "{format_instructions}\n"
+    "Hi! Please reformat this response, and add key takeaways:\n\n"
+    "{text}\n\n"
+    "{format_instructions}\n"
 )
-

@@ -16,9 +16,9 @@ PROJECT = up.get_project_by_id(up.test_project_id)
 
 
 def main():
-  with open(docs_dir / "sessions.json", 'w') as file:
-    json.dump(PROJECT["sessions"], fp=file)
+    with open(docs_dir / "sessions.json", "w") as file:
+        json.dump(PROJECT["sessions"], fp=file)
 
 
 if __name__ == "__main__":
-  main()
+    main()

@@ -1,160 +1,139 @@
 #!/usr/bin/env python3
 # from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import ChatOpenAI
-from langchain_community.document_loaders import TextLoader
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain.prompts import PromptTemplate
-from langchain.chains.llm import LLMChain
 
-from langchain_core.documents import Document
+# from langchain.chains.llm import LLMChain
 
 from time import time
-import re
 
 from langchain.prompts.chat import (
-  ChatPromptTemplate,
-  # SystemMessagePromptTemplate,
-  # AIMessagePromptTemplate,
-  # HumanMessagePromptTemplate
+    ChatPromptTemplate,
+    # SystemMessagePromptTemplate,
+    # AIMessagePromptTemplate,
+    # HumanMessagePromptTemplate
 )
-# from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
-from langchain.chat_models.base import BaseChatModel
 from typing import List
 
 from dotenv import load_dotenv
 
 from ai.prompt_templates import map_template, reduce_template
 
-# import asyncio
 
-import transcribe.transcribe_async as trs
-
-'''
+"""
 Minimum viable product
 
 feeds all the transcripts to a conversational bot, asks the interview questions
-'''
+"""
 # TODO
 # split up map_reduce
 # replace reduce with per-question reducing + combine
 
-MODEL='gpt-4-turbo-preview'
-TOKEN_MAX=128_000
+MODEL = "gpt-4-turbo-preview"
+TOKEN_MAX = 128_000
 
 load_dotenv()
 
 
 def get_LLM():
-  return ChatOpenAI(model=MODEL, temperature=0)
+    return ChatOpenAI(model=MODEL, temperature=0)
 
 
 def answer_per_transcript(
-    question_list : list[str], 
-    transcripts : list[Document],
-  ) -> list[str]:
-  """
-  calls LLM to answer a list of questions for each transcript provided.
-
-  :param question_list: a list of questions, formatted with numbers already
-  :param transcripts: a list of transcripts, as Documents
-  """ 
-  questions: str = "\n".join(question_list)
-
-  prompt = PromptTemplate(
-    template=map_template,
-    input_variables=['docs'],
-    partial_variables={'questions': questions}
-  )
-
-  chain = (
-    {'docs': RunnablePassthrough()}
-    | prompt
-    | get_LLM()
-    | StrOutputParser()
-  )
-
-  return chain.batch(transcripts)
-
-
-def question_transcript_wide(
     question_list: list[str],
-    responses: str
-  ) -> list[str]:
-  """
-  answer each question based on all the transcripts' responses.
-  """
+    transcripts: list[Document],
+) -> list[str]:
+    """
+    calls LLM to answer a list of questions for each transcript provided.
 
-  prompt = PromptTemplate(
-    template=reduce_template,
-    input_variables=['question'],
-    partial_variables={'docs': responses}
-  )
+    :param question_list: a list of questions, formatted with numbers already
+    :param transcripts: a list of transcripts, as Documents
+    """
+    questions: str = "\n".join(question_list)
 
-  chain = (
-    {'question': RunnablePassthrough()}
-    | prompt
-    | get_LLM()
-    | StrOutputParser()
-  )  
+    prompt = PromptTemplate(
+        template=map_template,
+        input_variables=["docs"],
+        partial_variables={"questions": questions},
+    )
 
-  return chain.batch(question_list)
+    chain = {"docs": RunnablePassthrough()} | prompt | get_LLM() | StrOutputParser()
+
+    return chain.batch(transcripts)
+
+
+def question_transcript_wide(question_list: list[str], responses: str) -> list[str]:
+    """
+    answer each question based on all the transcripts' responses.
+    """
+
+    prompt = PromptTemplate(
+        template=reduce_template,
+        input_variables=["question"],
+        partial_variables={"docs": responses},
+    )
+
+    chain = {"question": RunnablePassthrough()} | prompt | get_LLM() | StrOutputParser()
+
+    return chain.batch(question_list)
 
 
 def map_reduce(
-    question_list : list[str], 
-    transcripts : list[str],
-  ) -> str:
-  """
-  maps and reduces based on input texts.
-   
-  returns the final response.
-  """
-  # number questions
-  question_list = [f'{i+1}. {question_list[i]}' for i in range(len(question_list))]
+    question_list: list[str],
+    transcripts: list[str],
+) -> str:
+    """
+    maps and reduces based on input texts.
 
-  # gather transcript
+    returns the final response.
+    """
+    # number questions
+    question_list = [f"{i+1}. {question_list[i]}" for i in range(len(question_list))]
 
-  # load documents
-  docs : List[Document] = []
-  docs = list(map(Document, transcripts))
+    # gather transcript
 
+    # load documents
+    docs: List[Document] = []
+    docs = list(map(Document, transcripts))
 
-  print("map_reduce: Calling map.")
-  time_1 = time()
-  # Map
-  map_responses = answer_per_transcript(
-    question_list=question_list, 
-    transcripts=docs)
-  time_2 = time()
+    print("map_reduce: Calling map.")
+    time_1 = time()
+    # Map
+    map_responses = answer_per_transcript(question_list=question_list, transcripts=docs)
+    time_2 = time()
 
-  print(f"map_reduce: done mapping. Map time: {time_2 - time_1} seconds.")
-  print("map_reduce: Calling reduce.")
-  # Reduce
-  map_response = '\n\n'.join(map_responses)
+    print(f"map_reduce: done mapping. Map time: {time_2 - time_1} seconds.")
+    print("map_reduce: Calling reduce.")
+    # Reduce
+    map_response = "\n\n".join(map_responses)
 
-  reduce_responses = question_transcript_wide(
-    question_list=question_list, 
-    responses=map_response)
-  time_3 = time()
+    reduce_responses = question_transcript_wide(
+        question_list=question_list, responses=map_response
+    )
+    time_3 = time()
 
-  print(f"map_reduce: done reducing. Reduce time: {time_3 - time_2} seconds.")
+    print(f"map_reduce: done reducing. Reduce time: {time_3 - time_2} seconds.")
 
-  return "\n\n".join(reduce_responses)
-
-# in the future: back up with prompt questions generated by examples and 
-                       # another chat model call
+    return "\n\n".join(reduce_responses)
 
 
-def quick_test(llm_model: str = MODEL, country : str = "Australia"):
-  '''quick test to make sure model is working.'''
-  prompt = ChatPromptTemplate.from_template("Hi, there! What's the capital of {country}?")
-  model = ChatOpenAI(model=llm_model)
-  output_parser = StrOutputParser()
+# in the future: back up with prompt questions generated by examples and
+# another chat model call
 
-  chain = {'country': RunnablePassthrough()} | prompt | model | output_parser
 
-  response : str = chain.invoke(country)
-  return response
+def quick_test(llm_model: str = MODEL, country: str = "Australia"):
+    """quick test to make sure model is working."""
+    prompt = ChatPromptTemplate.from_template(
+        "Hi, there! What's the capital of {country}?"
+    )
+    model = ChatOpenAI(model=llm_model)
+    output_parser = StrOutputParser()
+
+    chain = {"country": RunnablePassthrough()} | prompt | model | output_parser
+
+    response: str = chain.invoke(country)
+    return response
