@@ -6,6 +6,11 @@ projectDB = 'Project'
 findingDB = 'Finding'
 transcriptDB = 'Transcript'
 
+# for testing
+test_project_id = '6607464037ce70af1e36a4e1'
+
+
+
 def get_user_project_ids(username : str):
   dbc.connect_db()
 
@@ -34,6 +39,7 @@ def get_project_by_id(id : str):
   project = dbc.fetch_one(projectDB, project_filter)
 
   return project
+
 
 def update_project_status(id : str, status_num : int, findings_id: str | None = None):
   dbc.connect_db()
@@ -68,9 +74,11 @@ def get_user_project(username : str, project_index : int):
 
   return project
 
+
 def insert_findings(findings : dict):
   dbc.connect_db()
   return dbc.insert_one(findingDB, findings)
+
 
 def insert_transcript(data : dict):
   dbc.connect_db()

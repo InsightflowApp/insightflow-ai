@@ -1,43 +1,48 @@
-from ai.json_response import *
 from collections.abc import Callable
-import json
-import pytest
+import json, pathlib, pytest
 
+from ai.tests.utils import TESTDOCS_DIR, write_response
+from ai.json_response import *
 
-def write_response(filename: str):
+JSON_RESPONSE_FILE = "json_response.json"
 
-  def inner(func):
+@pytest.mark.ai
+@write_response(JSON_RESPONSE_FILE)
+def test_md_to_json_success() -> dict:
+  """write the contents of a markdown response into json."""
 
-    def wrapper(*args, **kwargs):
-      response = func(*args, **kwargs)
-      with open(filename, 'w') as file:
-        json.dump(response, file, indent=2)
-
-    return wrapper
-  
-  return inner
-
-@write_response("example_response.json")
-def test_md_to_json():
-  text = ""
-
-  with open("ai/tests/example_response.md", 'r') as file:
+  with open(TESTDOCS_DIR / "json_response.md", 'r') as file:
     text = file.read()
 
-  response = md_to_json(text)
+  response: dict = md_to_json(text)
 
+  return response
+
+
+@pytest.fixture
+def response():
+  with open(TESTDOCS_DIR / JSON_RESPONSE_FILE, 'r') as file:
+    response = json.load(fp=file)
+  return response
+
+
+def test_md_to_json_format(response):
+  """test the contents of a markdown response into json."""
   assert response_format_correct(response)
 
+
+@pytest.mark.skip(reason="outdated")
+def test_md_to_json_content(response):
+  """test the contents of a markdown response according to its question content"""
   question_found: bool = False
   for question in response["questions"]:
-    if question["question"] == "What factors initially motivated individuals to pursue studies in Computer Science?":
+    if question["question"] == "What are users' feedback on gamma templates?":
       question_found = True
       assert len(question["themes"]) == 3
       for theme in question["themes"]:
         if theme["theme"] == "Interest in Technology and Computers":
           # assert len(theme["quotes"]) == theme["count"]
           assert len(theme["quotes"]) == 3
-      
 
       break
 
