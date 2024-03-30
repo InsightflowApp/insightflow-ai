@@ -6,6 +6,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
+import re
 import time
 
 
@@ -43,7 +44,7 @@ def md_to_json(text) -> dict:
 class Quote(BaseModel):
   quote: str = Field(description="A quote used as a response to the question")
   speaker: str = Field(description="The speaker of the quote. Assume it's the interviewee")
-  timestamp: str = Field(description="The starting point of the quote")
+  timestamp: str = Field(description="The starting point of the quote", regex=r'\d+:\d+:\d+.\d+')
   transcript_id: str = Field(description="The name of the quote's transcript")
 
 
