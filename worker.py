@@ -82,11 +82,15 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
         transcripts = transcribe_project(sessions)
 
         simple_transcripts = list()
+        # relate transcript IDs and video IDs
+        tscid_vidid = dict()
         # store transcripts in DB
         for url_str, name in sessions.items():
             transcripts[name]["video_id"] = url_str
             transcripts[name]["title"] = name
             transcript_id = up.insert_transcript(transcripts[name])
+
+            tscid_vidid[transcript_id] = url_str
 
             simple_transcripts.append(
                 f"Transcript id: {transcript_id}\n\n" + transcripts[name]["captions"]
@@ -96,7 +100,7 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
         result = mvp.map_reduce(question_list, simple_transcripts)
 
         # store findings in Findings collection
-        findings = construct_findings(project_id, result)
+        findings = construct_findings(project_id, result, tscid_vidid)
         findingsId = up.insert_findings(findings)
 
         # update projectStatus to 2
@@ -182,10 +186,19 @@ def transcribe_project(sessions: dict) -> dict:
     return trs.transcribe_urls(audio_urls)
 
 
-def construct_findings(id, markdown_content: str) -> dict:
+def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict:
     response = md_to_json(markdown_content)
 
     response["projectId"] = id
+
+    # print(f'{transcript_video_dict=}')  # TODO delete
+
+    # add corresponding video_id for each transcript
+    for question in response["questions"]:
+        for theme in question["themes"]:
+            for quote in theme["quotes"]:
+                # print(f"getting quote {quote["transcript_id"]}")  # TODO delete
+                quote["video_id"] = transcript_video_dict[quote["transcript_id"]]
 
     return response
 
