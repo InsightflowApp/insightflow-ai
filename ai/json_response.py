@@ -46,9 +46,12 @@ class Quote(BaseModel):
         description="The speaker of the quote. Assume it's the interviewee"
     )
     timestamp: str = Field(
-        description="The starting point of the quote", regex=r"\d+:\d+:\d+.\d+"
+        description="The starting point of the quote",
+        regex=r"\d+:\d+:\d+.\d+",
     )
-    transcript_id: str = Field(description="The name of the quote's transcript")
+    transcript_id: str = Field(
+        description="The ID of the quote's transcript", regex=r"\d+"
+    )
 
 
 class Theme(BaseModel):
