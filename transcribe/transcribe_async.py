@@ -83,6 +83,9 @@ async def _transcribe_urls(
             result_dict[name] = result.to_dict()
             transcription = DeepgramConverter(result)
             result_dict[name]["captions"] = webvtt(transcription)
+            # remove extra bits
+            del result_dict[name]["metadata"]
+            del result_dict[name]["results"]["channels"]
         else:
             result_dict[name] = {"captions": ""}
 
