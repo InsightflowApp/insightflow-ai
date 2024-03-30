@@ -6,6 +6,8 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
+import time
+
 
 def md_to_json(text) -> dict:
   model = ChatOpenAI(temperature=0)
@@ -19,9 +21,21 @@ def md_to_json(text) -> dict:
   )
 
   chain = prompt | model | parser
-  
+
+  print("md_to_json: starting")
+  time_1 = time.time()
+
   response = chain.invoke({"text": text})
-  response['markdownContent'] = text
+
+  time_2 = time.time()
+  print(f"md_to_json: done. Time: {time_2 - time_1} seconds")
+
+  # add key takeaways to markdown response
+  key_takeaways = "\n\n## Key Takeaways"
+  for point in response['keyTakeaways']:
+    key_takeaways += f"\n- {point}"
+
+  response['markdownContent'] = text + key_takeaways
 
   return response
 
