@@ -197,8 +197,17 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
     for question in response["questions"]:
         for theme in question["themes"]:
             for quote in theme["quotes"]:
-                # print(f"getting quote {quote["transcript_id"]}")  # TODO delete
-                quote["video_id"] = transcript_video_dict[quote["transcript_id"]]
+                tsc_id = quote.get("transcript_id", None)
+                vid_id = transcript_video_dict.get(tsc_id, None)
+                if vid_id is not None:
+                    quote["video_id"] = vid_id
+                else:
+                    print(
+                        "could not find "
+                        + ("transcript" if tsc_id is None else "video")
+                        + f'id for quote "{quote.get("quote", "")}"',
+                        file=stderr,
+                    )
 
     return response
 
