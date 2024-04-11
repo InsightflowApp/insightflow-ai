@@ -113,7 +113,7 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
             }
         )
 
-    except Exception:
+    except Exception as e:
         # except: set project status to -1, send code 0
         up.update_project_status(project_id, -1)
 
@@ -121,6 +121,7 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
             {
                 "projectId": project_id,
                 "code": 0,  # 0 for fail, 1 for success
+                "message": f"{e}"
             }
         )
 
