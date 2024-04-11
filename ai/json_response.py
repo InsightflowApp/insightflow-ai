@@ -45,9 +45,13 @@ class Quote(BaseModel):
     speaker: str = Field(
         description="The speaker of the quote. Assume it's the interviewee"
     )
-    timestamp: str = Field(
+    timestamp_start: str = Field(
         description="The starting point of the quote",
-        regex=r"\d+:\d+:\d+.\d+",
+        regex=r"\d+:\d+:\d+(\.\d+)?",
+    )
+    timestamp_end: str = Field(
+        description="The ending point of the quote",
+        regex=r"\d+:\d+:\d+(\.\d+)?",
     )
     transcript_id: str = Field(
         description="The ID of the quote's transcript", regex=r"\d+"
@@ -60,7 +64,7 @@ class Theme(BaseModel):
         description="Quotes supporting the theme as a response to the question"
     )
     count: int = Field(description="Number of participants who shared this theme.")
-    total: int = Field(description="Total number of participants")
+    total: int = Field(description="Total number of transcripts")
 
 
 class Question(BaseModel):
@@ -78,7 +82,8 @@ class Finding(BaseModel):
     keyTakeaways: List[str] = Field(
         description=(
             "A list of insights into the pain points you think the company "
-            + "should address, and why"
+            + "should address, and why. The items combined should be 100 words or "
+            + "less."
         )
     )
 

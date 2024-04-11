@@ -18,14 +18,14 @@ map_template = (
     # 'Begin with the transcript name, and a suitable title.'
     "You will find the interview's file name at the top of the document. "
     "Begin with a new line, then the words "
-    '"--- NEW INTERVIEW: <file name> ---" followed by '
+    '"--- NEW INTERVIEW: <transcript ID> ---" followed by '
     "another new line, then give a paragraph-long summary of the transcript. "
     "Then, answer the questions the following format:\n\n"
     "Question 1: <question 1>\n"
-    "Relevant quotes from interviewee:\n"
-    ' - (timestamp: <timestamp start>): "<relevant quote 1>"\n'
-    ' - (timestamp: <timestamp start>): "<relevant quote 2>"\n'
-    ' - (timestamp: <timestamp start>): "<relevant quote 3>"\n'
+    "Relevant quotes from interviewee (transcript <transcript ID>):\n"
+    ' - (<timestamp start> --> <timestamp end>): "<relevant quote 1>"\n'
+    ' - (<timestamp start> --> <timestamp end>): "<relevant quote 2>"\n'
+    ' - (<timestamp start> --> <timestamp end>): "<relevant quote 3>"\n'
     "<...more quotes if relevant>\n"
     "Response: <response to question based on the chosen quotes "
     "and any additional information from the interview you feel is "
@@ -74,24 +74,24 @@ reduce_template = (
     # ' - <...same thing for ALL interviews>\n'
     "### Themes:\n"
     " - Theme 1: <title reflecting most common response to the question> "
-    "(<number of interviews with responses matching this theme>/<total interviews>)\n"
+    # "(<number of interviews with responses matching this theme>/<total interviews>)\n"
     "   - <transcript ID A> (<timestamp>): "
     "<consecutive quote or conversation from interview A>\n"
     "   - <transcript ID B> (<timestamp>): <consecutive quote from interview B>\n"
     "   - <...same thing for ALL INTERVIEWS WITH RESPONSES MATCHING THIS THEME>\n"
     " * <describe this theme in 1 sentence, e.g. "
     '"Users reflect that the most time-consuming aspect of _X_ is _Y_.">\n'
-    " - Theme 2: <title reflecting second most common response> (<n/total>)\n"
+    " - Theme 2: <title reflecting second most common response>\n"
     "   - <transcript ID C> (<timestamp>): <one quote from interview C>\n"
     "   - <...same thing for ALL interview responses matching this theme>\n"
     " * <describe this theme in 1 sentence>"
-    " - Theme 3: <title reflecting third most common response> (<n/total>)\n"
+    " - Theme 3: <title reflecting third most common response>\n"
     "   - <transcript ID D> (<timestamp>): <one quote from interview D>\n"
     "   - <...same thing for ALL interview responses matching this theme>\n"
     " * <describe this theme in 1 sentence>"
     " - <Theme...etc.>\n"
     "**Response:** <summary response to question based on all "
-    "interviewees' responses and your chosen quotes>\n\n"
+    "interviewees' responses and your chosen quotes in 50 words or less>\n\n"
     "Please include quotes from every interview with a response, even if the "
     "quotes are repetitive. Try to include at least 3 "
     "unique themes. "
@@ -102,7 +102,7 @@ reduce_template = (
     # 'you think your company should address, and why, as a bulleted list '
     # 'in a section named "Key Takeaways."\n'
     "Here are the responses to interviews, each delimited by the string "
-    '"--- NEW INTERVIEW: <title> ---". The entire document is delimited by '
+    '"--- NEW INTERVIEW: <transcript ID> ---". The entire document is delimited by '
     'triple quotes ("""). Thanks for your help!\n\n'
     '"""{docs}"""\n\n'
     "Your response:\n"
