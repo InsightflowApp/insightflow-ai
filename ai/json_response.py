@@ -63,8 +63,8 @@ class Theme(BaseModel):
     quotes: List[Quote] = Field(
         description="Quotes supporting the theme as a response to the question"
     )
-    count: int = Field(description="Number of participants who shared this theme.")
-    total: int = Field(description="Total number of transcripts")
+    # count: int = Field(description="Number of quotes.")
+    # total: int = Field(description="Total number of transcripts")
 
 
 class Question(BaseModel):

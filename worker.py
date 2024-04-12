@@ -191,15 +191,20 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
     response = md_to_json(markdown_content)
 
     response["projectId"] = id
+    vid_count = len(transcript_video_dict)
 
     # print(f'{transcript_video_dict=}')  # TODO delete
 
     # add corresponding video_id for each transcript
     for question in response["questions"]:
         for theme in question["themes"]:
+            count_tracker = set()
+            # theme["count"] = len(theme["quotes"])
+            theme["total"] = vid_count
             for quote in theme["quotes"]:
                 tsc_id = quote.get("transcript_id", None)
                 vid_id = transcript_video_dict.get(tsc_id, None)
+                count_tracker.add(tsc_id)
                 if vid_id is not None:
                     quote["video_id"] = vid_id
                 else:
@@ -209,6 +214,7 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
                         + f'id for quote "{quote.get("quote", "")}"',
                         file=stderr,
                     )
+            theme["count"] = len(count_tracker)
 
     return response
 
