@@ -8,6 +8,8 @@ from langchain_openai import ChatOpenAI
 
 import time
 
+# TODO consider making a backup response, based on a parser
+
 
 def md_to_json(text) -> dict:
     model = ChatOpenAI(temperature=0)
@@ -38,6 +40,28 @@ def md_to_json(text) -> dict:
     response["markdownContent"] = text + key_takeaways
 
     return response
+
+
+"""
+response format:
+{
+    "questions": [
+        "question": string,
+        "themes": [
+            "theme": string
+            "quotes": [
+                "quote": string
+                "speaker": string
+                "timestamp_start": string
+                "timestamp_end": string
+                "transcript_id": string
+            ]
+        ],
+        "analysis": string,
+    ],
+    "keyTakeaways": [string],
+}
+"""
 
 
 class Quote(BaseModel):
@@ -78,7 +102,9 @@ class Question(BaseModel):
 
 
 class Finding(BaseModel):
-    questions: List[Question] = Field(description="All of the questions asked")
+    questions: List[Question] = Field(
+        description="question objects corresponding to EACH of the given responses"
+    )
     keyTakeaways: List[str] = Field(
         description=(
             "A list of insights into the pain points you think the company "

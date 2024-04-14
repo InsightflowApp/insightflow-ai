@@ -86,7 +86,7 @@ async def _transcribe_urls(
                 result_dict[name]["captions"] = webvtt(transcription)
             except IndexError:
                 result_dict[name] = {"captions": ""}
-                    
+
             # remove extra bits
             del result_dict[name]["metadata"]
             del result_dict[name]["results"]["channels"]
