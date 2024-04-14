@@ -121,7 +121,7 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
             {
                 "projectId": project_id,
                 "code": 0,  # 0 for fail, 1 for success
-                "message": f"{e}"
+                "message": f"{e}",
             }
         )
 
@@ -161,7 +161,7 @@ def transcribe_project(sessions: dict) -> dict:
             "end": 7.705
             "confidence": 0.9782485
             "channel": 0
-            "transcript": "Hi. Thank you for calling Premier Phone Services..."
+            "transcript": "Recording now. Let's begin..."
             "words": list[dict]
             "speaker": 0
             "id": uuid  # unrelated
@@ -194,6 +194,16 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
     vid_count = len(transcript_video_dict)
 
     # print(f'{transcript_video_dict=}')  # TODO delete
+
+    count = 5
+    while (len(response["questions"]) == 0) and (count > 0):
+        print(f"empty questions: {id}", file=stderr)
+        response = md_to_json(markdown_content)
+        count -= 1
+
+    if len(response["questions"]) == 0:
+        # TODO generate backup questions here
+        raise AttributeError("could not convert questions to json")
 
     # add corresponding video_id for each transcript
     for question in response["questions"]:
