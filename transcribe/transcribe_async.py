@@ -81,11 +81,16 @@ async def _transcribe_urls(
         # print(result)
         if result is not None:
             result_dict[name] = result.to_dict()
-            transcription = DeepgramConverter(result)
-            result_dict[name]["captions"] = webvtt(transcription)
+            try:
+                transcription = DeepgramConverter(result)
+                result_dict[name]["captions"] = webvtt(transcription)
+            except IndexError:
+                result_dict[name] = {"captions": ""}
+                    
             # remove extra bits
             del result_dict[name]["metadata"]
             del result_dict[name]["results"]["channels"]
+
         else:
             result_dict[name] = {"captions": ""}
 
