@@ -187,6 +187,11 @@ def transcribe_project(sessions: dict) -> dict:
     return trs.transcribe_urls(audio_urls)
 
 
+def timestamp_to_seconds(timestamp_str: str) -> float:
+    hms = timestamp_str.split(sep=":")
+    return 3600 * int(hms[0]) + 60 * int(hms[1]) + float(hms[2])
+
+
 def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict:
     response = md_to_json(markdown_content)
 
@@ -224,6 +229,13 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
                         + f'id for quote "{quote.get("quote", "")}"',
                         file=stderr,
                     )
+
+                # reformat timestamps
+                start = timestamp_to_seconds(quote.get("timestamp_start", "00:00:00.0"))
+                end = timestamp_to_seconds(quote.get("timestamp_end", "00:00:00.0"))
+                quote["timestamp_start"] = start
+                quote["timestamp_end"] = end
+
             theme["count"] = len(count_tracker)
 
     return response
