@@ -28,6 +28,7 @@ OPTIONS = PrerecordedOptions(
     smart_format=True,
     # topics=True,
     utterances=True,
+    utt_split=1.2,
 )
 
 
