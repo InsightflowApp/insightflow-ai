@@ -73,7 +73,8 @@ reduce_template = (
     # '   <bulleted list of at least 3 relevant quotes and timestamps>"\n'
     # ' - <...same thing for ALL interviews>\n'
     "### Themes:\n"
-    " - Theme 1: <title reflecting most common response to the question> "
+    " - Theme 1: <short title reflecting most common response to the question, "
+    "6 words or less> "
     # "(<number of interviews with responses matching this theme>/<total interviews>)\n"
     "   - <transcript ID A> (<timestamp>): "
     "<consecutive quote or conversation from interview A>\n"
@@ -81,11 +82,11 @@ reduce_template = (
     "   - <...same thing for ALL INTERVIEWS WITH RESPONSES MATCHING THIS THEME>\n"
     " * <describe this theme in 1 sentence, e.g. "
     '"Users reflect that the most time-consuming aspect of _X_ is _Y_.">\n'
-    " - Theme 2: <title reflecting second most common response>\n"
+    " - Theme 2: <short title reflecting second most common response>\n"
     "   - <transcript ID C> (<timestamp>): <one quote from interview C>\n"
     "   - <...same thing for ALL interview responses matching this theme>\n"
     " * <describe this theme in 1 sentence>"
-    " - Theme 3: <title reflecting third most common response>\n"
+    " - Theme 3: <short title reflecting third most common response>\n"
     "   - <transcript ID D> (<timestamp>): <one quote from interview D>\n"
     "   - <...same thing for ALL interview responses matching this theme>\n"
     " * <describe this theme in 1 sentence>"
@@ -95,7 +96,7 @@ reduce_template = (
     "Please include quotes from every interview with a response, even if the "
     "quotes are repetitive. Try to include at least 3 "
     "unique themes. "
-    "Theme titles should be 15 words or less. "
+    "Theme titles should be 6 words or less. "
     "The same quote can be used to support multiple themes. \n"
     "Please be sure to include the timestamps for your chosen quotes."
     # 'After providing these answers, give insights into the pain points '
