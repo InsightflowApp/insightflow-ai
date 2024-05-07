@@ -25,6 +25,7 @@ OPTIONS = PrerecordedOptions(
     filler_words=False,
     language="en",
     model="nova-2",
+    punctuate=True,
     smart_format=True,
     # topics=True,
     utterances=True,
