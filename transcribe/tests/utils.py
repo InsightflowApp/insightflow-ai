@@ -1,5 +1,7 @@
 import pathlib, json, os
+from dotenv import load_dotenv
 
+load_dotenv()
 """
 helper functions and variables for transcribe.
 """
@@ -39,7 +41,7 @@ def get_audio_urls():
     def format_pair(name: str, url_str: str):
         extension = os.path.splitext(name)[1]
         url = (
-            f"https://insightflow-test.s3.us-east-2.amazonaws.com/{url_str}{extension}"
+            f"{os.getenv("INSIGHTFLOW_S3")}/{url_str}{extension}"
         )
         return (name, url)
 

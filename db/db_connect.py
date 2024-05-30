@@ -11,8 +11,8 @@ import pymongo as pm
 
 load_dotenv()
 
-USER = "Insightflow-ai"
-DB = "Insightflow"
+USER = os.getenv("MONGO_USER")
+DB = os.getenv("MONGO_DB")
 MONGO_ID = "_id"
 client = None
 
