@@ -40,9 +40,7 @@ def get_audio_urls():
 
     def format_pair(name: str, url_str: str):
         extension = os.path.splitext(name)[1]
-        url = (
-            f"{os.getenv("INSIGHTFLOW_S3")}/{url_str}{extension}"
-        )
+        url = f"{os.getenv('INSIGHTFLOW_S3')}/{url_str}{extension}"
         return (name, url)
 
     audio_urls = {

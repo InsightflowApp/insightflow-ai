@@ -21,6 +21,7 @@ Receive logs from InsightFlow queue and process them.
 
 This is the main file.
 """
+# TODO remember modulation stash!
 
 
 def main():
@@ -175,9 +176,7 @@ def transcribe_project(sessions: dict) -> dict:
 
     def format_pair(name: str, url_str: str):
         extension = os.path.splitext(name)[1]
-        url = (
-            f"https://insightflow-test.s3.us-east-2.amazonaws.com/{url_str}{extension}"
-        )
+        url = f"{os.getenv('INSIGHTFLOW_S3')}/{url_str}{extension}"
         return (name, url)
 
     audio_urls = {
