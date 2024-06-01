@@ -25,6 +25,11 @@ This is the main file.
 
 
 def main():
+    """
+    Connects to RabbitMQ. Uses the callback function to handle messages.
+    Messages are currently bytes which can be loaded as strings to JSON:
+    {"projectId": "abcdef1234567890" }
+    """
 
     load_dotenv()
 
@@ -53,7 +58,8 @@ def main():
 
 def callback(ch: BlockingChannel, method, properties, body: bytes):
     """
-    this is called whenever a message is retrieved from the mQueue
+    this is called whenever a message is retrieved from the mQueue.
+    
     """
     print(f" [x] Received {body.decode()}")
     incoming = json.loads(body)
