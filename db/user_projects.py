@@ -27,7 +27,7 @@ def get_project_by_id(id: str):
       _id : ObjectID
       projectName : str
       timeUpdated : str
-      sessions : dict[url_id : str, filename : str]
+      sessions : array[obj[video_name: str, video_id: str, transcript_id: str]]
       questions : array[str]
       _class : str
     ```
@@ -40,13 +40,20 @@ def get_project_by_id(id: str):
     return project
 
 
-def update_project_status(id: str, status_num: int, findings_id: str | None = None):
+def update_project_status(
+    id: str,
+    status_num: int,
+    findings_id: str | None = None,
+    sessions: list[dict[str, str]] | None = None,
+):
     dbc.connect_db()
     status = {"projectStatus": status_num}
     if findings_id is not None:
         status["findingsId"] = findings_id
+    if sessions is not None:
+        status["sessions"] = sessions
 
-    dbc.update_doc(projectDB, {"_id": ObjectId(id)}, status)
+    return dbc.update_doc(projectDB, {"_id": ObjectId(id)}, status)
 
 
 def get_user_project(username: str, project_index: int):
@@ -56,7 +63,7 @@ def get_user_project(username: str, project_index: int):
       _id : ObjectID
       projectName : str
       timeUpdated : str
-      sessions : dict[url_id : str, filename : str]
+      sessions : array[obj[video_name: str, video_id: str, transcript_id: str]]
       questions : array[str]
       _class : str
     ```

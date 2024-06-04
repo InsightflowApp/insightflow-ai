@@ -230,15 +230,22 @@ def transcribe_project(project, incoming={}) -> tuple[int, dict]:
     ```
     """
 
-    def format_pair(name: str, url_str: str):
-        extension = os.path.splitext(name)[1]
-        url = f"{os.getenv('INSIGHTFLOW_S3')}/{url_str}{extension}"
-        return (name, url)
+    # def format_pair(name: str, url_str: str):
+    #     extension = os.path.splitext(name)[1]
+    #     url = f"{os.getenv('INSIGHTFLOW_S3')}/{url_str}{extension}"
+    #     return (name, url)
+
+    def make_audio_url(session: dict):
+        extension = os.path.splitext(session["video_name"])[1]
+        url = f"{os.getenv('INSIGHTFLOW_S3')}/{session['video_id']}{extension}"
+        return (session["video_name"], url)
 
     sessions = project["sessions"]
-    audio_urls = {
-        name: url for name, url in map(format_pair, sessions.values(), sessions.keys())
-    }
+    # session: video_name, video_id, transcript_id
+    audio_urls = {name: url for name, url in map(make_audio_url, sessions)}
+    # audio_urls = {
+    #     name: url for name, url in map(format_pair, sessions.values(), sessions.keys())
+    # }
 
     # run API call and format
     transcripts = trs.transcribe_urls(audio_urls)
@@ -246,18 +253,22 @@ def transcribe_project(project, incoming={}) -> tuple[int, dict]:
     # relate transcript IDs and video IDs
     tscid_vidid = dict()
     # store transcripts in DB
-    for url_str, name in sessions.items():
-        transcripts[name]["video_id"] = url_str
+    for s in sessions:
+        name = s["video_name"]
+        vid_id = s["video_id"]
+
+        transcripts[name]["video_id"] = vid_id
         transcripts[name]["title"] = name
         transcript_id = up.insert_transcript(transcripts[name])
 
-        tscid_vidid[transcript_id] = url_str
+        s["transcript_id"] = transcript_id
+        tscid_vidid[transcript_id] = vid_id
 
         simple_transcripts.append(
             f"Transcript id: {transcript_id}\n\n" + transcripts[name]["captions"]
         )
 
-    up.update_project_status(str(project["_id"]), 1)
+    up.update_project_status(str(project["_id"]), 1, sessions=sessions)
     return 1, {"simple_transcripts": simple_transcripts, "tscid_vidid": tscid_vidid}
 
 
