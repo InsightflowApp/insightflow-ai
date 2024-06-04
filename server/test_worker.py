@@ -7,6 +7,8 @@ from worker import callback
 def main():
 
     load_dotenv()
+    os.environ["CHAN_NAME"] = "project.testing"
+    chan_name = "project.testing"
 
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(
@@ -22,11 +24,16 @@ def main():
 
     channel = connection.channel()
 
-    channel.queue_declare(queue="project.testing.queue", durable=True)
+    # for sending messages to self
+    channel.exchange_declare(
+        exchange=f"{chan_name}.exchange", exchange_type="direct", durable=True
+    )
+
+    channel.queue_declare(queue=f"{chan_name}.queue", durable=True)
     print(" [*] Waiting for messages. To exit press CTRL+C")
 
     channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(queue="project.testing.queue", on_message_callback=callback)
+    channel.basic_consume(queue=f"{chan_name}.queue", on_message_callback=callback)
 
     channel.start_consuming()
 
