@@ -62,6 +62,7 @@ async def _transcribe_urls(
         t = asyncio.create_task(_transcribe_url(audio_url))
         tasks.append((name, t))
 
+    # this works with 3.12 standards, but maybe not 3.10
     # async with asyncio.TaskGroup() as tg:
     #   for name, audio_url in audio_urls.items():
     #     t = tg.create_task(
@@ -116,28 +117,29 @@ async def _transcribe_url(url: str) -> PrerecordedResponse:
     return data
 
 
-async def _transcribe_local(audio_file: PathLike) -> PrerecordedResponse:
-    """
-    Transcribe audio from source file.
+# not being used
+# async def _transcribe_local(audio_file: PathLike) -> PrerecordedResponse:
+#     """
+#     Transcribe audio from source file.
 
-    :param client: the Deepgram client.
-    :param audio_file: the name of the audio file to read.
-    :returns data: the transcript data written as a dict.
-    """
-    with open(audio_file, "rb") as file:
-        buffer_data = file.read()
+#     :param client: the Deepgram client.
+#     :param audio_file: the name of the audio file to read.
+#     :returns data: the transcript data written as a dict.
+#     """
+#     with open(audio_file, "rb") as file:
+#         buffer_data = file.read()
 
-    print(f"done reading {audio_file}. sending to Deepgram client")
+#     print(f"done reading {audio_file}. sending to Deepgram client")
 
-    payload: FileSource = {"buffer": buffer_data}
+#     payload: FileSource = {"buffer": buffer_data}
 
-    client = DeepgramClient(API_KEY)
-    timeout = httpx.Timeout(10.0, read=500.0)
+#     client = DeepgramClient(API_KEY)
+#     timeout = httpx.Timeout(10.0, read=500.0)
 
-    data = client.listen.asyncprerecorded.v("1").transcribe_file(
-        payload, OPTIONS, timeout=timeout
-    )
-    return data
+#     data = client.listen.asyncprerecorded.v("1").transcribe_file(
+#         payload, OPTIONS, timeout=timeout
+#     )
+#     return data
 
 
 def write_transcripts(target_dir, file_contents):
