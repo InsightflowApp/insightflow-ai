@@ -290,13 +290,15 @@ def analyze_individual_tscs(project, incoming) -> tuple[int, dict]:
 
 
 def group_questions(project, incoming) -> tuple[int, dict]:
-
+    """for expanding modularity. Grouping responses by question"""
+    raise NotImplementedError
     outgoing = ...
     return 3, {"grouped_responses": outgoing}
 
 
 def format_response(project, incoming) -> tuple[int, dict]:
-
+    """for expanding modularity. Formatting the final response"""
+    raise NotImplementedError
     outgoing = ...
     return 4, {"formatted_response": outgoing}
 
