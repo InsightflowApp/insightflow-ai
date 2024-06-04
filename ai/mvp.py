@@ -19,6 +19,7 @@ from langchain.prompts.chat import (
 
 from typing import List
 
+from os import getenv
 from dotenv import load_dotenv
 
 from ai.prompt_templates import map_template, reduce_template
@@ -33,11 +34,11 @@ feeds all the transcripts to a conversational bot, asks the interview questions
 # split up map_reduce
 # replace reduce with per-question reducing + combine
 
-MODEL = "gpt-4-turbo-preview"
-TOKEN_MAX = 128_000
 
 load_dotenv()
 
+MODEL = getenv("MODEL", "gpt-4-turbo-preview")
+TOKEN_MAX = 128_000
 
 def get_LLM():
     return ChatOpenAI(model=MODEL, temperature=0)
