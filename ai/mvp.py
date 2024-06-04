@@ -40,6 +40,7 @@ load_dotenv()
 MODEL = getenv("MODEL", "gpt-4-turbo-preview")
 TOKEN_MAX = 128_000
 
+
 def get_LLM():
     return ChatOpenAI(model=MODEL, temperature=0)
 
