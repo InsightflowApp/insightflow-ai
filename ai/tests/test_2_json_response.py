@@ -3,9 +3,97 @@ from collections.abc import Callable
 import json, pytest
 
 from ai.tests.utils import TESTDOCS_DIR, write_response
-from ai.json_response import md_to_json, Quote, Theme, Question, Finding
+from ai.json_response import (
+    md_to_json,
+    Quote,
+    Theme,
+    Question,
+    Finding,
+    match,
+    find_times,
+)
+
+from db import user_projects as up
 
 JSON_RESPONSE_FILE = "json_response.json"
+
+
+@pytest.fixture()
+def transcript():
+    return {
+        "paragraphs": {
+            "paragraphs": [
+                {
+                    "sentences": [
+                        {"text": "Mhmm.", "start": 1592.44, "end": 1592.76},
+                        {"text": "Yeah.", "start": 1592.76, "end": 1593.0},
+                        {"text": "And we will", "start": 1593.0, "end": 1593.5599},
+                    ],
+                    "start": 1592.44,
+                    "end": 1593.5599,
+                    "num_words": 5,
+                    "speaker": 0,
+                },
+                {
+                    "sentences": [
+                        {"text": "Okay.", "start": 1593.7999, "end": 1594.2999}
+                    ],
+                    "start": 1593.7999,
+                    "end": 1594.2999,
+                    "num_words": 1,
+                    "speaker": 1,
+                },
+                {
+                    "sentences": [
+                        {
+                            "text": "Some new features that are, like, for user to test some prototype or but a new features.",
+                            "start": 1594.695,
+                            "end": 1600.615,
+                        },
+                        {
+                            "text": "So, yeah, glad to hear your feedback on that in the future.",
+                            "start": 1600.615,
+                            "end": 1603.995,
+                        },
+                    ],
+                    "start": 1594.695,
+                    "end": 1603.995,
+                    "num_words": 29,
+                    "speaker": 0,
+                },
+            ]
+        }
+    }
+
+
+def test_match(transcript):
+    # missing case of a partial end match
+    s1_nomatch = transcript["paragraphs"]["paragraphs"][1]["sentences"][0]
+    s2_partialmatch = transcript["paragraphs"]["paragraphs"][2]["sentences"][0]
+    s3_endmatch = transcript["paragraphs"]["paragraphs"][2]["sentences"][1]
+
+    quote = {"quote": (" ".join([s2_partialmatch["text"], s3_endmatch["text"]]))}
+
+    assert (0, -1.0, 0.0) == match(0, quote, s1_nomatch)
+
+    assert (len(s2_partialmatch["text"]) + 1, s2_partialmatch["start"], 0.0) == match(
+        0, quote, s2_partialmatch
+    )
+
+    assert (
+        len(s2_partialmatch["text"]) + 1 + len(s3_endmatch["text"]),
+        s2_partialmatch["start"],
+        s3_endmatch["end"],
+    ) == match(89, quote, s3_endmatch, 1594.695)
+
+
+def test_find_times(monkeypatch, transcript):
+    monkeypatch.setattr(up, "get_transcript", lambda _: transcript)
+    q1 = transcript["paragraphs"]["paragraphs"][2]["sentences"][0]
+    q2 = transcript["paragraphs"]["paragraphs"][2]["sentences"][1]
+    assert (q1["start"], q2["end"]) == find_times(
+        {"quote": (" ".join([q1["text"], q2["text"]])), "transcript_id": ""}
+    )
 
 
 @pytest.mark.ai

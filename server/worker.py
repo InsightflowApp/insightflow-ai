@@ -88,6 +88,8 @@ def main():
     load_dotenv()
     chan_name = os.getenv("CHAN_NAME")
 
+    print(f"host: {os.environ['RABBITMQ_HOST']}\nport: {os.environ['RABBITMQ_PORT']}")
+
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(
             host=os.environ["RABBITMQ_HOST"],
@@ -265,7 +267,7 @@ def transcribe_project(project, incoming={}) -> tuple[int, dict]:
         tscid_vidid[transcript_id] = vid_id
 
         simple_transcripts.append(
-            f"Transcript id: {transcript_id}\n\n" + transcripts[name]["captions"]
+            f"Transcript id: {transcript_id}\n\n{transcripts[name]['paragraphs']['transcript']}"
         )
 
     up.update_project_status(str(project["_id"]), 1, sessions=sessions)
@@ -346,11 +348,11 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
                         file=stderr,
                     )
 
-                # reformat timestamps
-                start = timestamp_to_seconds(quote.get("timestamp_start", "00:00:00.0"))
-                end = timestamp_to_seconds(quote.get("timestamp_end", "00:00:00.0"))
-                quote["timestamp_start"] = start
-                quote["timestamp_end"] = end
+                # reformat timestamps (not needed now)
+                # start = timestamp_to_seconds(quote.get("timestamp_start", "00:00:00.0"))
+                # end = timestamp_to_seconds(quote.get("timestamp_end", "00:00:00.0"))
+                # quote["timestamp_start"] = start
+                # quote["timestamp_end"] = end
 
             theme["count"] = len(count_tracker)
 

@@ -11,6 +11,8 @@ from os import PathLike
 
 import json
 
+from copy import deepcopy
+
 from deepgram_captions import DeepgramConverter, webvtt
 from deepgram import DeepgramClient, PrerecordedOptions, FileSource, PrerecordedResponse
 
@@ -90,6 +92,12 @@ async def _transcribe_urls(
             except IndexError:
                 result_dict[name] = {"captions": ""}
 
+            # store paragraphs in paragraphs object, clearer to read
+            result_dict[name]["paragraphs"] = deepcopy(
+                result_dict[name]["results"]["channels"][0]["alternatives"][0][
+                    "paragraphs"
+                ]
+            )
             # remove extra bits
             del result_dict[name]["metadata"]
             del result_dict[name]["results"]["channels"]
