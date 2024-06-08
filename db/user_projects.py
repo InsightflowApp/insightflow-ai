@@ -88,6 +88,11 @@ def insert_transcript(data: dict):
     return dbc.insert_one(transcriptDB, data)
 
 
-def get_transcript(id: str):
+def get_transcript_by_vid_id(id: str):
     dbc.connect_db()
     return dbc.fetch_one(transcriptDB, {"video_id": id})
+
+
+def get_transcript(id: str):
+    dbc.connect_db()
+    return dbc.fetch_one(transcriptDB, {"_id": ObjectId(id)})

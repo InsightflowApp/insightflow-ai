@@ -41,6 +41,8 @@ def md_to_json(text) -> dict:
 
     response["markdownContent"] = text + key_takeaways
 
+    # print(f"{response=}")
+
     # add timestamps to quotes
     for question in response["questions"]:
         for theme in question["themes"]:
@@ -80,7 +82,7 @@ def find_times(quote) -> tuple[float, float]:
     returns tuple(start timestamp, end timestamp)
     """
     # TODO add speaker to quote info
-
+    print(f"quote ID: {quote['transcript_id']}")
     transcript = up.get_transcript(quote["transcript_id"])
 
     cursor, start_ts, end_ts = 0, -1.0, 0.0
@@ -94,12 +96,12 @@ def find_times(quote) -> tuple[float, float]:
     if cursor == len(quote["quote"]):
         return start_ts, end_ts
 
-    print("could not find exact quote in transcript")
+    print(f"could not find exact quote in transcript\nquote:{quote['quote']}")
 
     return start_ts, end_ts
 
 
-def match(pos, quote, sentence, start: float = -1.0) -> tuple[int, float, float]:
+def match(q_start, quote, sentence, start: float = -1.0) -> tuple[int, float, float]:
     """
     match the quote up with the sentence, adding proper timestamps to quote if necessary
     pos: index previously matched
@@ -107,17 +109,38 @@ def match(pos, quote, sentence, start: float = -1.0) -> tuple[int, float, float]
 
     returns tuple(new_pos, start, end), 0 -1., 0. if not found
     """
-    q = quote["quote"]
 
-    search_space = min(len(q) - pos, len(sentence["text"]))
+    def line_up(q: str, s: str):
+        # returns place in s where q starts, -1 if not found.
+        # returns length of lineup
+        # q can extend past s, but s cannot extend past q.
+        for s_pos in range(len(s)):
+            found = True
+            search_space = min(len(s) - s_pos, len(q) - q_start)
+            for q_pos in range(search_space):
+                if s_pos + q_pos == len(s):
+                    break
+                if q[q_start + q_pos] != s[s_pos + q_pos]:
+                    found = False
+                    break
+            if found:
+                return s_pos, search_space
+        return -1, 0
+
+    q = quote["quote"].strip()
+
+    s_pos, s_len = line_up(q, sentence["text"])
+    print(s_pos, s_len)
+
+    if s_pos == -1:
+        return 0, -1.0, 0.0
+
     if start == -1.0:
         start = sentence["start"]
+    elif s_pos != 0:
+        return 0, -1.0, 0.0
 
-    for i in range(search_space):
-        if q[i + pos] != sentence["text"][i]:
-            return 0, -1.0, 0.0
-
-    new_cursor = pos + search_space
+    new_cursor = q_start + s_len
 
     if new_cursor == len(q):
         return new_cursor, start, sentence["end"]
@@ -127,9 +150,9 @@ def match(pos, quote, sentence, start: float = -1.0) -> tuple[int, float, float]
 
 class Quote(BaseModel):
     quote: str = Field(description="A quote used as a response to the question")
-    speaker: str = Field(
-        description="The speaker of the quote. Assume it's the interviewee"
-    )
+    # speaker: str = Field(
+    #     description="The speaker of the quote. Assume it's the interviewee"
+    # )
     # timestamp_start: str = Field(
     #     description="The starting point of the quote",
     #     regex=r"\d+:\d+:\d+(\.\d+)?",
@@ -139,7 +162,8 @@ class Quote(BaseModel):
     #     regex=r"\d+:\d+:\d+(\.\d+)?",
     # )
     transcript_id: str = Field(
-        description="The ID of the quote's transcript", regex=r"\d+"
+        description="The UID of the quote's transcript, ex. 1234abcda5ef9a0c7cbb357c",
+        regex=r"\w+",
     )
 
 

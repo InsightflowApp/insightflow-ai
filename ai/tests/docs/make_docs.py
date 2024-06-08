@@ -31,7 +31,7 @@ def get_transcripts():
     """
     transcripts: list[str] = list()
     for id in PROJECT["sessions"].keys():
-        transcript = up.get_transcript(id)
+        transcript = up.get_transcript_by_vid_id(id)
         transcripts.append(
             f"Transcript_id: {str(transcript['_id'])}\n\n" + transcript["captions"]
         )

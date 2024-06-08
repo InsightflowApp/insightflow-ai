@@ -72,19 +72,24 @@ def test_match(transcript):
     s2_partialmatch = transcript["paragraphs"]["paragraphs"][2]["sentences"][0]
     s3_endmatch = transcript["paragraphs"]["paragraphs"][2]["sentences"][1]
 
-    quote = {"quote": (" ".join([s2_partialmatch["text"], s3_endmatch["text"]]))}
+    Q_START = 28  # quote starts 28 chars into s2_partialmatch ("like, for user...")
+    q = (" ".join([s2_partialmatch["text"], s3_endmatch["text"]]))[Q_START:]
+    print(q)
+    quote = {"quote": q}
 
     assert (0, -1.0, 0.0) == match(0, quote, s1_nomatch)
 
-    assert (len(s2_partialmatch["text"]) + 1, s2_partialmatch["start"], 0.0) == match(
-        0, quote, s2_partialmatch
-    )
+    assert (
+        len(s2_partialmatch["text"]) - Q_START + 1,
+        s2_partialmatch["start"],
+        0.0,
+    ) == match(0, quote, s2_partialmatch)
 
     assert (
-        len(s2_partialmatch["text"]) + 1 + len(s3_endmatch["text"]),
+        len(s2_partialmatch["text"]) - Q_START + 1 + len(s3_endmatch["text"]),
         s2_partialmatch["start"],
         s3_endmatch["end"],
-    ) == match(89, quote, s3_endmatch, 1594.695)
+    ) == match(len(s2_partialmatch["text"]) - Q_START + 1, quote, s3_endmatch, 1594.695)
 
 
 def test_find_times(monkeypatch, transcript):
