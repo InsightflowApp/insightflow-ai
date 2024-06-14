@@ -130,7 +130,7 @@ def match(q_start, quote, sentence, start: float = -1.0) -> tuple[int, float, fl
     q = quote["quote"].strip()
 
     s_pos, s_len = line_up(q, sentence["text"])
-    print(s_pos, s_len)
+    # print(s_pos, s_len)
 
     if s_pos == -1:
         return 0, -1.0, 0.0
