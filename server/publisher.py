@@ -2,6 +2,10 @@ import pika
 import os
 from dotenv import load_dotenv
 
+"""
+simple RabbitMQ publisher for testing on server side
+"""
+
 load_dotenv()
 
 
@@ -23,7 +27,7 @@ connection = pika.BlockingConnection(
 channel = connection.channel()
 
 channel.exchange_declare(
-    exchange="project.testing.exchange", exchange_type="direct", durable=True
+    exchange="project.analysing.exchange", exchange_type="direct", durable=True
 )
 
 project_ids = [
@@ -33,9 +37,10 @@ project_ids = [
     "666c9930f8d5192282d12d6e",  # TEST 2 improper project settings, should safely fail
 ]
 
+
 for id in project_ids:
     channel.basic_publish(
-        exchange="project.testing.exchange",
-        routing_key="testing.project",
+        exchange="project.analysing.exchange",
+        routing_key="analysing.project",
         body='{"projectId": "' + f"{id}" + '"}',
     )
