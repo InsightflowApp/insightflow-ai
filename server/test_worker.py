@@ -1,10 +1,16 @@
 from dotenv import load_dotenv
 import pika
 import os
+import sys
 from worker import callback
+from server.logger import logger
 
 
 def main():
+
+    if "--clear-logs" in sys.argv:
+        print("cleared logs.")
+        logger.clear()
 
     load_dotenv()
     os.environ["CHAN_NAME"] = "project.testing"
