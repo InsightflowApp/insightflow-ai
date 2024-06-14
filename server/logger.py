@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from typing import Literal, Callable
+import traceback
 
 """write to debug, error, and info logs"""
 
@@ -17,38 +18,54 @@ class Logger:
     def info(
         self,
         *content,
+        time=None,
         sep: str | None = " ",
         end: str | None = "\n",
         flush: Literal[False] = False,
     ):
+        if time is None:
+            time = datetime.now()
         with open(self._log_folder / "info.log", "a") as f:
-            print(f"{datetime.now()} INFO - ", file=f, end="")
+            print(f"{time} INFO - ", file=f, end="")
             print(*content, sep=sep, end=end, file=f, flush=flush)
 
         # also print to stdout
         print(*content, sep=sep, end=end, flush=flush)
+        self.debug(*content, time=time, sep=sep, end=end, flush=flush)
 
     def debug(
         self,
         *content,
+        time=None,
+        objects: dict | None = None,
         sep: str | None = " ",
         end: str | None = "\n",
         flush: Literal[False] = False,
     ):
+        if time is None:
+            time = datetime.now()
         with open(self._log_folder / "debug.log", "a") as f:
-            print(f"{datetime.now()} DEBUG - ", file=f, end="")
+            print(f"{time} DEBUG - ", file=f, end="")
             print(*content, sep=sep, end=end, file=f, flush=flush)
 
     def error(
         self,
         *content,
+        exception: type[BaseException] | None = None,
+        time=None,
         sep: str | None = " ",
         end: str | None = "\n",
         flush: Literal[False] = False,
     ):
+        if time is None:
+            time = datetime.now()
         with open(self._log_folder / "error.log", "a") as f:
-            print(f"{datetime.now()} ERROR - ", file=f, end="")
+            print(f"{time} ERROR - ", file=f, end="")
             print(*content, sep=sep, end=end, file=f, flush=flush)
+            traceback.print_exception(exception=exception, file=f)
+
+        print(*content, f"\n\033[91m{exception}\033[0m\n")
+        self.debug(f"Error:", *content, time=time, sep=sep, end=end, flush=flush)
 
     def clear(self, *to_clear):
         if len(to_clear) == 0:

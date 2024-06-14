@@ -43,23 +43,23 @@ This is the main file.
 
 def step_1(p, i):
     """step 1: transcribe"""
-    print("in step 1")
+    logger.debug("in step 1")
     response = transcribe_project(p, i)
-    print("finished step 1")
+    logger.debug("finished step 1")
     return response
 
 
 def step_2(p, i):
     """step 2: analyze individual transcripts"""
-    print("in step 2")
+    logger.debug("in step 2")
     response = analyze_individual_tscs(p, i)
-    print("finished step 2")
+    logger.debug("finished step 2")
     return response
 
 
 def step_3(p, i):
     """step 3: group analysis questions"""
-    print("in step 3??")
+    logger.debug("in step 3??")
     return group_questions(p, i)
 
 
@@ -91,7 +91,7 @@ def main():
     # if clear-logs, call logger.clear()
 
     if "--clear-logs" in sys.argv:
-        print("cleared logs.")
+        logger.info("cleared logs.")
         logger.clear()
 
     load_dotenv()
@@ -134,47 +134,42 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
     this is called whenever a message is retrieved from the mQueue.
     The function updates a project and completes a step as defined above.
     """
-    print(f" [x] Received {body.decode()[:300]}...")
-    logger.info(f"Received message from queue: {body.decode()[:300]}...")
-    logger.debug(f"Received message: {body.decode()}")
+    logger.debug(f"entered callback", f"{body.decode()[:500]=}", sep="\n")
+    logger.info(f"Received message from queue")
 
     incoming = json.loads(body)
     project_id = incoming["projectId"]
 
     chan_name = os.getenv("CHAN_NAME")
-    print(f"callback: {chan_name=}")
     logger.info(f"callback: {chan_name=}")
 
     try:
-        print(f"grabbing project {project_id}")
         logger.info(f"grabbing project {project_id}")
-        logger.debug(f"grabbing project {project_id}")
 
         project = up.get_project_by_id(project_id)
     except Exception as e:
-        print(f"could not connect to db: {e}", file=stderr)
+        logger.error(f"callback: could not connect to db: {e}")
         return
 
     status = incoming.get("projectStatus", 0)
     status = max(status, 0)
-    print(f"project status is {status}")
+    logger.debug(f"project status is {status}")
 
     # send message
     try:
         # this is where the magic happens
         new_status, outgoing = next_table[status](project, incoming)
     except Exception as e:
-        print("CALLBACK: catching exception here\n\033[91m")
+        logger.error(f"callback: exception with project {project_id}, status {status}", exception=e)
         new_status, outgoing = -1, {}
-        traceback.print_exc(file=stderr)
-        print("\033[0m\nCALLBACK: Updating project status")
+        logger.info("callback: updating project status to -1.")
         # except: set project status to -1, send code 0
         up.update_project_status(project_id, -1)
         ch.basic_ack(delivery_tag=method.delivery_tag)
-        print("CALLBACK: Exception done")
+        logger.debug("callback: Exception done")
         return
 
-    print(f"{new_status=}")
+    logger.info(f"{new_status=}")
     if new_status < 2:
         ch.basic_ack(delivery_tag=method.delivery_tag)
         send_response(ch, project_id, new_status, outgoing)
@@ -188,6 +183,7 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
         )
 
         try:
+            logger.debug("sending confirmation message")
             # send confirmation message to confirm.analyzing
             ch.basic_publish(
                 exchange=f"{chan_name}.exchange",
@@ -199,12 +195,13 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
             )
 
             # done!
-            print(" [x] Done")
+            logger.info(f"Done with project {project_id}. New status: {status}")
             ch.basic_ack(delivery_tag=method.delivery_tag)
 
         except Exception as e:
-            print(f"Publish error: {e}", file=stderr)
+            logger.error(f"callback: confirmation message error", exception=e)
 
+    logger.debug("exiting callback")
 
 def send_response(ch: BlockingChannel, project_id, project_status, content):
     """send back to analyzing queue"""
@@ -248,10 +245,9 @@ def transcribe_project(project, incoming={}) -> tuple[int, dict]:
     }
     ```
     """
-    print(f"project keys: {project.keys()}")
-    print(f"sessions type: {type(project['sessions'])}")
+    logger.debug("entered transcribe_project", f"project keys: {project.keys()}", f"sessions type: {type(project['sessions'])}", sep="\n\t")
     if type(project["sessions"]) == dict:
-        print("TRANSCRIBE: these sessions are a dict: assuming old format.")
+        logger.info("TRANSCRIBE: these sessions are a dict: assuming old format.")
 
         def format_pair(name: str, url_str: str):
             extension = os.path.splitext(name)[1]
@@ -275,7 +271,7 @@ def transcribe_project(project, incoming={}) -> tuple[int, dict]:
         }
 
     else:
-        print("TRANSCRIBE: these sessions are a list: assuming new format.")
+        logger.info("TRANSCRIBE: these sessions are a list: assuming new format.")
 
         def make_audio_url(session: dict):
             extension = os.path.splitext(session["video_name"])[1]
@@ -288,7 +284,9 @@ def transcribe_project(project, incoming={}) -> tuple[int, dict]:
         audio_urls = {name: url for name, url in map(make_audio_url, sessions)}
 
     # run API call and format
+    logger.debug("calling transcribe_urls")
     transcripts = trs.transcribe_urls(audio_urls)
+    logger.debug("out of transcribe_urls")
     simple_transcripts = list()
     # relate transcript IDs and video IDs
     tscid_vidid = dict()
@@ -318,6 +316,7 @@ def transcribe_project(project, incoming={}) -> tuple[int, dict]:
 def analyze_individual_tscs(project, incoming) -> tuple[int, dict]:
     # right now, this does the entirety of steps 2-4
     # analyze
+    logger.debug("entered analyze_individual_tscs")
     question_list = project["questions"]
     project_id = incoming["projectId"]
     simple_transcripts = incoming["simple_transcripts"]
@@ -329,6 +328,7 @@ def analyze_individual_tscs(project, incoming) -> tuple[int, dict]:
     findings_id = up.insert_findings(findings)
 
     up.update_project_status(str(project["_id"]), 2, findings_id=findings_id)
+    logger.debug("exiting analyze_individual_tscs")
     return 2, {"individual_responses": outgoing}
 
 
@@ -352,21 +352,21 @@ def timestamp_to_seconds(timestamp_str: str) -> float:
 
 
 def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict:
+    logger.debug("entered construct_findings")
     response = md_to_json(markdown_content)
 
     response["projectId"] = id
     vid_count = len(transcript_video_dict)
 
-    # print(f'{transcript_video_dict=}')  # TODO delete
-
     count = 5
     while (len(response["questions"]) == 0) and (count > 0):
-        print(f"empty questions: {id}", file=stderr)
+        logger.debug(f"empty questions: {id}")
         response = md_to_json(markdown_content)
         count -= 1
 
     if len(response["questions"]) == 0:
         # TODO generate backup questions here
+        logger.error('response["questions"] was empty')
         raise AttributeError("could not convert questions to json")
 
     # add corresponding video_id for each transcript
@@ -382,11 +382,10 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
                 if vid_id is not None:
                     quote["video_id"] = vid_id
                 else:
-                    print(
+                    logger.error(
                         "could not find "
                         + ("transcript" if tsc_id is None else "video")
-                        + f'id for quote "{quote.get("quote", "")}"',
-                        file=stderr,
+                        + f'id for quote "{quote.get("quote", "")}"'
                     )
 
                 # reformat timestamps (not needed now)
@@ -397,6 +396,7 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
 
             theme["count"] = len(count_tracker)
 
+    logger.debug("exiting construct_findings")
     return response
 
 
