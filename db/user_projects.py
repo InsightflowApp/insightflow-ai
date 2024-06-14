@@ -27,7 +27,8 @@ def get_project_by_id(id: str):
       _id : ObjectID
       projectName : str
       timeUpdated : str
-      sessions : array[obj[video_name: str, video_id: str, transcript_id: str]]
+      sessions : obj[url_extension: str, video_name: str]
+      # sessions : array[obj[video_name: str, video_id: str, transcript_id: str]]
       questions : array[str]
       _class : str
     ```

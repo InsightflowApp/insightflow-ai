@@ -16,6 +16,8 @@ from ai.json_response import md_to_json
 
 from db import user_projects as up
 
+from server.logger import logger
+
 """
 Receive logs from InsightFlow queue and process them.
 
@@ -85,10 +87,19 @@ def main():
     {"projectId": "abcdef1234567890" }
     """
 
+    # TODO make args to handle log clearing
+    # if clear-logs, call logger.clear()
+
+    if "--clear-logs" in sys.argv:
+        print("cleared logs.")
+        logger.clear()
+
     load_dotenv()
     chan_name = os.getenv("CHAN_NAME")
 
-    print(f"host: {os.environ['RABBITMQ_HOST']}\nport: {os.environ['RABBITMQ_PORT']}")
+    logger.info(
+        f"host: {os.environ['RABBITMQ_HOST']}\nport: {os.environ['RABBITMQ_PORT']}"
+    )
 
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(
@@ -123,15 +134,22 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
     this is called whenever a message is retrieved from the mQueue.
     The function updates a project and completes a step as defined above.
     """
-    print(f" [x] Received {body.decode()[:300]}")
+    print(f" [x] Received {body.decode()[:300]}...")
+    logger.info(f"Received message from queue: {body.decode()[:300]}...")
+    logger.debug(f"Received message: {body.decode()}")
+
     incoming = json.loads(body)
     project_id = incoming["projectId"]
 
     chan_name = os.getenv("CHAN_NAME")
     print(f"callback: {chan_name=}")
+    logger.info(f"callback: {chan_name=}")
 
     try:
         print(f"grabbing project {project_id}")
+        logger.info(f"grabbing project {project_id}")
+        logger.debug(f"grabbing project {project_id}")
+
         project = up.get_project_by_id(project_id)
     except Exception as e:
         print(f"could not connect to db: {e}", file=stderr)
@@ -230,23 +248,44 @@ def transcribe_project(project, incoming={}) -> tuple[int, dict]:
     }
     ```
     """
+    print(f"project keys: {project.keys()}")
+    print(f"sessions type: {type(project['sessions'])}")
+    if type(project["sessions"]) == dict:
+        print("TRANSCRIBE: these sessions are a dict: assuming old format.")
 
-    # def format_pair(name: str, url_str: str):
-    #     extension = os.path.splitext(name)[1]
-    #     url = f"{os.getenv('INSIGHTFLOW_S3')}/{url_str}{extension}"
-    #     return (name, url)
+        def format_pair(name: str, url_str: str):
+            extension = os.path.splitext(name)[1]
+            url = f"{os.getenv('INSIGHTFLOW_S3')}/{url_str}{extension}"
+            return (name, url)
 
-    def make_audio_url(session: dict):
-        extension = os.path.splitext(session["video_name"])[1]
-        url = f"{os.getenv('INSIGHTFLOW_S3')}/{session['video_id']}{extension}"
-        return (session["video_name"], url)
+        sessions = list()
+        for k, v in project["sessions"].items():
+            sessions.append(
+                {
+                    "video_id": k,
+                    "video_name": v,
+                }
+            )
 
-    sessions = project["sessions"]
-    # session: video_name, video_id, transcript_id
-    audio_urls = {name: url for name, url in map(make_audio_url, sessions)}
-    # audio_urls = {
-    #     name: url for name, url in map(format_pair, sessions.values(), sessions.keys())
-    # }
+        audio_urls = {
+            name: url
+            for name, url in map(
+                format_pair, project["sessions"].values(), project["sessions"].keys()
+            )
+        }
+
+    else:
+        print("TRANSCRIBE: these sessions are a list: assuming new format.")
+
+        def make_audio_url(session: dict):
+            extension = os.path.splitext(session["video_name"])[1]
+            url = f"{os.getenv('INSIGHTFLOW_S3')}/{session['video_id']}{extension}"
+            return (session["video_name"], url)
+
+        sessions = project["sessions"]
+
+        # session: video_name, video_id, transcript_id
+        audio_urls = {name: url for name, url in map(make_audio_url, sessions)}
 
     # run API call and format
     transcripts = trs.transcribe_urls(audio_urls)
@@ -269,7 +308,10 @@ def transcribe_project(project, incoming={}) -> tuple[int, dict]:
             f"Transcript id: {transcript_id}\n\n{transcripts[name]['paragraphs']['transcript']}"
         )
 
-    up.update_project_status(str(project["_id"]), 1, sessions=sessions)
+    if type(project["sessions"]) == dict:
+        up.update_project_status(str(project["_id"]), 1)
+    else:
+        up.update_project_status(str(project["_id"]), 1, sessions=sessions)
     return 1, {"simple_transcripts": simple_transcripts, "tscid_vidid": tscid_vidid}
 
 
