@@ -195,7 +195,7 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
             )
 
             # done!
-            logger.info(f"Done with project {project_id}. New status: {status}")
+            logger.info(f"Done with project {project_id}. New status: {new_status}")
             ch.basic_ack(delivery_tag=method.delivery_tag)
 
         except Exception as e:
