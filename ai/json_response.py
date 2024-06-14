@@ -82,7 +82,7 @@ def find_times(quote) -> tuple[float, float]:
     returns tuple(start timestamp, end timestamp)
     """
     # TODO add speaker to quote info
-    print(f"quote ID: {quote['transcript_id']}")
+    # print(f"quote ID: {quote['transcript_id']}")
     transcript = up.get_transcript(quote["transcript_id"])
 
     cursor, start_ts, end_ts = 0, -1.0, 0.0
@@ -96,7 +96,7 @@ def find_times(quote) -> tuple[float, float]:
     if cursor == len(quote["quote"]):
         return start_ts, end_ts
 
-    print(f"could not find exact quote in transcript\nquote:{quote['quote']}")
+    print(f"could not find exact quote in transcript {quote["transcript_id"]}\nquote:{quote['quote']}")
 
     return start_ts, end_ts
 
