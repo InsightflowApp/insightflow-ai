@@ -138,6 +138,7 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
         return
 
     status = incoming.get("projectStatus", 0)
+    status = max(status, 0)
     print(f"project status is {status}")
 
     # send message
@@ -145,19 +146,17 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
         # this is where the magic happens
         new_status, outgoing = next_table[status](project, incoming)
     except Exception as e:
+        print("CALLBACK: catching exception here\n\033[91m")
+        new_status, outgoing = -1, {}
+        traceback.print_exc(file=stderr)
+        print("\033[0m\nCALLBACK: Updating project status")
         # except: set project status to -1, send code 0
         up.update_project_status(project_id, -1)
-        message = json.dumps(
-            {
-                "projectId": project_id,
-                "code": 0,  # 0 for fail, 1 for success
-                "message": f"{e}",
-            }
-        )
-        send_response(ch, project_id, -1, message)
-        traceback.print_exc(file=stderr)
+        ch.basic_ack(delivery_tag=method.delivery_tag)
+        print("CALLBACK: Exception done")
+        return
 
-    print(f"{new_status}")
+    print(f"{new_status=}")
     if new_status < 2:
         ch.basic_ack(delivery_tag=method.delivery_tag)
         send_response(ch, project_id, new_status, outgoing)
