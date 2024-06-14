@@ -326,9 +326,9 @@ def analyze_individual_tscs(project, incoming) -> tuple[int, dict]:
 
     # store findings in Findings collection
     findings = construct_findings(project_id, outgoing, tscid_vidid)
-    findingsId = up.insert_findings(findings)
+    findings_id = up.insert_findings(findings)
 
-    up.update_project_status(str(project["_id"]), 2)
+    up.update_project_status(str(project["_id"]), 2, findings_id=findings_id)
     return 2, {"individual_responses": outgoing}
 
 
