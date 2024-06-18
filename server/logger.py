@@ -61,8 +61,8 @@ class Logger:
             time = datetime.now()
         with open(self._log_folder / "error.log", "a") as f:
             print(f"{time} ERROR - ", file=f, end="")
-            print(*content, sep=sep, end=end, file=f, flush=flush)
-            traceback.print_exception(exception=exception, file=f)
+            print(*content, exception, sep=sep, end=end, file=f, flush=flush)
+            traceback.print_exception(file=f)
 
         print(*content, f"\n\033[91m{exception}\033[0m\n")
         self.debug(f"Error:", *content, time=time, sep=sep, end=end, flush=flush)
