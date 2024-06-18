@@ -5,6 +5,7 @@ from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
+from datetime import timedelta
 
 import db.user_projects as up
 
@@ -47,7 +48,10 @@ def md_to_json(text) -> dict:
     for question in response["questions"]:
         for theme in question["themes"]:
             for quote in theme["quotes"]:
-                quote["timestamp_start"], quote["timestamp_end"] = find_times(quote)
+                start, end, quote["speaker"] = find_times(quote)
+                quote["timestamp_start"], quote["timestamp_end"] = tuple(map(lambda x: str(timedelta(seconds=x)), (start, end)))
+
+                
 
     return response
 
@@ -74,7 +78,7 @@ response format:
 """
 
 
-def find_times(quote) -> tuple[float, float]:
+def find_times(quote) -> tuple[float, float, str]:
     """
     Find the start and end times of a quote with a given Quote object
     quote: quote, speaker, transcript_id
@@ -86,19 +90,21 @@ def find_times(quote) -> tuple[float, float]:
     transcript = up.get_transcript(quote["transcript_id"])
 
     cursor, start_ts, end_ts = 0, -1.0, 0.0
+    speaker = "0"
 
     for para in transcript["paragraphs"]["paragraphs"]:
         for sentence in para["sentences"]:
             cursor, start_ts, end_ts = match(cursor, quote, sentence, start_ts)
             if cursor == len(quote["quote"]):
+                speaker = para["speaker"]
                 break
 
     if cursor == len(quote["quote"]):
-        return start_ts, end_ts
+        return start_ts, end_ts, speaker
 
-    print(f"could not find exact quote in transcript {quote["transcript_id"]}\nquote:{quote['quote']}")
+    print(f"could not find exact quote in transcript {quote["transcript_id"]}\nquote: {quote['quote']}\n{start_ts=}, {end_ts=}")
 
-    return start_ts, end_ts
+    return start_ts, end_ts, speaker
 
 
 def match(q_start, quote, sentence, start: float = -1.0) -> tuple[int, float, float]:
@@ -114,13 +120,15 @@ def match(q_start, quote, sentence, start: float = -1.0) -> tuple[int, float, fl
         # returns place in s where q starts, -1 if not found.
         # returns length of lineup
         # q can extend past s, but s cannot extend past q.
+        punc = ".,!?"
+
         for s_pos in range(len(s)):
             found = True
             search_space = min(len(s) - s_pos, len(q) - q_start)
             for q_pos in range(search_space):
                 if s_pos + q_pos == len(s):
                     break
-                if q[q_start + q_pos] != s[s_pos + q_pos]:
+                if q[q_start + q_pos] != s[s_pos + q_pos] and not ((q[q_start + q_pos] in punc) and (s[s_pos + q_pos] in punc)):
                     found = False
                     break
             if found:
