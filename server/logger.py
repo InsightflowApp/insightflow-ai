@@ -64,10 +64,10 @@ class Logger:
             print(f"{time} ERROR - ", file=f, end="")
             print(*content, exception, sep=sep, end=end, file=f, flush=flush)
             # traceback.print_exception(file=f)
-            traceback.print_exc(sys.exc_info())
+            # traceback.print_exc(sys.exc_info())
             # traceback.print_tb(tb=exception, file=f)
 
-        print(*content, f"\n\033[91m{exception}\033[0m\n")
+        print(*content, f"\n\033[91m{traceback.format_exc(exception.__traceback__)}\033[0m\n")
         self.debug(f"Error:", *content, time=time, sep=sep, end=end, flush=flush)
 
     def clear(self, *to_clear):
