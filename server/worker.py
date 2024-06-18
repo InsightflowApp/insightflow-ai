@@ -148,6 +148,7 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
         send_response(ch, project_id, new_status, outgoing)
 
     elif new_status == LAST_STATUS:
+        # up.update_project_status(project_id, 2)
         message = json.dumps(
             {
                 "projectId": project_id,

@@ -141,7 +141,7 @@ def analyze_individual_tscs(project, incoming) -> tuple[int, dict]:
     )
     # outgoing = mvp.map_reduce(question_list, simple_transcripts)
 
-    up.update_project_status(str(project["_id"]), 2)
+    # up.update_project_status(str(project["_id"]), 2)
     logger.debug("exiting analyze_individual_tscs")
     return 2, {"individual_responses": outgoing, "tscid_vidid": incoming["tscid_vidid"]}
 
@@ -157,7 +157,7 @@ def group_questions(project, incoming) -> tuple[int, dict]:
         question_list=question_list, responses=individual_tsc_responses
     )
 
-    up.update_project_status(str(project["_id"]), 3)
+    # up.update_project_status(str(project["_id"]), 3)
 
     logger.debug("exiting group_questions")
 
@@ -175,7 +175,7 @@ def format_response(project, incoming) -> tuple[int, dict]:
     )
     findings_id = up.insert_findings(outgoing)
 
-    up.update_project_status(str(project["_id"]), 4, findings_id=findings_id)
+    up.update_project_status(str(project["_id"]), 2, findings_id=findings_id)
 
     return 4, {"formatted_response": outgoing}
 
