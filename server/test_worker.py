@@ -5,6 +5,7 @@ import sys
 from worker import callback
 from server.logger import logger
 
+LAST_STATUS=4
 
 def main():
 
