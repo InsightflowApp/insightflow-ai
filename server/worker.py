@@ -98,10 +98,12 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
     this is called whenever a message is retrieved from the mQueue.
     The function updates a project and completes a step as defined above.
     """
-    logger.debug(f"entered callback", f"{body.decode()[:500]=}", sep="\n")
+    logger.debug(f"entered callback")
     logger.info(f"Received message from queue")
 
-    incoming = json.loads(body)
+    incoming: dict = json.loads(body)
+    logger.debug({ k: str(v)[:500] for (k, v) in incoming.items()})
+
     project_id = incoming["projectId"]
 
     chan_name = os.getenv("CHAN_NAME")
@@ -117,7 +119,7 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
 
     status = incoming.get("projectStatus", 0)
     status = max(status, 0)
-    logger.debug(f"project status is {status}")
+    logger.info(f"project status is {status}")
 
     # send message
     try:

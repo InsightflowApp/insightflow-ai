@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import sys
 from typing import Literal, Callable
 import traceback
 
@@ -62,7 +63,9 @@ class Logger:
         with open(self._log_folder / "error.log", "a") as f:
             print(f"{time} ERROR - ", file=f, end="")
             print(*content, exception, sep=sep, end=end, file=f, flush=flush)
-            traceback.print_exception(file=f)
+            # traceback.print_exception(file=f)
+            traceback.print_exc(sys.exc_info())
+            # traceback.print_tb(tb=exception, file=f)
 
         print(*content, f"\n\033[91m{exception}\033[0m\n")
         self.debug(f"Error:", *content, time=time, sep=sep, end=end, flush=flush)
