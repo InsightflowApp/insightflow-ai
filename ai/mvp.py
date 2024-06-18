@@ -47,7 +47,7 @@ def get_LLM():
 
 def answer_per_transcript(
     question_list: list[str],
-    transcripts: list[Document],
+    transcripts: list[str],
 ) -> list[str]:
     """
     calls LLM to answer a list of questions for each transcript provided.
@@ -65,7 +65,9 @@ def answer_per_transcript(
 
     chain = {"docs": RunnablePassthrough()} | prompt | get_LLM() | StrOutputParser()
 
-    return chain.batch(transcripts)
+    tscs = list(map(Document, transcripts))
+
+    return chain.batch(tscs)
 
 
 def question_transcript_wide(question_list: list[str], responses: str) -> list[str]:
@@ -99,13 +101,11 @@ def map_reduce(
     # gather transcript
 
     # load documents
-    docs: List[Document] = []
-    docs = list(map(Document, transcripts))
 
     print("map_reduce: Calling map.")
     time_1 = time()
     # Map
-    map_responses = answer_per_transcript(question_list=question_list, transcripts=docs)
+    map_responses = answer_per_transcript(question_list=question_list, transcripts=transcripts)
     time_2 = time()
 
     print(f"map_reduce: done mapping. Map time: {time_2 - time_1} seconds.")
