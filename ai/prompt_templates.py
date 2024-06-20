@@ -50,36 +50,28 @@ map_template = (
 # the template to take the best of map_template's responses and generalize
 # inputs: question, docs
 reduce_template = (
-    "Hello! You are an interview helper whose goal is to synthesize "
-    "the best answer to a question by combining interviewee "
-    "sentiments gotten from analyzing interview transcripts. You are to "
-    "order the responses by the most common themes shared among interviews. "
-    "That is to say, given a question and documents of responses to "
-    "this question (and others) for each interview, please interpret the responses and "
-    "list the most common findings (themes) for YOUR question with supporting quotes. "
-    "Do not summarize or change the words of the user in the quotes. "
-    "Return the exact user quotes for each video which contains the words the user mentioned."
-    "Note that each document contains a list of its interviewee's most frequent "
-    "points, which you may find helpful when constructing your answer. "
-    "Answer YOUR QUESTION based only on the documents' content. In the "
-    "instructions, when you see angle brackets <like so>, take them as a "
-    "field for you to fill. "
+    "Hello! You are an interview helper whose goal is to extract "
+    "the exact words from interview transcripts. You are to "
+    "order the responses by the most common themes shared among interviews, "
+    "and provide the exact quotes from the interviewees without any summarization "
+    "or modification of their words."
+    
+    "For each response, find the exact user quotes for each video which contains the exact words the user mentioned. "
+    "Do not summarize, rephrase, or change the words of the user in any quote. Return the exact words as they appear "
+    "in the transcripts."
+    "Note that each document contains a list of its interviewee's most frequent points, which you may find helpful "
+    "when constructing your answer."
+    "Answer YOUR QUESTION based only on the documents' content. In the instructions, when you see angle brackets "
+    "<like so>, take them as a field for you to fill."
     "Here is the question to answer:\n"
     "{question}\n\n"
+    
     "Please respond to these questions with multiple answers, called themes, "
     "in the following format:\n"
     "## Question <i>: <question>\n"
-    # 'Relevant quotes across interviews:\n'
-    # ' - <interview title A>:\n'
-    # '   <bulleted list of at least 3 relevant quotes and timestamps>'
-    # ' - <title B>:\n'
-    # '   <bulleted list of at least 3 relevant quotes and timestamps>"\n'
-    # ' - <...same thing for ALL interviews>\n'
     "### Themes:\n"
-    " - Theme 1: <short title reflecting most common response to the question, "
-    "6 words or less> "
-    "   - <transcript ID A> (<timestamp>): "
-    "<exact quote or conversation from interview A>\n"
+    " - Theme 1: <short title reflecting most common response to the question, 6 words or less>\n"
+    "   - <transcript ID A> (<timestamp>): <exact quote or conversation from interview A>\n"
     "   - <transcript ID B> (<timestamp>): <exact quote from interview B>\n"
     "   - <...same thing for ALL INTERVIEWS WITH RESPONSES MATCHING THIS THEME>\n"
     " * <describe this theme in 1 sentence, e.g. "
@@ -93,17 +85,12 @@ reduce_template = (
     "   - <...same thing for ALL interview responses matching this theme>\n"
     " * <describe this theme in 1 sentence>\n"
     " - <Theme...etc.>\n"
-    "**Response:** <summary response to question based on all "
-    "interviewees' responses and your chosen quotes in 50 words or less>\n\n"
-    "Please include quotes from every interview with a response, even if the "
-    "quotes are repetitive. Try to include at least 3 "
-    "unique themes. "
-    "Theme titles should be 6 words or less. "
-    "The same quote can be used to support multiple themes. \n"
+    "**Response:** <summary response to question based on all interviewees' responses and your chosen quotes in 50 "
+    "words or less>\n\n"
+    "Please include quotes from every interview with a response, even if the quotes are repetitive. Try to include at "
+    "least 3 unique themes."
+    "Theme titles should be 6 words or less. The same quote can be used to support multiple themes. "
     "Please be sure to include the timestamps for your chosen quotes."
-    # 'After providing these answers, give insights into the pain points '
-    # 'you think your company should address, and why, as a bulleted list '
-    # 'in a section named "Key Takeaways."\n'
     "Here are the responses to interviews, each delimited by the string "
     '"--- NEW INTERVIEW: <transcript ID> ---". The entire document is delimited by '
     'triple quotes ("""). Thanks for your help!\n\n'
