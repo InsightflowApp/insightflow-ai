@@ -68,36 +68,50 @@ def transcript():
 
 def test_match(transcript):
     # missing case of a partial end match
+    s0_start = transcript["paragraphs"]["paragraphs"][0]["sentences"][2]
     s1_nomatch = transcript["paragraphs"]["paragraphs"][1]["sentences"][0]
     s2_partialmatch = transcript["paragraphs"]["paragraphs"][2]["sentences"][0]
     s3_endmatch = transcript["paragraphs"]["paragraphs"][2]["sentences"][1]
 
-    Q_START = 28  # quote starts 28 chars into s2_partialmatch ("like, for user...")
-    q = (" ".join([s2_partialmatch["text"], s3_endmatch["text"]]))[Q_START:]
-    print(q)
+    Q_START = 4  # quote starts 4 chars into s0_start ("we will...")
+    q = (" ".join([s0_start["text"], s2_partialmatch["text"], s3_endmatch["text"]]))[
+        Q_START:
+    ]
+    print(f"{q=}")
     quote = {"quote": q}
 
     assert (0, -1.0, 0.0) == match(0, quote, s1_nomatch)
 
+    first_cursor = len(s0_start["text"]) - Q_START + 1
     assert (
-        len(s2_partialmatch["text"]) - Q_START + 1,
-        s2_partialmatch["start"],
+        first_cursor,
+        s0_start["start"],
         0.0,
-    ) == match(0, quote, s2_partialmatch)
+    ) == match(0, quote, s0_start)
 
+    second_cursor = first_cursor + len(s2_partialmatch["text"]) + 1
     assert (
-        len(s2_partialmatch["text"]) - Q_START + 1 + len(s3_endmatch["text"]),
-        s2_partialmatch["start"],
+        second_cursor,
+        s0_start["start"],
+        0.0,
+    ) == match(first_cursor, quote, s2_partialmatch, s0_start["start"])
+
+    third_cursor = second_cursor + len(s3_endmatch["text"])
+    assert (
+        third_cursor,
+        s0_start["start"],
         s3_endmatch["end"],
-    ) == match(len(s2_partialmatch["text"]) - Q_START + 1, quote, s3_endmatch, 1594.695)
+    ) == match(second_cursor, quote, s3_endmatch, s0_start["start"])
 
 
 def test_find_times(monkeypatch, transcript):
     monkeypatch.setattr(up, "get_transcript", lambda _: transcript)
-    q1 = transcript["paragraphs"]["paragraphs"][2]["sentences"][0]
-    q2 = transcript["paragraphs"]["paragraphs"][2]["sentences"][1]
-    assert (q1["start"], q2["end"]) == find_times(
-        {"quote": (" ".join([q1["text"], q2["text"]])), "transcript_id": ""}
+    ps = transcript["paragraphs"]["paragraphs"]
+    q0 = ps[0]["sentences"][2]
+    q1 = ps[2]["sentences"][0]
+    q2 = ps[2]["sentences"][1]
+    assert (q0["start"], q2["end"], 0) == find_times(
+        {"quote": (" ".join([q0["text"], q1["text"], q2["text"]])), "transcript_id": ""}
     )
 
 

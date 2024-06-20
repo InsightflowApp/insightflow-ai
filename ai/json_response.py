@@ -49,33 +49,31 @@ def md_to_json(text) -> dict:
         for theme in question["themes"]:
             for quote in theme["quotes"]:
                 start, end, quote["speaker"] = find_times(quote)
-                quote["timestamp_start"], quote["timestamp_end"] = tuple(map(lambda x: str(timedelta(seconds=x)), (start, end)))
-
-                
+                quote["timestamp_start"], quote["timestamp_end"] = tuple(
+                    map(lambda x: str(timedelta(seconds=x)), (start, end))
+                )
 
     return response
 
 
-"""
-response format:
-{
-    "questions": [
-        "question": string,
-        "themes": [
-            "theme": string
-            "quotes": [
-                "quote": string
-                "speaker": string
-                "timestamp_start": string
-                "timestamp_end": string
-                "transcript_id": string
-            ]
-        ],
-        "analysis": string,
-    ],
-    "keyTakeaways": [string],
-}
-"""
+# response format:
+# {
+#     "questions": [
+#         "question": string,
+#         "themes": [
+#             "theme": string
+#             "quotes": [
+#                 "quote": string
+#                 "speaker": string
+#                 "timestamp_start": string
+#                 "timestamp_end": string
+#                 "transcript_id": string
+#             ]
+#         ],
+#         "analysis": string,
+#     ],
+#     "keyTakeaways": [string],
+# }
 
 
 def find_times(quote) -> tuple[float, float, str]:
@@ -93,16 +91,22 @@ def find_times(quote) -> tuple[float, float, str]:
     speaker = "0"
 
     for para in transcript["paragraphs"]["paragraphs"]:
+        if cursor != 0 and para["speaker"] != speaker:
+            continue
+
         for sentence in para["sentences"]:
             cursor, start_ts, end_ts = match(cursor, quote, sentence, start_ts)
-            if cursor == len(quote["quote"]):
+            if cursor > 0:
                 speaker = para["speaker"]
-                break
+                if cursor == len(quote["quote"]):
+                    break
 
     if cursor == len(quote["quote"]):
         return start_ts, end_ts, speaker
 
-    print(f"could not find exact quote in transcript {quote["transcript_id"]}\nquote: {quote['quote']}\n{start_ts=}, {end_ts=}")
+    print(
+        f"could not find exact quote in transcript {quote['transcript_id']}\nquote: {quote['quote']}\n{start_ts=}, {end_ts=}"
+    )
 
     return start_ts, end_ts, speaker
 
@@ -128,7 +132,9 @@ def match(q_start, quote, sentence, start: float = -1.0) -> tuple[int, float, fl
             for q_pos in range(search_space):
                 if s_pos + q_pos == len(s):
                     break
-                if q[q_start + q_pos] != s[s_pos + q_pos] and not ((q[q_start + q_pos] in punc) and (s[s_pos + q_pos] in punc)):
+                if q[q_start + q_pos] != s[s_pos + q_pos] and not (
+                    (q[q_start + q_pos] in punc) and (s[s_pos + q_pos] in punc)
+                ):
                     found = False
                     break
             if found:
