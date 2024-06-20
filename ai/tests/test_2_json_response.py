@@ -18,11 +18,25 @@ from db import user_projects as up
 JSON_RESPONSE_FILE = "json_response.json"
 
 
+# snippet of transcribe/docs/transcripts.json, "template research interview 5"
 @pytest.fixture()
 def transcript():
     return {
         "paragraphs": {
             "paragraphs": [
+                {
+                    "sentences": [
+                        {
+                            "text": "I mean, the in the Slack channel.",
+                            "start": 1590.6799,
+                            "end": 1592.44,
+                        }
+                    ],
+                    "start": 1590.6799,
+                    "end": 1592.44,
+                    "num_words": 7,
+                    "speaker": 1,
+                },
                 {
                     "sentences": [
                         {"text": "Mhmm.", "start": 1592.44, "end": 1592.76},
@@ -68,10 +82,10 @@ def transcript():
 
 def test_match(transcript):
     # missing case of a partial end match
-    s0_start = transcript["paragraphs"]["paragraphs"][0]["sentences"][2]
-    s1_nomatch = transcript["paragraphs"]["paragraphs"][1]["sentences"][0]
-    s2_partialmatch = transcript["paragraphs"]["paragraphs"][2]["sentences"][0]
-    s3_endmatch = transcript["paragraphs"]["paragraphs"][2]["sentences"][1]
+    s0_start = transcript["paragraphs"]["paragraphs"][1]["sentences"][2]
+    s1_nomatch = transcript["paragraphs"]["paragraphs"][2]["sentences"][0]
+    s2_partialmatch = transcript["paragraphs"]["paragraphs"][3]["sentences"][0]
+    s3_endmatch = transcript["paragraphs"]["paragraphs"][3]["sentences"][1]
 
     Q_START = 4  # quote starts 4 chars into s0_start ("we will...")
     q = (" ".join([s0_start["text"], s2_partialmatch["text"], s3_endmatch["text"]]))[
@@ -107,9 +121,9 @@ def test_match(transcript):
 def test_find_times(monkeypatch, transcript):
     monkeypatch.setattr(up, "get_transcript", lambda _: transcript)
     ps = transcript["paragraphs"]["paragraphs"]
-    q0 = ps[0]["sentences"][2]
-    q1 = ps[2]["sentences"][0]
-    q2 = ps[2]["sentences"][1]
+    q0 = ps[1]["sentences"][2]
+    q1 = ps[3]["sentences"][0]
+    q2 = ps[3]["sentences"][1]
     assert (q0["start"], q2["end"], 0) == find_times(
         {"quote": (" ".join([q0["text"], q1["text"], q2["text"]])), "transcript_id": ""}
     )
