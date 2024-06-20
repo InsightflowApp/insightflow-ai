@@ -200,8 +200,11 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
 
     if len(response["questions"]) == 0:
         # TODO generate backup questions here
-        logger.error('response["questions"] was empty')
-        raise AttributeError("could not convert questions to json")
+        try:
+            raise AttributeError("could not convert questions to json")
+        except AttributeError as e:
+            logger.error("response[\"questions\"] was empty", exception=e)
+            raise
 
     # add corresponding video_id for each transcript
     for question in response["questions"]:
