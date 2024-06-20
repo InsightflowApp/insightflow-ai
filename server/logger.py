@@ -67,7 +67,12 @@ class Logger:
             # traceback.print_exc(sys.exc_info())
             # traceback.print_tb(tb=exception, file=f)
 
-        print(*content, f"\n\033[91m{traceback.format_exc(exception.__traceback__)}\033[0m\n")
+        # print(*content, f"\n\033[91m{traceback.format_exc(exception.__traceback__)}\033[0m\n")
+
+        if exception is not None:
+            print(*content, f"\n\033[91m{traceback.format_exc(exception.__traceback__)}\033[0m\n")
+        else:
+            print(*content, "\n\033[91mNo exception traceback available.\033[0m\n")
         self.debug(f"Error:", *content, time=time, sep=sep, end=end, flush=flush)
 
     def clear(self, *to_clear):
