@@ -102,7 +102,7 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
     logger.info(f"Received message from queue")
 
     incoming: dict = json.loads(body)
-    logger.debug({ k: str(v)[:500] for (k, v) in incoming.items()})
+    logger.debug({k: str(v)[:500] for (k, v) in incoming.items()})
 
     project_id = incoming["projectId"]
 

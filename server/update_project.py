@@ -203,7 +203,7 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
         try:
             raise AttributeError("could not convert questions to json")
         except AttributeError as e:
-            logger.error("response[\"questions\"] was empty", exception=e)
+            logger.error('response["questions"] was empty', exception=e)
             raise
 
     # add corresponding video_id for each transcript

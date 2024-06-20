@@ -10,6 +10,14 @@ from datetime import datetime
 
 
 class Logger:
+    """
+    methods:
+
+    info, debug, error
+
+    clear
+    """
+
     def __init__(self, log_folder: os.PathLike = "server/logs"):
         if not os.path.exists(log_folder):
             os.makedirs(log_folder)
@@ -70,7 +78,10 @@ class Logger:
         # print(*content, f"\n\033[91m{traceback.format_exc(exception.__traceback__)}\033[0m\n")
 
         if exception is not None:
-            print(*content, f"\n\033[91m{traceback.format_exc(exception.__traceback__)}\033[0m\n")
+            print(
+                *content,
+                f"\n\033[91m{traceback.format_exc(exception.__traceback__)}\033[0m\n",
+            )
         else:
             print(*content, "\n\033[91mNo exception traceback available.\033[0m\n")
         self.debug(f"Error:", *content, time=time, sep=sep, end=end, flush=flush)

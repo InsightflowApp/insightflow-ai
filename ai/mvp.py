@@ -105,7 +105,9 @@ def map_reduce(
     print("map_reduce: Calling map.")
     time_1 = time()
     # Map
-    map_responses = answer_per_transcript(question_list=question_list, transcripts=transcripts)
+    map_responses = answer_per_transcript(
+        question_list=question_list, transcripts=transcripts
+    )
     time_2 = time()
 
     print(f"map_reduce: done mapping. Map time: {time_2 - time_1} seconds.")

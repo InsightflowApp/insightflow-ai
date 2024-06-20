@@ -12,7 +12,7 @@ map_template = (
     "<like this> to mean a field for you to fill in on your own.\n"
     "Please identify three quotes AND their corresponding starting timestamps, "
     "for each question if possible, "
-    #"only adding more if you think it will be useful, "
+    # "only adding more if you think it will be useful, "
     "as there is limited space in your response. "
     "Do not add more information from your side,"
     "and do not summarise the quotes, state the exact words of the user."
@@ -87,11 +87,9 @@ reduce_template = (
     "quotes are repetitive. Try to include at least 3 unique themes. "
     "Theme titles should be 6 words or less. The same quote can be used to support multiple themes. "
     "Please be sure to include the timestamps for your chosen quotes."
-    
     "Here are the responses to interviews, each delimited by the string "
     '"--- NEW INTERVIEW: <transcript ID> ---". The entire document is delimited by '
     'triple quotes ("""). Thanks for your help!\n\n'
     '"""{docs}"""\n\n'
     "Your response:\n"
-
 )  # reduce_template

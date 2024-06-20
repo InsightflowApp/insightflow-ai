@@ -2,10 +2,11 @@ from dotenv import load_dotenv
 import pika
 import os
 import sys
-from worker import callback
+from server.worker import callback
 from server.logger import logger
 
-LAST_STATUS=4
+LAST_STATUS = 4
+
 
 def main():
 
