@@ -57,7 +57,7 @@ reduce_template = (
     "That is to say, given a questions and documents of responses to "
     "this question (and others) for each interview, please interpret the responses and "
     "list the most common findings (themes) for YOUR question with supporting quotes. "
-    "For each response, find the exact user quote which contains the words the user mentioned."
+    "For each response, find the exact user quotes for each video which contains the words the user mentioned."
     "Do not summarise or change the words of the user in the quote"
     "Note that each document contains a list of its interviewee's most frequent "
     "points, which you may find helpful when constructing your answer. "
