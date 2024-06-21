@@ -232,6 +232,7 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
                 # quote["timestamp_end"] = end
 
             theme["count"] = len(count_tracker)
+        question["themes"] = sorted(question["themes"], key=lambda x: x["count"], reverse=True)
 
     logger.debug("exiting construct_findings")
     return response
