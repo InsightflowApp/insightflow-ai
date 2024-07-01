@@ -3,13 +3,17 @@ import os
 from db import user_projects as up
 
 from transcribe.transcribe_async import transcribe_urls
-from ai.mvp import answer_per_transcript, question_transcript_wide
+from ai.mvp import (
+    answer_per_transcript,
+    question_transcript_wide,
+    summarize_key_takeaways,
+)
 from ai.json_response import md_to_json
 
 from server.logger import logger
 
 """
-Update the project depending on its status.
+Wrappers to update the project depending on its status.
 
 For status i, enact step i+1 until final status is reached:
 
@@ -164,7 +168,7 @@ def group_questions(project, incoming) -> tuple[int, dict]:
     return 3, {"grouped_responses": outgoing, "tscid_vidid": incoming["tscid_vidid"]}
 
 
-def format_response(project, incoming) -> tuple[int, dict]:
+def get_json_response(project, incoming) -> tuple[int, dict]:
     """for expanding modularity. Formatting the final response"""
     project_id = incoming["projectId"]
     tscid_vidid = incoming["tscid_vidid"]
@@ -173,11 +177,28 @@ def format_response(project, incoming) -> tuple[int, dict]:
     outgoing = construct_findings(
         project_id, "\n\n".join(incoming["grouped_responses"]), tscid_vidid
     )
+
+    return 4, {"json_response": outgoing}
+
+
+def get_key_takeaways_summary(project, incoming) -> tuple[int, dict]:
+
+    outgoing = incoming["json_response"]
+    kt = summarize_key_takeaways(outgoing["markdownContent"])
+
+    outgoing["summary"] = kt
+
+    return 5, {"formatted_response": outgoing}
+
+
+def update_project(project, incoming) -> tuple[int, dict]:
+    outgoing = incoming["formatted_response"]
+
     findings_id = up.insert_findings(outgoing)
 
     up.update_project_status(str(project["_id"]), 2, findings_id=findings_id)
 
-    return 4, {"formatted_response": outgoing}
+    return 6, {"final_response": outgoing}
 
 
 def timestamp_to_seconds(timestamp_str: str) -> float:
@@ -186,6 +207,9 @@ def timestamp_to_seconds(timestamp_str: str) -> float:
 
 
 def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict:
+    """
+    calls md_to_json, then formats findings based on return value
+    """
     logger.debug("entered construct_findings")
     response = md_to_json(markdown_content)
 
@@ -232,7 +256,9 @@ def construct_findings(id, markdown_content: str, transcript_video_dict) -> dict
                 # quote["timestamp_end"] = end
 
             theme["count"] = len(count_tracker)
-        question["themes"] = sorted(question["themes"], key=lambda x: x["count"], reverse=True)
+        question["themes"] = sorted(
+            question["themes"], key=lambda x: x["count"], reverse=True
+        )
 
     logger.debug("exiting construct_findings")
     return response

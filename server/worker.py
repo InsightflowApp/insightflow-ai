@@ -13,7 +13,9 @@ from server.update_project import (
     transcribe_project,
     analyze_individual_tscs,
     group_questions,
-    format_response,
+    get_json_response,
+    get_key_takeaways_summary,
+    update_project,
 )
 
 from server.logger import logger
@@ -31,7 +33,6 @@ For more information about each action, see update_project.py.
 # NEXT with modulation:
 # - testing suite, patch in fake API responses
 
-LAST_STATUS = 4
 
 # "projectStatus"
 # For projectStatus i, enact step i+1 until final status (LAST_STATUS) is reached.
@@ -39,9 +40,13 @@ project_status_table = {
     0: transcribe_project,  # not started
     1: analyze_individual_tscs,  # transcripts done
     2: group_questions,  # individual analysis done
-    3: format_response,  # grouping questions done
-    # 4, JSON formatting done
+    3: get_json_response,  # grouping questions done
+    4: get_key_takeaways_summary,  # json response done
+    5: update_project,  # summarizing K.T. done
+    # 6, all formatting done. Project sent to DB
 }
+
+LAST_STATUS = len(project_status_table)
 
 
 def main():

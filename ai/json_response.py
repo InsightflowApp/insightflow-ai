@@ -207,8 +207,8 @@ class Finding(BaseModel):
     keyTakeaways: List[str] = Field(
         description=(
             "A list of insights into the pain points you think the company "
-            + "should address, and why. The items combined should be 100 words or "
-            + "less."
+            + "should address, and why, based on the answers to the questions."
+            + "The items combined should be 100 words or less."
         )
     )
 

@@ -93,3 +93,14 @@ reduce_template = (
     '"""{docs}"""\n\n'
     "Your response:\n"
 )  # reduce_template
+
+
+summarize_key_takeaways_template = (
+    "Hello! You are an interview helper whose goal is to summarize "
+    "the key takeaways of a group of interviews in two sentences. "
+    "You will be given the entire document for context, but please "
+    "summarize ONLY the Key Takeaways section. Here is the document, "
+    "delimited by triple-quotes:\n\n"
+    '"""{doc}"""\n\n'
+    "Your two-sentence summary of Key Takeaways:\n"
+)
