@@ -20,3 +20,6 @@ httpx
 pika
 pymongo
 pytest
+
+pypdf2
+python-docx
