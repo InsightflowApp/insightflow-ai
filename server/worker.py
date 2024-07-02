@@ -34,27 +34,7 @@ For more information about each action, see update_project.py.
 # - testing suite, patch in fake API responses
 
 
-# "projectStatus"
-# For projectStatus i, enact step i+1 until final status (LAST_STATUS) is reached.
-project_status_table = {
-    0: transcribe_project,  # not started
-    1: analyze_individual_tscs,  # transcripts done
-    2: group_questions,  # individual analysis done
-    3: get_json_response,  # grouping questions done
-    4: get_key_takeaways_summary,  # json response done
-    5: update_project,  # summarizing K.T. done
-    # 6, all formatting done. Project sent to DB
-}
-
-LAST_STATUS = len(project_status_table)
-
-
 def main():
-    """
-    Connects to RabbitMQ. Uses the callback function to handle messages.
-    Messages are currently bytes which can be loaded as strings to JSON:
-    {"projectId": "abcdef1234567890" }
-    """
 
     # TODO make args to handle log clearing
     # if clear-logs, call logger.clear()
@@ -64,8 +44,35 @@ def main():
         logger.clear()
 
     load_dotenv()
+    global chan_name
     chan_name = os.getenv("CHAN_NAME")
 
+    # "projectStatus"
+    # For projectStatus i, enact step i+1 until final status (LAST_STATUS) is reached.
+    global project_status_table
+    global LAST_STATUS
+
+    project_status_table = {
+        0: transcribe_project,  # not started
+        1: analyze_individual_tscs,  # transcripts done
+        2: group_questions,  # individual analysis done
+        3: get_json_response,  # grouping questions done
+        4: get_key_takeaways_summary,  # json response done
+        5: update_project,  # summarizing K.T. done
+        # 6, all formatting done. Project sent to DB
+    }
+
+    LAST_STATUS = len(project_status_table)
+
+    connect_to_mqueue()
+
+
+def connect_to_mqueue():
+    """
+    Connects to RabbitMQ. Uses the callback function to handle messages.
+    Messages are currently bytes which can be loaded as strings to JSON:
+    {"projectId": "abcdef1234567890" }
+    """
     logger.info(
         f"host: {os.environ['RABBITMQ_HOST']}\nport: {os.environ['RABBITMQ_PORT']}"
     )
@@ -107,11 +114,10 @@ def callback(ch: BlockingChannel, method, properties, body: bytes):
     logger.info(f"Received message from queue")
 
     incoming: dict = json.loads(body)
-    logger.debug({k: str(v)[:500] for (k, v) in incoming.items()})
+    logger.debug({k: str(v)[:300] for (k, v) in incoming.items()})
 
     project_id = incoming["projectId"]
 
-    chan_name = os.getenv("CHAN_NAME")
     logger.info(f"callback: {chan_name=}")
 
     try:
