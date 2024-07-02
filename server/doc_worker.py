@@ -78,7 +78,7 @@ def get_document_content(project, _) -> tuple[int, dict]:
             # assume it's a word doc
             doc = read_docx_from_url(url)
         docs.append(doc)
-    
+
     return 1, {"docs": docs}
 
 
