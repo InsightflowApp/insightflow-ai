@@ -33,8 +33,11 @@ Phase 4: responses have been formatted to JSON and are ready to be used by front
 Action to take: None
 """
 
-
-def transcribe_project(project, incoming={}) -> tuple[int, dict]:
+# TODO turn these wrappers into a fixture, move functionality to this file
+# potentially:
+# @wrap(project_args: list, incoming_args: list)
+# ex. @wrap(["sessions"], [])
+def transcribe_project(project, _) -> tuple[int, dict]:
     """
     returns transcripts for videos in project
 
@@ -134,8 +137,8 @@ def transcribe_project(project, incoming={}) -> tuple[int, dict]:
     return 1, {"simple_transcripts": simple_transcripts, "tscid_vidid": tscid_vidid}
 
 
+# ex. @wrap(["questions"], ["simple_transcripts"])
 def analyze_individual_tscs(project, incoming) -> tuple[int, dict]:
-    # right now, this does the entirety of steps 2-4
     # analyze
     logger.debug("entered analyze_individual_tscs")
     question_list = project["questions"]
@@ -168,7 +171,7 @@ def group_questions(project, incoming) -> tuple[int, dict]:
     return 3, {"grouped_responses": outgoing, "tscid_vidid": incoming["tscid_vidid"]}
 
 
-def get_json_response(project, incoming) -> tuple[int, dict]:
+def get_json_response(_, incoming) -> tuple[int, dict]:
     """for expanding modularity. Formatting the final response"""
     project_id = incoming["projectId"]
     tscid_vidid = incoming["tscid_vidid"]
@@ -181,7 +184,7 @@ def get_json_response(project, incoming) -> tuple[int, dict]:
     return 4, {"json_response": outgoing}
 
 
-def get_key_takeaways_summary(project, incoming) -> tuple[int, dict]:
+def get_key_takeaways_summary(_, incoming) -> tuple[int, dict]:
 
     outgoing = incoming["json_response"]
     kt = summarize_key_takeaways(outgoing["markdownContent"])
