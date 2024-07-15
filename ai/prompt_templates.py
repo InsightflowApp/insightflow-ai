@@ -14,8 +14,8 @@ map_template = (
     "for each question if possible, "
     # "only adding more if you think it will be useful, "
     "as there is limited space in your response. "
-    "Do not add more information from your side,"
-    "and do not summarise the quotes, state the exact words of the user."
+    "Do not add more information from your side, "
+    "and do not summarise the quotes, state the exact words of the user. "
     "Respond only using the information from these instructions and the transcript.\n"
     # 'Begin with the transcript name, and a suitable title.'
     "You will find the interview's file name at the top of the document. "
