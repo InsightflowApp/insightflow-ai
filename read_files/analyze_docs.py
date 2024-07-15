@@ -14,7 +14,7 @@ from langchain_core.output_parsers import StrOutputParser
 
 def answer_questions_with_doc(
     question_list: list[str],
-    transcripts: list[str],
+    docs: list[str],
 ) -> list[str]:
     """
     calls LLM to answer a list of questions for each transcript provided.
@@ -32,7 +32,7 @@ def answer_questions_with_doc(
 
     chain = {"docs": RunnablePassthrough()} | prompt | get_LLM() | StrOutputParser()
 
-    tscs = list(map(Document, transcripts))
+    tscs = list(map(Document, docs))
 
     return chain.batch(tscs)
 

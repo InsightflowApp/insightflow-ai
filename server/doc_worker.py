@@ -56,7 +56,7 @@ def main():
     # "projectStatus"
     # For projectStatus i, enact step i+1 until final status (LAST_STATUS) is reached.
     project_status_table = {
-        0: transcribe_project,  # not started
+        0: get_document_content,  # not started
         1: answer_questions,  # transcripts done
         2: group_question_responses,  # individual analysis done
         3: get_json_response,  # grouping questions done
@@ -92,14 +92,14 @@ def answer_questions(project, incoming) -> tuple[int, dict]:
     # analyze
     logger.debug("entered answer_questions")
     question_list = project["questions"]
-    simple_transcripts = incoming["simple_transcripts"]
+    docs = incoming["docs"]
 
     outgoing: list[str] = answer_questions_with_doc(
-        question_list=question_list, transcripts=simple_transcripts
+        question_list=question_list, docs=docs
     )
 
     logger.debug("exiting analyze_individual_tscs")
-    return 2, {"individual_responses": outgoing, "tscid_vidid": incoming["tscid_vidid"]}
+    return 2, {"individual_responses": outgoing}
 
 
 # group questions and generalize
@@ -118,7 +118,7 @@ def group_question_responses(project, incoming) -> tuple[int, dict]:
 
     logger.debug("exiting group_questions")
 
-    return 3, {"grouped_responses": outgoing, "tscid_vidid": incoming["tscid_vidid"]}
+    return 3, {"grouped_responses": outgoing}
 
 
 # format json response
