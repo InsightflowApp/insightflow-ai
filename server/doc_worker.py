@@ -16,6 +16,11 @@ from server.update_project import (
     get_key_takeaways_summary,
 )
 
+from read_files.analyze_docs import (
+    answer_questions_with_doc,
+    group_answers_per_response,
+)
+
 from read_files.read_docs import read_pdf_from_url, read_docx_from_url
 
 from server.logger import logger
@@ -52,8 +57,8 @@ def main():
     # For projectStatus i, enact step i+1 until final status (LAST_STATUS) is reached.
     project_status_table = {
         0: transcribe_project,  # not started
-        1: analyze_individual_tscs,  # transcripts done
-        2: group_questions,  # individual analysis done
+        1: answer_questions,  # transcripts done
+        2: group_question_responses,  # individual analysis done
         3: get_json_response,  # grouping questions done
         4: get_key_takeaways_summary,  # json response done
         5: update_project,  # summarizing K.T. done
@@ -84,12 +89,36 @@ def get_document_content(project, _) -> tuple[int, dict]:
 
 # answer questions per page group
 def answer_questions(project, incoming) -> tuple[int, dict]:
-    pass
+    # analyze
+    logger.debug("entered answer_questions")
+    question_list = project["questions"]
+    simple_transcripts = incoming["simple_transcripts"]
+
+    outgoing: list[str] = answer_questions_with_doc(
+        question_list=question_list, transcripts=simple_transcripts
+    )
+
+    logger.debug("exiting analyze_individual_tscs")
+    return 2, {"individual_responses": outgoing, "tscid_vidid": incoming["tscid_vidid"]}
 
 
 # group questions and generalize
 def group_question_responses(project, incoming) -> tuple[int, dict]:
-    pass
+    """for expanding modularity. Grouping responses by question"""
+    logger.debug("entered group_questions")
+
+    question_list = project["questions"]
+    individual_tsc_responses = "\n\n".join(incoming["individual_responses"])
+
+    outgoing: list[str] = group_answers_per_response(
+        question_list=question_list, responses=individual_tsc_responses
+    )
+
+    # up.update_project_status(str(project["_id"]), 3)
+
+    logger.debug("exiting group_questions")
+
+    return 3, {"grouped_responses": outgoing, "tscid_vidid": incoming["tscid_vidid"]}
 
 
 # format json response
