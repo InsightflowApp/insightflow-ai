@@ -76,12 +76,15 @@ def get_document_content(project, _) -> tuple[int, dict]:
     for url_str, doc_name in project["sessions"].items():
         extension = os.path.splitext(doc_name)
         url = f"{os.getenv('INSIGHTFLOW_S3')}/{url_str}{extension}"
-        doc = ""
-        if extension == ".pdf":
-            doc = read_pdf_from_url(url)
-        else:
-            # assume it's a word doc
-            doc = read_docx_from_url(url)
+        doc: str
+        match extension:
+            case ".pdf":
+                doc = read_pdf_from_url(url)
+            case ".doc" | ".docx" | ".odt":
+                doc = read_docx_from_url(url)
+            case _:
+                raise NotImplementedError(f'could not read "{extension}" file')
+        
         docs.append(doc)
 
     return 1, {"docs": docs}
