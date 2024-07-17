@@ -125,10 +125,7 @@ def group_question_responses(project, incoming) -> tuple[int, dict]:
 
 
 # format json response
-def get_json_response(project, incoming) -> tuple[int, dict]:
-    pass
-
-
-# update
-def update_project(project, incoming) -> tuple[int, dict]:
-    pass
+def get_json_response(_, incoming) -> tuple[int, dict]:
+    markdown_content = "\n\n".join(incoming["grouped_responses"])
+    outgoing = md_to_json(markdown_content)
+    return 4, {"json_response": outgoing}
