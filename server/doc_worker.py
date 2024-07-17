@@ -1,19 +1,13 @@
 #!/usr/bin/env python
 import sys
-import pika
-import json
 import os
 from dotenv import load_dotenv
 
-from pika.adapters.blocking_connection import BlockingChannel
-
-from db import user_projects as up
+from ai.mvp import TOKEN_MAX
 
 from server.update_project import (
-    transcribe_project,
-    analyze_individual_tscs,
-    group_questions,
     get_key_takeaways_summary,
+    update_project,
 )
 
 from read_files.analyze_docs import (
@@ -22,6 +16,8 @@ from read_files.analyze_docs import (
 )
 
 from read_files.read_docs import read_pdf_from_url, read_docx_from_url
+
+from read_files.json_response import md_to_json
 
 from server.logger import logger
 from server.worker import connect_to_mqueue
@@ -76,6 +72,8 @@ def get_document_content(project, _) -> tuple[int, dict]:
     for url_str, doc_name in project["sessions"].items():
         extension = os.path.splitext(doc_name)
         url = f"{os.getenv('INSIGHTFLOW_S3')}/{url_str}{extension}"
+
+        # consider splitting large files
         doc: str
         match extension:
             case ".pdf":
@@ -84,8 +82,13 @@ def get_document_content(project, _) -> tuple[int, dict]:
                 doc = read_docx_from_url(url)
             case _:
                 raise NotImplementedError(f'could not read "{extension}" file')
-        
-        docs.append(doc)
+
+        if len(doc) > TOKEN_MAX / 4:
+            # gotta split the doc content
+            for i in range(0, len(doc), TOKEN_MAX / 4 - 500):
+                docs.append(doc[i:i+TOKEN_MAX/4])
+        else:
+            docs.append(doc)
 
     return 1, {"docs": docs}
 
