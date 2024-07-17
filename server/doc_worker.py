@@ -86,7 +86,7 @@ def get_document_content(project, _) -> tuple[int, dict]:
         if len(doc) > TOKEN_MAX / 4:
             # gotta split the doc content
             for i in range(0, len(doc), TOKEN_MAX / 4 - 500):
-                docs.append(doc[i:i+TOKEN_MAX/4])
+                docs.append(doc[i : i + TOKEN_MAX / 4])
         else:
             docs.append(doc)
 

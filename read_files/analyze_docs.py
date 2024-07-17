@@ -53,7 +53,6 @@ def group_answers_per_response(question_list: list[str], responses: str) -> list
     return chain.batch(question_list)
 
 
-
 # the template used to collect answers to the question list.
 # inputs: questions, docs
 answer_questions_with_doc_template = (
